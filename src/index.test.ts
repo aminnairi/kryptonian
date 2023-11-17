@@ -1,72 +1,38 @@
 import * as Kryptonian from ".";
 
-const protect = Kryptonian.createProtector(Kryptonian.record({
-  message: "This should be a record",
+const protect = Kryptonian.createProtector(Kryptonian.list({
+  message: "This is not an array",
   rules: [],
-  fields: {
-    email: Kryptonian.text({
-      message: "This should be a string",
-      rules: [
-        Kryptonian.Text.minimum({
-          minimum: 8,
-          message: "Email should be at least 8 characters"
-        }),
-        Kryptonian.Text.email({
-          message: "Email should be valid"
-        }),
-      ]
-    }),
-    languages: Kryptonian.list({
-      message: "Should be an array",
-      rules: [
-        Kryptonian.List.length({
-          length: 4,
-          message: "There should be exactly 4 languages"
-        })
-      ],
-      schema: Kryptonian.text({
-        message: "Should be a string",
-        rules: [],
-      })
-    }),
-    age: Kryptonian.numeric({
-      message: "This should be a number",
-      rules: [
-        Kryptonian.Numeric.between({
-          minimum: 18,
-          maximum: 55,
-          message: "Should be between 18 and 55"
-        })
-      ]
-    })
-  },
+  schema: Kryptonian.text({
+    message: "This is not a string",
+    rules: []
+  })
 }));
 
-const protection = protect({
-  email: "you@krypton.io",
-  age: 16,
-  languages: [
-    "JavaScript",
-    "PHP",
-    "HTML",
-    null
-  ]
-});
+const goodData: unknown = [ "Hello", "world!" ];
 
-if (protection.success) {
-  console.log(`Email is ${protection.data.email}`);
-  console.log(`You are ${protection.data.age} years old`);
-  console.log(`You like the following languages: ${protection.data.languages.join(", ")}`);
+const wrongData: unknown = "Hello, world!";
+
+const anotherWrongData: unknown = [ "Hello", 123 ];
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+const protectionGoneWrongAgain = protect(anotherWrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
 } else {
-  console.log(protection.errors);
-  // [
-  //   {
-  //     "path": ".languages[3]",
-  //     "message": "Should be a string"
-  //   },
-  //   {
-  //     "path": ".age",
-  //     "message": "Should be between 18 and 55"
-  //   }
-  // ]
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+
+if (protectionGoneWrongAgain.success) {
+  console.log(protectionGoneWrongAgain.data);
+} else {
+  console.log(protectionGoneWrongAgain.errors);
 }
