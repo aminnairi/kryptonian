@@ -1,18 +1,16 @@
 import * as Kryptonian from ".";
 
 const protect = Kryptonian.createProtector(Kryptonian.numeric({
-  message: "This is not an array",
+  message: "This is not a number",
   rules: [
-    Kryptonian.Numeric.between({
-      minimum: 10,
-      maximum: 20,
-      message: "This should be a number between 10 & 20"
+    Kryptonian.Numeric.integer({
+      message: "This should be an integer number"
     })
   ]
 }));
 
 const goodData: unknown = 15;
-const wrongData: unknown = 172;
+const wrongData: unknown = 17.2;
 
 const protectionGoneRight = protect(goodData);
 const protectionGoneWrong = protect(wrongData);
