@@ -1,12 +1,14 @@
 import * as Kryptonian from ".";
 
-const protect = Kryptonian.createProtector(Kryptonian.unknown());
+const protect = Kryptonian.createProtector(Kryptonian.boolean({
+  message: "This is not a boolean"
+}));
 
-const goodData: unknown = "Hello, world!";
-const alsoGoodData: unknown = 42;
+const goodData: unknown = true;
+const badData: unknown = [];
 
 const protectionGoneRight = protect(goodData);
-const alsoGoodProtection = protect(alsoGoodData);
+const protectionGoneWrong = protect(badData);
 
 if (protectionGoneRight.success) {
   console.log(protectionGoneRight.data);
@@ -14,8 +16,8 @@ if (protectionGoneRight.success) {
   console.log(protectionGoneRight.errors);
 }
 
-if (alsoGoodProtection.success) {
-  console.log(alsoGoodProtection.data);
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
 } else {
-  console.log(alsoGoodProtection.errors);
+  console.log(protectionGoneWrong.errors);
 }
