@@ -106,17 +106,260 @@ if (protection.success) {
   console.log(`You like the following languages: ${protection.data.languages.join(", ")}`);
 } else {
   console.log(protection.errors);
-  // [
-  //   {
-  //     "path": ".languages[3]",
-  //     "message": "Should be a string"
-  //   },
-  //   {
-  //     "path": ".age",
-  //     "message": "Should be between 18 and 55"
-  //   }
-  // ]
 }
+```
+
+```json
+[
+  {
+    "path": ".languages[3]",
+    "message": "Should be a string"
+  },
+  {
+    "path": ".age",
+    "message": "Should be between 18 and 55"
+  }
+]
+```
+
+## API
+
+### createProtector
+
+Create a protection function helping you validate data according to the schema passed as argument. Unless you type check that the `success` property is true or false, you do not get access to the `data` property. This prevents unintentional access when there might be an error, protecting your from making mistakes in your source-code.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.text({
+  message: "This is not a string",
+  rules: []
+}));
+
+const data: unknown = "Hello, world!";
+const protection = protect(data);
+
+if (protection.success) {
+  console.log(protection.data);
+} else {
+  console.log(protection.errors);
+}
+```
+
+```json
+Hello, world!
+```
+
+### text
+
+Text is a schema representing a string.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.text({
+  message: "This is not a string",
+  rules: []
+}));
+
+const goodData: unknown = "Hello, world!";
+const badData: unknown = 123;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(badData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+Hello, world!
+[
+  {
+    "path": "",
+    "message": "This is not a string"
+  }
+]
+```
+
+### numeric
+
+Numeric is a schema representing a number.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.numeric({
+  message: "This is not a number",
+  rules: []
+}));
+
+const goodData: unknown = 123;
+const wrongData: unknown = "Hello, world!";
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+123
+[
+  {
+    "path": "",
+    "message": "This is not a number"
+  }
+]
+```
+
+### record
+
+Record is a schema representing an object.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.record({
+  message: "This is not an object",
+  rules: [],
+  fields: {
+    email: Kryptonian.text({
+      message: "This is not a string",
+      rules: []
+    })
+  }
+}));
+
+const goodData: unknown = {
+  email: "kalel@krypton.io"
+};
+
+const wrongData: unknown = "Hello, world!";
+
+const anotherWrongData: unknown = {
+  email: 123
+}
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+const protectionGoneWrongAgain = protect(anotherWrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+
+if (protectionGoneWrongAgain.success) {
+  console.log(protectionGoneWrongAgain.data);
+} else {
+  console.log(protectionGoneWrongAgain.errors);
+}
+```
+
+```json
+{
+  "email": "kalel@krypton.io"
+}
+[
+  {
+    "path": "",
+    "message": "This is not an object"
+  }
+]
+[
+  {
+    "path": ".email",
+    "message": "This is not a string"
+  }
+]
+```
+
+### list
+
+List is a schema representing an array
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.list({
+  message: "This is not an array",
+  rules: [],
+  schema: Kryptonian.text({
+    message: "This is not a string",
+    rules: []
+  })
+}));
+
+const goodData: unknown = [ "Hello", "world!" ];
+
+const wrongData: unknown = "Hello, world!";
+
+const anotherWrongData: unknown = [ "Hello", 123 ];
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+const protectionGoneWrongAgain = protect(anotherWrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+
+if (protectionGoneWrongAgain.success) {
+  console.log(protectionGoneWrongAgain.data);
+} else {
+  console.log(protectionGoneWrongAgain.errors);
+}
+```
+
+```json
+[ "Hello", "world!" ]
+[
+  {
+    "path": "",
+    "message": "This is not an array"
+  }
+]
+[
+  {
+    "path": "[1]",
+    "message": "This is not a string"
+  }
+]
 ```
 
 ## Issues
