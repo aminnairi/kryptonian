@@ -64,10 +64,28 @@ export interface RecordSchema<Fields extends RecordSchemaFields<Schema>> {
   rules: RecordRules
 }
 
-export type Schema = TextSchema | NumericSchema | ListSchema<Schema> | RecordSchema<RecordSchemaFields<Schema>>;
+export interface AnySchema {
+  type: "any"
+}
+
+export interface UnknownSchema {
+  type: "unknown"
+}
+
+export type Schema =
+  | UnknownSchema
+  | AnySchema
+  | TextSchema
+  | NumericSchema
+  | ListSchema<Schema>
+  | RecordSchema<RecordSchemaFields<Schema>>
 
 export type InferType<S extends Schema> =
-  S extends NumericSchema
+  S extends AnySchema
+  ? any
+  : S extends UnknownSchema
+  ? unknown
+  : S extends NumericSchema
   ? number
   : S extends TextSchema
   ? string
@@ -178,12 +196,44 @@ export const record = <S extends Schema, F extends RecordSchemaFields<S>>({ fiel
 }
 
 /**
+ * Create a schema to validate data to any
+ */
+export const any = (): AnySchema => {
+  return {
+    type: "any"
+  };
+}
+
+/**
+ * Create a schema to validate data to unknown
+ */
+export const unknown = (): UnknownSchema => {
+  return {
+    type: "unknown"
+  };
+}
+
+/**
  * Create a validator function to validate data
  * @param schema The schema to apply for validation
  * @param initialPath The initial path (used internally for recursivity)
  */
 export const createProtector = <S extends Schema>(schema: S, initialPath: string = ""): Validator<S> => {
   return data => {
+    if (schema.type === "unknown") {
+      return {
+        success: true,
+        data: data as InferType<S>
+      };
+    }
+
+    if (schema.type === "any") {
+      return {
+        success: true,
+        data: data as InferType<S>
+      }
+    }
+
     if (schema.type === "numeric") {
       if (typeof data !== "number") {
         return {
