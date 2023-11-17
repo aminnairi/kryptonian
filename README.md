@@ -261,7 +261,7 @@ if (protectionGoneWrong.success) {
 ```
 
 ```json
-undefined
+"undefined"
 [
   {
     "path": "",
