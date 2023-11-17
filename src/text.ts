@@ -7,7 +7,7 @@ export const length = ({ length, message }: { length: number, message: string })
   }
 }
 
-export const minimum = ({ minimum, message }: { minimum: number, message: string }): TextRule => {
+export const minimumLength = ({ minimum, message }: { minimum: number, message: string }): TextRule => {
   return {
     message,
     valid: value => value.length >= minimum
