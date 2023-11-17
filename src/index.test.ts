@@ -1,28 +1,12 @@
 import * as Kryptonian from ".";
 
-const protect = Kryptonian.createProtector(Kryptonian.list({
-  message: "This is not a number",
-  rules: [],
-  schema: Kryptonian.oneOf({
-    message: "",
-    schemas: [
-      Kryptonian.numeric({
-        message: "",
-        rules: []
-      }),
-      Kryptonian.text({
-        message: "",
-        rules: []
-      })
-    ]
-  })
-}));
+const protect = Kryptonian.createProtector(Kryptonian.unknown());
 
-const goodData: unknown = 15;
-const wrongData: unknown = 17.2;
+const goodData: unknown = "Hello, world!";
+const alsoGoodData: unknown = 42;
 
 const protectionGoneRight = protect(goodData);
-const protectionGoneWrong = protect(wrongData);
+const alsoGoodProtection = protect(alsoGoodData);
 
 if (protectionGoneRight.success) {
   console.log(protectionGoneRight.data);
@@ -30,8 +14,8 @@ if (protectionGoneRight.success) {
   console.log(protectionGoneRight.errors);
 }
 
-if (protectionGoneWrong.success) {
-  console.log(protectionGoneWrong.data);
+if (alsoGoodProtection.success) {
+  console.log(alsoGoodProtection.data);
 } else {
-  console.log(protectionGoneWrong.errors);
+  console.log(alsoGoodProtection.errors);
 }
