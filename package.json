@@ -1,18 +1,40 @@
 {
   "name": "kryptonian",
-  "version": "0.1.0",
-  "description": "Validation library written in a functional programming style for hope & purity",
-  "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "description": "Where validation meets purity, hope, and the strength of Krypton",
+  "version": "0.1.0",
+  "homepage": "https://github.com/aminnairi/kryptonian",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "bugs": {
+    "url": "https://github.com/aminnairi/kryptonian/issues"
+  },
+  "author": {
+    "name": "Amin NAIRI",
+    "url": "https://github.com/aminnairi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aminnairi/kryptonian.git"
+  },
+  "keywords": [
+    "validation",
+    "functional",
+    "function",
+    "purity",
+    "pure",
+    "krypton",
+    "integrity",
+    "superman",
+    "reliability",
+    "quality"
+  ],
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "rollup --config rollup.config.ts --configPlugin typescript"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@rollup/plugin-terser": "0.4.4",
     "@rollup/plugin-typescript": "11.1.5",
