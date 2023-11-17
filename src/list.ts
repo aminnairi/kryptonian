@@ -1,6 +1,6 @@
 import { ListRule } from ".";
 
-export interface ListLengthRuleOptions {
+export interface LengthOptions {
   /**
    * The wanted length for the list to validate
    */
@@ -15,28 +15,77 @@ export interface ListLengthRuleOptions {
 /**
  * Ensure the length of a list is exactly what you want
  */
-export const length = ({ length, message }: ListLengthRuleOptions): ListRule => {
+export const length = ({ length, message }: LengthOptions): ListRule => {
   return {
     message,
     valid: value => value.length === length
   };
 };
 
-export const lengthBetween = ({ minimum, maximum, message }: { minimum: number, maximum: number, message: string }): ListRule => {
+export interface LengthBetweenOptions {
+  /**
+   * The minimum length wanted for the list
+   */
+  minimum: number,
+  /**
+   * The maximum length wanted for the list
+   */
+  maximum: number,
+  /**
+   * The message to attach to the error when the list does not match the target
+   * length
+   */
+  message: string
+}
+
+/**
+ * Ensure that a list has a length between two given values
+ */
+export const lengthBetween = ({ minimum, maximum, message }: LengthBetweenOptions): ListRule => {
   return {
     message,
     valid: value => value.length >= minimum && value.length <= maximum
   };
 };
 
-export const minimumLength = ({ minimum, message }: { minimum: number, message: string }): ListRule => {
+export interface MinimumLengthOptions {
+  /**
+   * The minimum length wanted for the list
+   */
+  minimum: number,
+  /**
+   * The message to attach to the error when the list does not match the target
+   * length
+   */
+  message: string
+}
+
+/**
+ * Ensure that the length of a list is above a minimum
+ */
+export const minimumLength = ({ minimum, message }: MinimumLengthOptions): ListRule => {
   return {
     message,
     valid: value => value.length >= minimum
   };
 };
 
-export const maximumLength = ({ maximum, message }: { maximum: number, message: string }): ListRule => {
+export interface MaximumLengthOptions {
+  /**
+   * The maximum length wanted for the list
+   */
+  maximum: number,
+  /**
+   * The message to attach to the error when the list does not match the target
+   * length
+   */
+  message: string
+}
+
+/**
+ * Ensure that the length of a list is below a maximum
+ */
+export const maximumLength = ({ maximum, message }: MaximumLengthOptions): ListRule => {
   return {
     message,
     valid: value => value.length <= maximum
