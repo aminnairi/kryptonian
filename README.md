@@ -190,6 +190,86 @@ true
 ]
 ```
 
+### none
+
+None is a schema representing a value that can be null.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.none({
+  message: "This is not null"
+}));
+
+const goodData: unknown = null;
+const badData: unknown = undefined;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(badData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+null
+[
+  {
+    "path": "",
+    "message": "This is not null"
+  }
+]
+```
+
+### notDefined
+
+NotDefined is a schema representing a value that can be undefined.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.notDefined({
+  message: "This is not undefined"
+}));
+
+const goodData: unknown = undefined;
+const badData: unknown = null;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(badData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+undefined
+[
+  {
+    "path": "",
+    "message": "This is not undefined"
+  }
+]
+```
+
 ### text
 
 Text is a schema representing a string.
