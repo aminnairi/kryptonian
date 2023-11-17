@@ -1,12 +1,21 @@
 import * as Kryptonian from ".";
 
-const protect = Kryptonian.createProtector(Kryptonian.numeric({
+const protect = Kryptonian.createProtector(Kryptonian.list({
   message: "This is not a number",
-  rules: [
-    Kryptonian.Numeric.integer({
-      message: "This should be an integer number"
-    })
-  ]
+  rules: [],
+  schema: Kryptonian.oneOf({
+    message: "",
+    schemas: [
+      Kryptonian.numeric({
+        message: "",
+        rules: []
+      }),
+      Kryptonian.text({
+        message: "",
+        rules: []
+      })
+    ]
+  })
 }));
 
 const goodData: unknown = 15;
