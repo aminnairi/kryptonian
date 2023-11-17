@@ -1,54 +1,156 @@
 import { NumericRule } from ".";
 
-export const between = ({ minimum, maximum, message }: { minimum: number, maximum: number, message: string }): NumericRule => {
+export interface BetweenOptions {
+  /**
+   * The wanted minimum value for the number
+   */
+  minimum: number,
+  /**
+   * The wanted maximum value for the number
+   */
+  maximum: number,
+  /**
+   * The message attached to the error when the number is not between the
+   * minimum & maximum values
+   */
+  message: string
+}
+
+/**
+ * Ensure that a number is between a range of values
+ */
+export const between = ({ minimum, maximum, message }: BetweenOptions): NumericRule => {
   return {
     message,
     valid: value => value >= minimum && value <= maximum
   };
 };
 
-export const divisibleBy = ({ divisor, message }: { divisor: number, message: string }): NumericRule => {
+export interface DivisibleByOptions {
+  /**
+   * A number that, when used for dividing the number, should return an integer
+   * division result
+   */
+  divisor: number,
+  /**
+   * The message attached to the error when the number is not divisible by the
+   * provided value
+   */
+  message: string
+}
+
+/**
+ * Ensure that a number is can be divided without remaining value by another
+ */
+export const divisibleBy = ({ divisor, message }: DivisibleByOptions): NumericRule => {
   return {
     message,
     valid: (value: number) => value % divisor === 0
   };
 };
 
-export const notDivisibleBy = ({ divisor, message }: { divisor: number, message: string }): NumericRule => {
+export interface NotDivisibleByOptions {
+  /**
+   * A number that, when used for dividing the number, should not return an integer
+   * division result
+   */
+  divisor: number,
+  /**
+   * The message attached to the error when the number is divisible by the
+   * provided value
+   */
+  message: string
+}
+
+/**
+ * Ensure that a number is cannot be divided without remaining value by another
+ */
+export const notDivisibleBy = ({ divisor, message }: NotDivisibleByOptions): NumericRule => {
   return {
     message,
     valid: (value: number) => value % divisor !== 0
   };
 };
 
-export const even = ({ message }: { message: string }): NumericRule => {
+export interface EvenOptions {
+  /**
+   * The message attached to the error when the number is not even
+   */
+  message: string
+}
+
+/**
+ * Ensure that a number is even
+ */
+export const even = ({ message }: EvenOptions): NumericRule => {
   return {
     message,
     valid: (value: number) => value % 2 === 0
   };
 };
-export const odd = ({ message }: { message: string }): NumericRule => {
+
+export interface OddOptions {
+  /**
+   * The message attached to the error when the number is not odd
+   */
+  message: string
+}
+
+/**
+ * Ensure that a number is odd
+ */
+export const odd = ({ message }: OddOptions): NumericRule => {
   return {
     message,
     valid: (value: number) => value % 2 !== 0
   };
 };
 
-export const positive = ({ message }: { message: string }): NumericRule => {
+export interface PositiveOptions {
+  /**
+   * The message attached to the error when the number is not positive
+   */
+  message: string
+}
+
+/**
+ * Ensure that a number is positive
+ */
+export const positive = ({ message }: PositiveOptions): NumericRule => {
   return {
     message,
     valid: (value: number) => value > 0
   };
 };
 
-export const negative = ({ message }: { message: string }): NumericRule => {
+export interface NegativeOptions {
+  /**
+   * The message attached to the error when the number is not positive
+   */
+  message: string
+}
+
+/**
+ * Ensure that a number is negative
+ */
+export const negative = ({ message }: NegativeOptions): NumericRule => {
   return {
     message,
     valid: (value: number) => value < 0
   };
 };
 
-export const integer = ({ message }: { message: string }): NumericRule => {
+export interface IntegerOptions {
+  /**
+   * The message attached to the error when the number is not positive
+   */
+  message: string
+}
+
+/**
+ * Ensure that a number is integer
+ */
+export const integer = ({ message }: IntegerOptions): NumericRule => {
   return {
     message,
     valid: (value: number) => Number.isInteger(value)
