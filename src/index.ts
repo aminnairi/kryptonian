@@ -72,11 +72,17 @@ export interface UnknownSchema {
   type: "unknown"
 }
 
+export interface BooleanSchema {
+  type: "boolean",
+  message: string
+}
+
 export type Schema =
   | UnknownSchema
   | AnySchema
   | TextSchema
   | NumericSchema
+  | BooleanSchema
   | ListSchema<Schema>
   | RecordSchema<RecordSchemaFields<Schema>>
 
@@ -89,6 +95,8 @@ export type InferType<S extends Schema> =
   ? number
   : S extends TextSchema
   ? string
+  : S extends BooleanSchema
+  ? boolean
   : S extends ListSchema<infer AS>
   ? Array<InferType<AS>>
   : S extends RecordSchema<infer Fields>
@@ -213,6 +221,23 @@ export const unknown = (): UnknownSchema => {
   };
 }
 
+export interface BooleanOptions {
+  /**
+   * The message attached to the error
+   */
+  message: string
+}
+
+/**
+ * Create a schema to validate boolean values
+ */
+export const boolean = ({ message }: BooleanOptions): BooleanSchema => {
+  return {
+    type: "boolean",
+    message
+  }
+};
+
 /**
  * Create a validator function to validate data
  * @param schema The schema to apply for validation
@@ -220,6 +245,25 @@ export const unknown = (): UnknownSchema => {
  */
 export const createProtector = <S extends Schema>(schema: S, initialPath: string = ""): Validator<S> => {
   return data => {
+    if (schema.type === "boolean") {
+      if (typeof data !== "boolean") {
+        return {
+          success: false,
+          errors: [
+            {
+              path: initialPath,
+              message: schema.message
+            }
+          ]
+        };
+      }
+
+      return {
+        success: true,
+        data: data as InferType<S>
+      };
+    }
+
     if (schema.type === "unknown") {
       return {
         success: true,
