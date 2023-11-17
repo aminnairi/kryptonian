@@ -1,23 +1,21 @@
 import * as Kryptonian from ".";
 
-const protect = Kryptonian.createProtector(Kryptonian.list({
+const protect = Kryptonian.createProtector(Kryptonian.numeric({
   message: "This is not an array",
-  rules: [],
-  schema: Kryptonian.text({
-    message: "This is not a string",
-    rules: []
-  })
+  rules: [
+    Kryptonian.Numeric.between({
+      minimum: 10,
+      maximum: 20,
+      message: "This should be a number between 10 & 20"
+    })
+  ]
 }));
 
-const goodData: unknown = [ "Hello", "world!" ];
-
-const wrongData: unknown = "Hello, world!";
-
-const anotherWrongData: unknown = [ "Hello", 123 ];
+const goodData: unknown = 15;
+const wrongData: unknown = 172;
 
 const protectionGoneRight = protect(goodData);
 const protectionGoneWrong = protect(wrongData);
-const protectionGoneWrongAgain = protect(anotherWrongData);
 
 if (protectionGoneRight.success) {
   console.log(protectionGoneRight.data);
@@ -29,10 +27,4 @@ if (protectionGoneWrong.success) {
   console.log(protectionGoneWrong.data);
 } else {
   console.log(protectionGoneWrong.errors);
-}
-
-if (protectionGoneWrongAgain.success) {
-  console.log(protectionGoneWrongAgain.data);
-} else {
-  console.log(protectionGoneWrongAgain.errors);
 }
