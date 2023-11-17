@@ -147,7 +147,7 @@ if (protection.success) {
 ```
 
 ```json
-Hello, world!
+"Hello, world!"
 ```
 
 ### text
@@ -182,7 +182,7 @@ if (protectionGoneWrong.success) {
 ```
 
 ```json
-Hello, world!
+"Hello, world!"
 [
   {
     "path": "",
@@ -358,6 +358,241 @@ if (protectionGoneWrongAgain.success) {
   {
     "path": "[1]",
     "message": "This is not a string"
+  }
+]
+```
+
+#### length
+
+Validate the length of a list.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.list({
+  message: "This is not an array",
+  rules: [
+    Kryptonian.List.length({
+      length: 3,
+      message: "This should be an array of 3 elements"
+    })
+  ],
+  schema: Kryptonian.text({
+    message: "This is not a string",
+    rules: []
+  })
+}));
+
+const goodData: unknown = [ "Hello", "world", "!" ];
+
+const wrongData: unknown = "Hello, world!";
+
+const anotherWrongData: unknown = [ "Hello", "world!" ];
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+const protectionGoneWrongAgain = protect(anotherWrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+
+if (protectionGoneWrongAgain.success) {
+  console.log(protectionGoneWrongAgain.data);
+} else {
+  console.log(protectionGoneWrongAgain.errors);
+}
+```
+
+```json
+[ "Hello", "world", "!" ]
+[
+  {
+    "path": "",
+    "message": "This is not an array"
+  }
+]
+[
+  {
+    "path": "",
+    "message": "This should be an array of 3 elements"
+  }
+]
+```
+
+#### lengthBetween
+
+Validate that the length of a list is between a range.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.list({
+  message: "This is not an array",
+  rules: [
+    Kryptonian.List.lengthBetween({
+      minimum: 2,
+      maximum: 3,
+      message: "This should be an array of 2 to 3 elements"
+    })
+  ],
+  schema: Kryptonian.text({
+    message: "This is not a string",
+    rules: []
+  })
+}));
+
+const goodData: unknown = [ "Hello", "world", "!" ];
+
+const wrongData: unknown = [ "Hello" ];
+
+const anotherWrongData: unknown = [ "Well", "hello", "world", "!" ];
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+const protectionGoneWrongAgain = protect(anotherWrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+
+if (protectionGoneWrongAgain.success) {
+  console.log(protectionGoneWrongAgain.data);
+} else {
+  console.log(protectionGoneWrongAgain.errors);
+}
+```
+
+```json
+[ "Hello", "world", "!" ]
+[
+  {
+    "path": "",
+    "message": "This should be an array of 2 to 3 elements"
+  }
+]
+[
+  {
+    "path": "",
+    "message": "This should be an array of 2 to 3 elements"
+  }
+]
+```
+
+#### minimumLength
+
+Validate that the length of a list is above a value.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.list({
+  message: "This is not an array",
+  rules: [
+    Kryptonian.List.minimumLength({
+      minimum: 2,
+      message: "This should be an array of at least 2 elements"
+    })
+  ],
+  schema: Kryptonian.text({
+    message: "This is not a string",
+    rules: []
+  })
+}));
+
+const goodData: unknown = [ "Hello", "world" ];
+
+const wrongData: unknown = [ "Hello" ];
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+[ "Hello", "world" ]
+[
+  {
+    "path": "",
+    "message": "This should be an array of at least 2 elements"
+  }
+]
+```
+
+#### maximumLength
+
+Validate that the length of a list is above a value.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.list({
+  message: "This is not an array",
+  rules: [
+    Kryptonian.List.maximumLength({
+      maximum: 2,
+      message: "This should be an array of at most 2 elements"
+    })
+  ],
+  schema: Kryptonian.text({
+    message: "This is not a string",
+    rules: []
+  })
+}));
+
+const goodData: unknown = [ "Hello", "world" ];
+
+const wrongData: unknown = [ "Hello", "world", "!" ];
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+[ "Hello", "world" ]
+[
+  {
+    "path": "",
+    "message": "This should be an array of at most 2 elements"
   }
 ]
 ```
