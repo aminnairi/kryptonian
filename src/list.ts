@@ -1,6 +1,21 @@
 import { ListRule } from ".";
 
-export const length = ({ length, message }: { length: number, message: string }): ListRule => {
+export interface ListLengthRuleOptions {
+  /**
+   * The wanted length for the list to validate
+   */
+  length: number,
+  /**
+   * The message to attach to the error when the list does not match the target
+   * length
+   */
+  message: string
+}
+
+/**
+ * Ensure the length of a list is exactly what you want
+ */
+export const length = ({ length, message }: ListLengthRuleOptions): ListRule => {
   return {
     message,
     valid: value => value.length === length
