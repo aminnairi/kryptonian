@@ -2,7 +2,7 @@
 
 Where validation meets purity, hope, and the strength of Krypton
 
-[![npm](https://img.shields.io/npm/v/kryptonian)](https://www.npmjs.com/package/kryptonian)
+[![npm](https://img.shields.io/npm/v/kryptonian)](https://www.npmjs.com/package/kryptonian) [![npm type definitions](https://img.shields.io/npm/types/kryptonian)](https://github.com/aminnairi/kryptonian)
 
 ## Features
 
