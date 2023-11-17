@@ -1,11 +1,11 @@
 import * as Kryptonian from ".";
 
-const protect = Kryptonian.createProtector(Kryptonian.boolean({
-  message: "This is not a boolean"
+const protect = Kryptonian.createProtector(Kryptonian.notDefined({
+  message: "This is not undefined"
 }));
 
-const goodData: unknown = true;
-const badData: unknown = [];
+const goodData: unknown = undefined;
+const badData: unknown = null;
 
 const protectionGoneRight = protect(goodData);
 const protectionGoneWrong = protect(badData);
