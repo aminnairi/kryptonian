@@ -2,7 +2,22 @@
 
 ## Versions
 
+- [`0.2.0`](#020)
 - [`0.1.0`](#010)
+
+## 0.2.0
+
+- Updated the introduction in the README ([#7](https://github.com/aminnairi/kryptonian/pull/7))
+- Added a badge with a link to the npm page of this package ([#8](https://github.com/aminnairi/kryptonian/pull/8))
+- Added a typescript badge in the README ([#9](https://github.com/aminnairi/kryptonian/pull/9))
+- Added a changelog file ([#10](https://github.com/aminnairi/kryptonian/pull/10))
+- Added more informations in the package definition file ([#12](https://github.com/aminnairi/kryptonian/pull/12))
+- Moved dependencies into development dependencies ([#13](https://github.com/aminnairi/kryptonian/pull/13))
+- Stricter TypeScript configuration ([#15](https://github.com/aminnairi/kryptonian/pull/15))
+- Added minimumLength, maximumLength & lengthBetween functions for lists ([#17](https://github.com/aminnairi/kryptonian/pull/17))
+- Added more numeric rules ([#19](https://github.com/aminnairi/kryptonian/pull/19))
+- Full api documentation ([#22](https://github.com/aminnairi/kryptonian/pull/22))
+- Added tsdoc documentation ([#23](https://github.com/aminnairi/kryptonian/pull/23))
 
 ## 0.1.0
 
