@@ -191,6 +191,141 @@ if (protectionGoneWrong.success) {
 ]
 ```
 
+#### length
+
+Validate that a string has exactly a given length.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.text({
+  message: "This is not an array",
+  rules: [
+    Kryptonian.Text.length({
+      length: 13,
+      message: "This should be a string of 10 characters"
+    })
+  ]
+}));
+
+const goodData: unknown = "Hello, world!";
+const wrongData: unknown = "Hello";
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+"Hello, world!"
+[
+  {
+    "path": "",
+    "message": "This should be a string of 10 characters"
+  }
+]
+```
+
+#### minimumLength
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.text({
+  message: "This is not an array",
+  rules: [
+    Kryptonian.Text.minimumLength({
+      minimum: 10,
+      message: "This should be a string of at least 10 characters"
+    })
+  ]
+}));
+
+const goodData: unknown = "Hello, world!";
+const wrongData: unknown = "Hello";
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+"Hello, world!"
+[
+  {
+    "path": "",
+    "message": "This should be a string of at least 10 characters"
+  }
+]
+```
+
+#### email
+
+Validate that a string is a valid email.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.text({
+  message: "This is not an array",
+  rules: [
+    Kryptonian.Text.email({
+      message: "This should be a valid email"
+    })
+  ]
+}));
+
+const goodData: unknown = "kalel@krypton.io";
+const wrongData: unknown = "kalel@krypton";
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+"kalel@krypton.io"
+[
+  {
+    "path": "",
+    "message": "This should be a valid email"
+  }
+]
+```
+
 ### numeric
 
 Numeric is a schema representing a number.
@@ -228,6 +363,53 @@ if (protectionGoneWrong.success) {
   {
     "path": "",
     "message": "This is not a number"
+  }
+]
+```
+
+#### between
+
+Validate that a number is between two values.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.numeric({
+  message: "This is not an array",
+  rules: [
+    Kryptonian.Numeric.between({
+      minimum: 10,
+      maximum: 20,
+      message: "This should be a number between 10 & 20"
+    })
+  ]
+}));
+
+const goodData: unknown = 15;
+const wrongData: unknown = 172;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+15
+[
+  {
+    "path": "",
+    "message": "This should be a number between 10 & 20"
   }
 ]
 ```
