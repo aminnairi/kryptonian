@@ -79,7 +79,21 @@ export type InferType<S extends Schema> =
 
 type Validator<S extends Schema> = (data: unknown) => Validation<S>
 
-export const text = ({ message, rules }: { message: string, rules: TextRules }): TextSchema => {
+export interface TextOptions {
+  /**
+   * The message attached to the error
+   */
+  message: string,
+  /**
+   * A list of rules to apply to the string being validated
+   */
+  rules: TextRules
+}
+
+/**
+ * Create a schema to validate strings
+ */
+export const text = ({ message, rules }: TextOptions): TextSchema => {
   return {
     type: "text",
     message,
@@ -87,7 +101,21 @@ export const text = ({ message, rules }: { message: string, rules: TextRules }):
   }
 }
 
-export const numeric = ({ message, rules }: { message: string, rules: NumericRules }): NumericSchema => {
+export interface NumberOptions {
+  /**
+   * The error message to attach
+   */
+  message: string,
+  /**
+   * A list of rules to apply to the number being validated
+   */
+  rules: NumericRules
+}
+
+/**
+ * Create a schema to validate numbers
+ */
+export const numeric = ({ message, rules }: NumberOptions): NumericSchema => {
   return {
     type: "numeric",
     message,
@@ -95,7 +123,25 @@ export const numeric = ({ message, rules }: { message: string, rules: NumericRul
   };
 };
 
-export const list = <S extends Schema>({ schema, message, rules }: { schema: S, message: string, rules: ListRules }): ListSchema<S> => {
+export interface ListOptions<S extends Schema> {
+  /**
+   * The schema to use for each item in the list
+   */
+  schema: S,
+  /**
+   * The message to attach to the error
+   */
+  message: string,
+  /**
+   * A list of rules to apply to the array being validated
+   */
+  rules: ListRules
+}
+
+/**
+ * Create a schema to validate arrays
+ */
+export const list = <S extends Schema>({ schema, message, rules }: ListOptions<S>): ListSchema<S> => {
   return {
     type: "list",
     schema,
@@ -104,7 +150,25 @@ export const list = <S extends Schema>({ schema, message, rules }: { schema: S, 
   }
 }
 
-export const record = <S extends Schema, F extends RecordSchemaFields<S>>({ fields, message, rules }: { fields: F, message: string, rules: any }): RecordSchema<F> => {
+export interface RecordOptions<S extends Schema, F extends RecordSchemaFields<S>> {
+  /**
+   * The fields along with their schema
+   */
+  fields: F,
+  /**
+   * The message to attach to the error
+   */
+  message: string,
+  /**
+   * A list of rules to apply the object being validated
+   */
+  rules: RecordRules
+}
+
+/**
+ * Create a schema to validate object
+ */
+export const record = <S extends Schema, F extends RecordSchemaFields<S>>({ fields, message, rules }: RecordOptions<S, F>): RecordSchema<F> => {
   return {
     type: "record",
     fields,
@@ -113,6 +177,11 @@ export const record = <S extends Schema, F extends RecordSchemaFields<S>>({ fiel
   }
 }
 
+/**
+ * Create a validator function to validate data
+ * @param schema The schema to apply for validation
+ * @param initialPath The initial path (used internally for recursivity)
+ */
 export const createProtector = <S extends Schema>(schema: S, initialPath: string = ""): Validator<S> => {
   return data => {
     if (schema.type === "numeric") {
