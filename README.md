@@ -375,7 +375,7 @@ Validate that a number is between two values.
 import * as Kryptonian from "kryptonian";
 
 const protect = Kryptonian.createProtector(Kryptonian.numeric({
-  message: "This is not an array",
+  message: "This is not a number",
   rules: [
     Kryptonian.Numeric.between({
       minimum: 10,
@@ -410,6 +410,323 @@ if (protectionGoneWrong.success) {
   {
     "path": "",
     "message": "This should be a number between 10 & 20"
+  }
+]
+```
+
+#### divisibleBy
+
+Validate that a number can be divided by another number without remaining value.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.numeric({
+  message: "This is not a number",
+  rules: [
+    Kryptonian.Numeric.divisibleBy({
+      divisor: 5,
+      message: "This should be a number divisible by 5"
+    })
+  ]
+}));
+
+const goodData: unknown = 15;
+const wrongData: unknown = 172;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+15
+[
+  {
+    "path": "",
+    "message": "This should be a number divisible by 5"
+  }
+]
+```
+
+#### notDivisibleBy
+
+Validate that a number cannot be divided by another number without remaining value.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.numeric({
+  message: "This is not a number",
+  rules: [
+    Kryptonian.Numeric.notDivisibleBy({
+      divisor: 2,
+      message: "This should be a number not divisible by 2"
+    })
+  ]
+}));
+
+const goodData: unknown = 15;
+const wrongData: unknown = 172;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+15
+[
+  {
+    "path": "",
+    "message": "This should be a number not divisible by 2"
+  }
+]
+```
+
+#### even
+
+Validate that a number is even.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.numeric({
+  message: "This is not a number",
+  rules: [
+    Kryptonian.Numeric.even({
+      message: "This should be an even number"
+    })
+  ]
+}));
+
+const goodData: unknown = 14;
+const wrongData: unknown = 173;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+14
+[
+  {
+    "path": "",
+    "message": "This should be an even number"
+  }
+]
+```
+
+#### odd
+
+Validate that a number is odd.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.numeric({
+  message: "This is not a number",
+  rules: [
+    Kryptonian.Numeric.odd({
+      message: "This should be an odd number"
+    })
+  ]
+}));
+
+const goodData: unknown = 15;
+const wrongData: unknown = 172;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+15
+[
+  {
+    "path": "",
+    "message": "This should be an odd number"
+  }
+]
+```
+
+#### positive
+
+Validate that a number is positive.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.numeric({
+  message: "This is not a number",
+  rules: [
+    Kryptonian.Numeric.positive({
+      message: "This should be a positive number"
+    })
+  ]
+}));
+
+const goodData: unknown = 15;
+const wrongData: unknown = -172;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+15
+[
+  {
+    "path": "",
+    "message": "This should be a positive number"
+  }
+]
+```
+
+#### negative
+
+Validate that a number is negative.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.numeric({
+  message: "This is not a number",
+  rules: [
+    Kryptonian.Numeric.negative({
+      message: "This should be a negative number"
+    })
+  ]
+}));
+
+const goodData: unknown = -15;
+const wrongData: unknown = 172;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+-15
+[
+  {
+    "path": "",
+    "message": "This should be a negative number"
+  }
+]
+```
+
+#### integer
+
+Validate that a number is integer
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.numeric({
+  message: "This is not a number",
+  rules: [
+    Kryptonian.Numeric.integer({
+      message: "This should be an integer number"
+    })
+  ]
+}));
+
+const goodData: unknown = 15;
+const wrongData: unknown = 17.2;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+15
+[
+  {
+    "path": "",
+    "message": "This should be an integer number"
   }
 ]
 ```
