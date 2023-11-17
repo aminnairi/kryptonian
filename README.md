@@ -1,6 +1,6 @@
-# kal-el
+# kryptonian
 
-Unleash the power of "Kal-El," your trusted validation companion in the realm of software development. Inspired by the legendary Superman, this functional programming marvel brings hope and purity to the heart of your code, ensuring data integrity with the strength of a superhero. As "Kal-El" champions truth and justice in validation, beware the lurking presence of "Zod," its formidable opponent. Choose the superheroic reliability of "Kal-El" to fortify your projects against the challenges posed by the validation villain, "Zod," and elevate your coding experience with unwavering confidence.
+Where validation meets purity, hope, and the strength of Krypton
 
 ## Features
 
