@@ -304,6 +304,11 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 
       const propertyErrors = Object.keys(schema.fields).reduce((previousPropertyErrors, field) => {
         const fieldSchema = schema.fields[field];
+
+        if (fieldSchema === undefined) {
+          return previousPropertyErrors;
+        }
+
         const validateRecordField = createProtector(fieldSchema, `${initialPath}.${field}`);
         const fieldData = (data as Record<string, unknown>)[field];
         const fieldValidation = validateRecordField(fieldData);
