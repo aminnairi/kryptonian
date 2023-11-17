@@ -77,12 +77,24 @@ export interface BooleanSchema {
   message: string
 }
 
+export interface NoneSchema {
+  type: "none",
+  message: string
+}
+
+export interface NotDefinedSchema {
+  type: "notDefined",
+  message: string
+}
+
 export type Schema =
   | UnknownSchema
   | AnySchema
   | TextSchema
   | NumericSchema
   | BooleanSchema
+  | NoneSchema
+  | NotDefinedSchema
   | ListSchema<Schema>
   | RecordSchema<RecordSchemaFields<Schema>>
 
@@ -97,6 +109,10 @@ export type InferType<S extends Schema> =
   ? string
   : S extends BooleanSchema
   ? boolean
+  : S extends NoneSchema
+  ? null
+  : S extends NotDefinedSchema
+  ? undefined
   : S extends ListSchema<infer AS>
   ? Array<InferType<AS>>
   : S extends RecordSchema<infer Fields>
@@ -238,6 +254,40 @@ export const boolean = ({ message }: BooleanOptions): BooleanSchema => {
   }
 };
 
+export interface NoneOptions {
+  /**
+   * The message attached to the error
+   */
+  message: string
+}
+
+/**
+ * Create a schema to validate null values
+ */
+export const none = ({ message }: NoneOptions): NoneSchema => {
+  return {
+    type: "none",
+    message
+  };
+}
+
+export interface NotDefinedOptions {
+  /***
+   * The message attached to the error
+   */
+  message: string
+}
+
+/**
+ * Create a schema to validate undefined values
+ */
+export const notDefined = ({ message }: NotDefinedOptions): NotDefinedSchema => {
+  return {
+    type: "notDefined",
+    message
+  }
+};
+
 /**
  * Create a validator function to validate data
  * @param schema The schema to apply for validation
@@ -265,6 +315,44 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
     }
 
     if (schema.type === "unknown") {
+      return {
+        success: true,
+        data: data as InferType<S>
+      };
+    }
+
+    if (schema.type === "none") {
+      if (data !== null) {
+        return {
+          success: false,
+          errors: [
+            {
+              path: initialPath,
+              message: schema.message
+            }
+          ]
+        };
+      }
+
+      return {
+        success: true,
+        data: data as InferType<S>
+      };
+    }
+
+    if (schema.type === "notDefined") {
+      if (data !== undefined) {
+        return {
+          success: false,
+          errors: [
+            {
+              path: initialPath,
+              message: schema.message
+            }
+          ]
+        };
+      }
+
       return {
         success: true,
         data: data as InferType<S>
