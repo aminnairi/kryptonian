@@ -118,3 +118,27 @@ if (protection.success) {
   // ]
 }
 ```
+
+## Issues
+
+See [`issues`](./issues).
+
+## Changelog
+
+See [`CHANGELOG.md`](./CHANGELOG.md).
+
+## Code of conduct
+
+See [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md).
+
+## Contributing
+
+See [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+
+## License
+
+See [`LICENSE`](./LICENSE).
+
+## Security
+
+See [`SECURITY.md`](./SECURITY.md).
