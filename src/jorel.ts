@@ -26,7 +26,7 @@ export const createRoutes = <R extends Routes>(routes: R): R => {
   return routes;
 }
 
-export const createClient = <R extends Routes>(endpoint: string, routes: R): Pathways<R> => {
+export const createClient = <R extends Routes>({ endpoint, routes }: { endpoint: string, routes: R }): Pathways<R> => {
   const routeWithCallbacks = Object.fromEntries(Object.entries(routes).map(([routeName, route]) => {
     const callback = async (body: unknown) => {
       const protectBody = Kryptonian.createProtector(route.request);
@@ -70,19 +70,31 @@ export const createClient = <R extends Routes>(endpoint: string, routes: R): Pat
   return routeWithCallbacks as Pathways<R>;
 };
 
-export const createRouter = <R extends Routes>(routes: R, spaceships: Spaceships<R>) => {
+export const createRouter = <R extends Routes>({ client, routes, spaceships }: { client: string, routes: R, spaceships: Spaceships<R> }) => {
+  const headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "POST,OPTIONS",
+    "Access-Control-Allow-Origin": client
+  }
+
   return async (request: IncomingMessage, response: ServerResponse) => {
     try {
-      if (request.method !== "POST") {
-        return response.writeHead(405, { "Content-Type": "application/json" }).end(JSON.stringify({
-          success: false,
-          error: {
-            path: "",
-            message: "Method not allowed"
-          }
-        }));
+      if (request.method === "OPTIONS") {
+        return response.writeHead(200, headers).end();
       }
 
+      if (request.method !== "POST") {
+        return response.writeHead(405, headers).end(JSON.stringify({
+          success: false,
+          errors: [
+            {
+              path: "",
+              message: "Method not allowed"
+            }
+          ]
+        }));
+      }
 
       const foundRoute = Object.entries(routes).find(([routeName]) => {
         if (!request.url) {
@@ -95,7 +107,7 @@ export const createRouter = <R extends Routes>(routes: R, spaceships: Spaceships
       });
 
       if (!foundRoute) {
-        return response.writeHead(412, { "Content-Type": "application/json" }).end(JSON.stringify({
+        return response.writeHead(412, headers).end(JSON.stringify({
           success: false,
           error: {
             path: "",
@@ -108,7 +120,7 @@ export const createRouter = <R extends Routes>(routes: R, spaceships: Spaceships
       const spaceship = spaceships[routeName];
 
       if (!spaceship) {
-        return response.writeHead(412, { "Content-Type": "application/json" }).end(JSON.stringify({
+        return response.writeHead(412, headers).end(JSON.stringify({
           success: false,
           error: {
             path: "",
@@ -144,7 +156,7 @@ export const createRouter = <R extends Routes>(routes: R, spaceships: Spaceships
 
 
       if (!bodyProtection.success) {
-        return response.writeHead(400, { "Content-Type": "application/json" }).end(JSON.stringify(bodyProtection.errors));
+        return response.writeHead(400, headers).end(JSON.stringify(bodyProtection.errors));
       }
 
       const spaceshipResponse = await spaceship(bodyProtection.data);
@@ -153,10 +165,10 @@ export const createRouter = <R extends Routes>(routes: R, spaceships: Spaceships
       const spaceshipResponseProtection = protectSpaceshipResponse(spaceshipResponse);
 
       if (!spaceshipResponseProtection.success) {
-        return response.writeHead(400, { "Content-Type": "application/json" }).end(JSON.stringify(spaceshipResponseProtection.errors));
+        return response.writeHead(400, headers).end(JSON.stringify(spaceshipResponseProtection.errors));
       }
 
-      return response.writeHead(200, { "Content-Type": "application/json" }).end(JSON.stringify(spaceshipResponseProtection.data));
+      return response.writeHead(200, headers).end(JSON.stringify(spaceshipResponseProtection.data));
 
     } catch (error) {
       return response.writeHead(500, { "Content-Type": "application/json" }).end(JSON.stringify({
