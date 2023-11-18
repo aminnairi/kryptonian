@@ -602,3 +602,4 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 export * as List from "./list";
 export * as Numeric from "./numeric"
 export * as Text from "./text";
+export * as Jorel from "./jorel";
