@@ -10,10 +10,10 @@ export type Routes = {
   [key: string]: Route
 }
 
-export type Callback<R extends Route> = (parameters: Kryptonian.InferType<R["request"]>) => Promise<Kryptonian.InferType<R["response"]>>;
+export type Pathway<R extends Route> = (parameters: Kryptonian.InferType<R["request"]>) => Promise<Kryptonian.InferType<R["response"]>>;
 
 export type Pathways<R extends Routes> = {
-  [Key in keyof R]: Callback<R[Key]>
+  [Key in keyof R]: Pathway<R[Key]>
 }
 
 export type Spaceship<R extends Route> = (parameters: Kryptonian.InferType<R["request"]>) => Promise<Kryptonian.InferType<R["response"]>>
