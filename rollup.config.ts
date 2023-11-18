@@ -8,7 +8,7 @@ export default defineConfig({
   input: "src/index.ts",
   plugins: [
     remove({
-      targets: "dist/*",
+      targets: `${tsconfig.compilerOptions.outDir}/*`,
       verbose: true
     }),
     typescript(),
