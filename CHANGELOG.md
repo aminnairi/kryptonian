@@ -2,9 +2,14 @@
 
 ## Versions
 
+- [`1.0.0`](#100)
 - [`0.3.0`](#030)
 - [`0.2.0`](#020)
 - [`0.1.0`](#010)
+
+## 1.0.0
+
+- Module & CORS fixes ([#49](https://github.com/aminnairi/kryptonian/pull/49))
 
 ## 0.3.0
 
