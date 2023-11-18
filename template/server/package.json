@@ -1,0 +1,22 @@
+{
+  "type": "module",
+  "private": true,
+  "name": "@template/server",
+  "scripts": {
+    "dev": "rollup --config rollup.config.ts --configPlugin typescript --environment NODE_ENV:development --watch",
+    "build": "rollup --config rollup.config.ts --configPlugin typescript --environment NODE_ENV:production",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "25.0.7",
+    "@rollup/plugin-node-resolve": "15.2.3",
+    "@rollup/plugin-run": "3.0.2",
+    "@rollup/plugin-typescript": "11.1.5",
+    "rollup": "4.5.0",
+    "tslib": "2.6.2",
+    "typescript": "5.2.2"
+  },
+  "dependencies": {
+    "kryptonian": "1.0.0"
+  }
+}

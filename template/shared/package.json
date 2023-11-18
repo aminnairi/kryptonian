@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "@template/shared",
+  "main": "dist/index.js",
+  "type": "module",
+  "dependencies": {
+    "kryptonian": "1.0.0"
+  },
+  "scripts": {
+    "dev": "rollup --config rollup.config.ts --configPlugin typescript --environment NODE_ENV:development --watch",
+    "build": "rollup --config rollup.config.ts --configPlugin typescript --environment NODE_ENV:production"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "25.0.7",
+    "@rollup/plugin-node-resolve": "15.2.3",
+    "@rollup/plugin-typescript": "11.1.5",
+    "rollup": "4.5.0",
+    "tslib": "2.6.2",
+    "typescript": "5.2.2"
+  }
+}
