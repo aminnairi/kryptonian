@@ -1282,6 +1282,198 @@ if (alsoGoodProtection.success) {
 42
 ```
 
+### Jorel
+
+Jorel is the name of the client/server technology that is inherent to the Kryptonian library. With it, you can define a server and a client that sends data to each other in a pure, functional and safe way.
+
+#### createRoutes
+
+createRoutes is a function that will help you define the shape of your server using a validation schema.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const routes = Kryptonian.Jorel.createRoutes({
+  createKryptonian: {
+    request: Kryptonian.record({
+      message: "This should be a record",
+      rules: [],
+      fields: {
+        name: Kryptonian.text({
+          message: "Name is not a string",
+          rules: []
+        })
+      }
+    }),
+    response: Kryptonian.text({
+      rules: [],
+      message: "Expected a string as the response"
+    })
+  },
+  getKryptonians: {
+    request: Kryptonian.none({
+      message: "Expected nothing except null"
+    }),
+    response: Kryptonian.list({
+      message: "Response is not a list",
+      rules: [],
+      schema: Kryptonian.text({
+        message: "Response is not a list of text",
+        rules: []
+      })
+    })
+  }
+});
+```
+
+#### createServer
+
+createServer is a function that will take as input your server, and will let your define an implementation for the latter. For now, we only support creating a server using the built-in `http` module from Node.js, and we intend on adding support for adapters for others libraries as well such as Express or Fastify.
+
+```typescript
+import * as Http from "http";
+import * as Kryptonian from "kryptonian";
+import { routes } from "./routes";
+
+const kryptoniansDatabase: Array<string> = [];
+
+const serverRouter = Kryptonian.Jorel.createRouter(routes, {
+  // Parameters are properly typed from the routes!
+  createKryptonian: async ({ name }) => {
+    kryptoniansDatabase.push(name);
+
+    return "Successfully created the user";
+  },
+  getKryptonians: async () => {
+    return [
+      ...kryptonians
+    ];
+  }
+});
+
+const serverPort = 8000;
+const serverOrigin = "localhost";
+const serverProtocol = "http";
+
+export const serverUrl = `${serverProtocol}://${serverOrigin}:${serverPort}`
+
+const server = Http.createServer(serverRouter);
+
+server.listen(serverPort, serverOrigin, () => {
+  console.log("Kryptonian spaceship launched");
+});
+```
+
+#### createClient
+
+createClient is a function that will help you request informations from the server. It implements the `Fetch` Web API, and we intend on adding support for more HTTP libraries such as Axios for instance. Each time you request something, it will pick-up the validation schema and forces you to use this schema for all your request, preventing mistakes even if you decide to update the schema. When receiving the body, data validation is also applied, so that you can't mess up manipulating data that is not validated yet.
+
+```tsx
+import * as React from "react";
+import * as Kryptonian from "kryptonian";
+
+const client = Kryptonian.Jorel.createClient(serverUrl, routes);
+
+export const Component = () => {
+  const [kryptonian, setKryptonian] = useState("");
+  const [kryptonians, setKryptonians] = React.useState<Array<string>>([]);
+
+  const updateKryptonian: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(event => {
+    setKryptonian(event.target.value);
+  }, []);
+
+  const getKryptonians = React.useCallback(() => {
+    client.getKryptonians(null).then(kryptonian => {
+      setKryptonians(kryptonian);
+    }).catch(() => {
+      alert("An error occurred");
+    });
+  }, []);
+
+  const createKryptonian: React.FormEventHandler = React.useCallback(event => {
+    event.preventDefault();
+
+    client.createKryptonian({
+      name: kryptonian
+    }).then(() => {
+      alert("Kryptonian saved!");
+    }).catch(error => {
+      alert("An error occurred");
+    });
+  }, [kryptonian]);
+
+  return (
+    <React.Fragment>
+      <form onSubmit={createKryptonian}>
+        <input
+          type="text"
+          value={kryptonian}
+          onChange={updateKryptonian} />
+        <button type="submit">
+          Save
+        </button>
+      </form>
+      <ul>
+        {kryptonians.map(kryptonian => (
+          <li>
+            {kryptonian}
+          </li>
+        ))}
+      </ul>
+    </React.Fragment>
+  );
+};
+```
+
+That's it, in a few lines, you just created your own server/client appliation using React for this example. Note that it works with absolutely any JavaScript framework, and even Vanilla TypeScript since it has no external dependencies. You could of course do the same in Vue.js for instance.
+
+```html
+<script lang="ts" setup>
+import * as Vue from "vue";
+import * as Kryptonian from "kryptonian";
+
+const client = Kryptonian.Jorel.createClient(serverUrl, routes);
+
+const kryptonian = Vue.ref("");
+const kryptonians = Vue.ref<Array<string>>([]);
+
+const updateKryptonian = (event: EventTarget) => {
+  kryptonian.value = event.target.value;
+};
+
+const getKryptonians = () => {
+  client.getKryptonians(null).then(kryptonian => {
+    setKryptonians(kryptonian);
+  }).catch(() => {
+    alert("An error occurred");
+  });
+};
+
+const createKryptonian = (event: FormEvent) => {
+  event.preventDefault();
+
+  client.createKryptonian({
+    name: kryptonian.value
+  }).then(() => {
+    alert("Kryptonian saved!");
+  }).catch(error => {
+    alert("An error occurred");
+  });
+}
+</script>
+
+<template>
+  <form>
+    <input v-model="kryptonian">
+  </form>
+  <ul>
+    <li v-for="kryptonian in kryptonians">
+      {{ kryptonian }}
+    </li>
+  </ul>
+</template>
+```
+
 ## Issues
 
 See [`issues`](./issues).
