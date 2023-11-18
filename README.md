@@ -1483,6 +1483,14 @@ const createKryptonian = (event: FormEvent) => {
 </template>
 ```
 
+#### getting started
+
+```bash
+npx degit aminnairi/kryptonian/template my-project
+cd my-project
+# read the README.md!
+```
+
 ## Issues
 
 See [`issues`](./issues).
