@@ -26,7 +26,7 @@ export const createRoutes = <R extends Routes>(routes: R): R => {
   return routes;
 }
 
-export const getClient = <R extends Routes>(routes: R): Pathways<R> => {
+export const createClient = <R extends Routes>(endpoint: string, routes: R): Pathways<R> => {
   const routeWithCallbacks = Object.fromEntries(Object.entries(routes).map(([routeName, route]) => {
     const callback = async (body: unknown) => {
       const protectBody = Kryptonian.createProtector(route.request);
@@ -37,7 +37,7 @@ export const getClient = <R extends Routes>(routes: R): Pathways<R> => {
       }
 
 
-      return fetch(`http://localhost:8000/${routeName}`, {
+      return fetch(`${endpoint}/${routeName}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,6 @@ export const getClient = <R extends Routes>(routes: R): Pathways<R> => {
           return Promise.reject(response);
         })
       }).then(response => {
-        console.log({response});
         const protectResponse = Kryptonian.createProtector(route.response);
         const responseProtection = protectResponse(response);
 
