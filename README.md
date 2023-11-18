@@ -1337,29 +1337,30 @@ import { routes } from "./routes";
 
 const kryptoniansDatabase: Array<string> = [];
 
-const serverRouter = Kryptonian.Jorel.createRouter(routes, {
-  // Parameters are properly typed from the routes!
-  createKryptonian: async ({ name }) => {
-    kryptoniansDatabase.push(name);
+const serverRouter = Kryptonian.Jorel.createRouter({
+  client: "http://localhost:5173",
+  routes,
+  spaceships: {
+    // Parameters are properly typed from the routes!
+    createKryptonian: async ({ name }) => {
+      kryptoniansDatabase.push(name);
 
-    return "Successfully created the user";
-  },
-  getKryptonians: async () => {
-    return [
-      ...kryptonians
-    ];
+      return "Successfully created the user";
+    },
+    getKryptonians: async () => {
+      return [
+        ...kryptonians
+      ];
+    }
   }
 });
 
-const serverPort = 8000;
-const serverOrigin = "localhost";
-const serverProtocol = "http";
-
-export const serverUrl = `${serverProtocol}://${serverOrigin}:${serverPort}`
+const port = 8000;
+const hostname = "localhost";
 
 const server = Http.createServer(serverRouter);
 
-server.listen(serverPort, serverOrigin, () => {
+server.listen(port, hostname, () => {
   console.log("Kryptonian spaceship launched");
 });
 ```
@@ -1371,8 +1372,12 @@ createClient is a function that will help you request informations from the serv
 ```tsx
 import * as React from "react";
 import * as Kryptonian from "kryptonian";
+import { routes } from "./routes";
 
-const client = Kryptonian.Jorel.createClient(serverUrl, routes);
+const client = Kryptonian.Jorel.createClient({
+  endpoint: "http://localhost:8000",
+  routes
+});
 
 export const Component = () => {
   const [kryptonian, setKryptonian] = useState("");
@@ -1431,8 +1436,12 @@ That's it, in a few lines, you just created your own server/client appliation us
 <script lang="ts" setup>
 import * as Vue from "vue";
 import * as Kryptonian from "kryptonian";
+import { routes } from "./routes";
 
-const client = Kryptonian.Jorel.createClient(serverUrl, routes);
+const client = Kryptonian.Jorel.createClient({
+  endpoint: "http://localhost:8000",
+  routes
+});
 
 const kryptonian = Vue.ref("");
 const kryptonians = Vue.ref<Array<string>>([]);
