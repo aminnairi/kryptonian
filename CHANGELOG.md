@@ -2,8 +2,17 @@
 
 ## Versions
 
+- [`0.3.0`](#030)
 - [`0.2.0`](#020)
 - [`0.1.0`](#010)
+
+## 0.3.0
+
+- Added unknown & any support ([#31](https://github.com/aminnairi/kryptonian/pull/31))
+- Added boolean support ([#34](https://github.com/aminnairi/kryptonian/pull/34))
+- Added null & undefined support ([#37](https://github.com/aminnairi/kryptonian/pull/37))
+- Added support for Jorel, a library for creating HTTP servers & clients from a validation schema ([#44](https://github.com/aminnairi/kryptonian/pull/44))
+- Updated the description in the documentation and package ([#46](https://github.com/aminnairi/kryptonian/pull/46))
 
 ## 0.2.0
 
