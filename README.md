@@ -64,7 +64,7 @@ export const routes = Kryptonian.Jorel.createRoutes({
             rules: []
           }),
           name: Kryptonian.text({
-            message: "Response record should be an array of strings",
+            message: "Response record should have a property name that is a string",
             rules: []
           })
         }
@@ -916,8 +916,8 @@ if (protectionGoneWrong.success) {
 ```
 
 ```json
-Thu Feb 02 2023 03:04:05 GMT+0100
-Sun Nov 19 2023 14:32:34 GMT+0100
+"Thu Feb 02 2023 03:04:05 GMT+0100"
+"Sun Nov 19 2023 14:32:34 GMT+0100"
 [
   {
     "path": "",
@@ -972,7 +972,7 @@ if (protectionGoneWrongAgain.success) {
 ```
 
 ```json
-Sun Jan 01 2023 00:00:00 GMT+0100 (heure normale d’Europe centrale)
+"Sun Jan 01 2023 00:00:00 GMT+0100"
 [
   {
     "path": "",
@@ -1024,7 +1024,7 @@ if (protectionGoneWrong.success) {
 ```
 
 ```json
-Sun Jan 01 2023 00:00:00 GMT+0100 (heure normale d’Europe centrale)
+"Sun Jan 01 2023 00:00:00 GMT+0100"
 [
   {
     "path": "",
