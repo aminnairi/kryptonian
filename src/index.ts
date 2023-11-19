@@ -20,6 +20,11 @@ export interface Rule<Value> {
   message: string
 }
 
+export interface DateRule {
+  valid: (value: Date) => boolean,
+  message: string
+}
+
 export type TextRule = Rule<string>
 
 export type NumericRule = Rule<number>
@@ -35,6 +40,8 @@ export type NumericRules = Array<NumericRule>
 export type ListRules = Array<ListRule>
 
 export type RecordRules = Array<RecordRule>
+
+export type DateRules = Array<DateRule>
 
 export interface TextSchema {
   type: "text",
@@ -92,6 +99,12 @@ export interface EmptySchema {
   message: string
 }
 
+export interface DateSchema {
+  type: "date",
+  rules: DateRules,
+  message: string
+}
+
 export type Schema =
   | UnknownSchema
   | AnySchema
@@ -101,6 +114,7 @@ export type Schema =
   | NoneSchema
   | NotDefinedSchema
   | EmptySchema
+  | DateSchema
   | ListSchema<Schema>
   | RecordSchema<RecordSchemaFields<Schema>>
 
@@ -115,6 +129,8 @@ export type InferType<S extends Schema> =
   ? string
   : S extends BooleanSchema
   ? boolean
+  : S extends DateSchema
+  ? Date
   : S extends NoneSchema
   ? null
   : S extends NotDefinedSchema
@@ -226,6 +242,28 @@ export const record = <S extends Schema, F extends RecordSchemaFields<S>>({ fiel
     rules
   }
 }
+
+export interface DateOptions {
+  /**
+   * Message attached to the error
+   */
+  message: string,
+  /**
+   * Rules to apply to the date to validate
+   */
+  rules: DateRules
+}
+
+/**
+ * Create a schema to validate a date
+ */
+export const date = ({ message, rules }: DateOptions): DateSchema => {
+  return {
+    type: "date",
+    rules,
+    message
+  }
+};
 
 /**
  * Create a schema to validate data to any
@@ -410,6 +448,50 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
       }
     }
 
+    if (schema.type === "date") {
+      const date = new Date(String(data));
+
+      if (Number.isNaN(date.getTime())) {
+        return {
+          success: false,
+          errors: [
+            {
+              path: initialPath,
+              message: schema.message
+            }
+          ]
+        };
+      }
+
+      const initialErrors: Array<ValidationError> = [];
+
+      const errors = schema.rules.reduce((previousErrors, rule) => {
+        if (!rule.valid(date)) {
+          return [
+            ...previousErrors,
+            {
+              path: initialPath,
+              message: rule.message
+            }
+          ]
+        }
+
+        return previousErrors
+      }, initialErrors);
+
+      if (errors.length !== 0) {
+        return {
+          success: false,
+          errors
+        };
+      }
+
+      return {
+        success: true,
+        data: date as InferType<S>
+      };
+    }
+
     if (schema.type === "numeric") {
       if (typeof data !== "number") {
         return {
@@ -530,32 +612,43 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
         };
       }
 
-      const initialItemErrors: Array<ValidationError> = [];
-
-      const itemErrors = data.reduce((previousItemErrors, item, itemIndex) => {
+      const itemValidations = data.map((item, itemIndex) => {
         const validateArrayItem = createProtector(schema.schema, `${initialPath}[${itemIndex}]`);
         const itemValidation = validateArrayItem(item);
 
-        if (!itemValidation.success) {
-          return [
-            ...previousItemErrors,
-            ...itemValidation.errors
-          ];
+        return itemValidation;
+      });
+
+      const itemValidationErrors = itemValidations.flatMap(itemValidation => {
+        if (itemValidation.success) {
+          return null;
         }
 
-        return previousItemErrors;
-      }, initialItemErrors) as Array<ValidationError>;
+        return itemValidation.errors;
+      }).filter(itemValidation => {
+        return itemValidation !== null;
+      }) as Array<ValidationError>;
 
-      if (itemErrors.length !== 0) {
+      const itemValidationData = itemValidations.map(itemValidation => {
+        if (!itemValidation.success) {
+          return null;
+        }
+
+        return itemValidation.data;
+      }).filter(itemValidation => {
+        return itemValidation !== null;
+      }) as InferType<S>;
+
+      if (itemValidationErrors.length !== 0) {
         return {
           success: false,
-          errors: itemErrors
+          errors: itemValidationErrors
         }
       }
 
       return {
         success: true,
-        data: data as InferType<S>
+        data: itemValidationData
       }
     }
 
@@ -595,39 +688,52 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
         };
       }
 
-      const initialPropertyErrors: Array<ValidationError> = [];
-
-      const propertyErrors = Object.keys(schema.fields).reduce((previousPropertyErrors, field) => {
-        const fieldSchema = schema.fields[field];
-
-        if (fieldSchema === undefined) {
-          return previousPropertyErrors;
-        }
-
-        const validateRecordField = createProtector(fieldSchema, `${initialPath}.${field}`);
-        const fieldData = (data as Record<string, unknown>)[field];
+      const validations = Object.entries(schema.fields).map(([fieldName, schema]) => {
+        const validateRecordField = createProtector(schema, `${initialPath}.${fieldName}`);
+        const fieldData = (data as Record<string, unknown>)[fieldName];
         const fieldValidation = validateRecordField(fieldData);
 
-        if (!fieldValidation.success) {
-          return [
-            ...previousPropertyErrors,
-            ...fieldValidation.errors
-          ];
+        return [
+          fieldName,
+          fieldValidation
+        ];
+      }) as Array<[string, Validation<S>]>;
+
+      const validationErrors = validations.flatMap(([, validation]) => {
+        if (validation.success) {
+          return null;
         }
 
-        return previousPropertyErrors;
-      }, initialPropertyErrors) as Array<ValidationError>;
+        return validation.errors;
+      }).filter(validationErrors => {
+        return validationErrors !== null
+      }) as Array<ValidationError>;
 
-      if (propertyErrors.length !== 0) {
+      const validationEntries = validations.map(([field, validation]) => {
+        if (!validation.success) {
+          return null;
+        }
+
+        return [
+          field,
+          validation.data
+        ];
+      }).filter(validationEntry => {
+        return validationEntry !== null;
+      }) as Array<[string, InferType<S>]>;
+
+      const validationData = Object.fromEntries(validationEntries) as InferType<S>;
+
+      if (validationErrors.length !== 0) {
         return {
           success: false,
-          errors: propertyErrors
+          errors: validationErrors
         };
       }
 
       return {
         success: true,
-        data: data as InferType<S>
+        data: validationData
       };
     }
 
@@ -647,3 +753,4 @@ export * as List from "./list";
 export * as Numeric from "./numeric"
 export * as Text from "./text";
 export * as Jorel from "./jorel";
+export * as Date from "./date";
