@@ -8,9 +8,18 @@ const router = Kryptonian.Jorel.createRouter({
   spaceships: {
     getKryptonians: async () => {
       return [
-        "Kalel",
-        "Jorel",
-        "Zorel"
+        {
+          name: "Kalel",
+          createdAt: new Date()
+        },
+        {
+          name: "Jorel",
+          createdAt: new Date()
+        },
+        {
+          name: "Zorel",
+          createdAt: new Date()
+        }
       ];
     }
   }
