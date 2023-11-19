@@ -12,7 +12,7 @@ export default defineConfig({
       verbose: true
     }),
     typescript(),
-    terser()
+    process.env.NODE_ENV === "production" && terser()
   ],
   output: {
     format: "esm",
