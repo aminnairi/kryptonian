@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "type": "module",
   "dependencies": {
-    "kryptonian": "1.0.0"
+    "kryptonian": "*"
   },
   "scripts": {
     "dev": "rollup --config rollup.config.ts --configPlugin typescript --environment NODE_ENV:development --watch",
