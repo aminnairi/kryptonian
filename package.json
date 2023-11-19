@@ -34,7 +34,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup --config rollup.config.ts --configPlugin typescript"
+    "dev": "rollup --config rollup.config.ts --configPlugin typescript --environment NODE:ENV:development --watch",
+    "build": "rollup --config rollup.config.ts --configPlugin typescript --environment NODE_ENV:production"
   },
   "devDependencies": {
     "@rollup/plugin-terser": "0.4.4",
