@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as Kryptonian from "kryptonian";
+import * as Kryptonian from "../../";
 import { routes } from "@template/shared";
 
 const client = Kryptonian.Jorel.createClient({
@@ -11,7 +11,7 @@ export const App = () => {
   const [kryptonians, setKryptonians] = React.useState<Array<string>>([]);
 
   React.useEffect(() => {
-    client.getKryptonians(null).then(kryptonians => {
+    client.getKryptonians().then(kryptonians => {
       setKryptonians(kryptonians);
     }).catch(error => {
       console.error(error);
