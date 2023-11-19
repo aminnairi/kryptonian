@@ -140,7 +140,13 @@ export const createRouter = <R extends Routes>({ client, routes, spaceships }: {
 
           // Listen for the 'end' event to resolve the promise when all data is received
           request.on('end', () => {
-            resolve(JSON.parse(body));
+            try {
+              const json = JSON.parse(body);
+
+              resolve(json);
+            } catch (error) {
+              resolve(undefined);
+            }
           });
 
           // Listen for any 'error' events
