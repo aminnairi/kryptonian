@@ -47,79 +47,104 @@ Participate in the open-source community by contributing to the project through 
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.record({
-  message: "This should be a record",
-  rules: [],
-  fields: {
-    email: Kryptonian.text({
-      message: "This should be a string",
-      rules: [
-        Kryptonian.Text.minimum({
-          minimum: 8,
-          message: "Email should be at least 8 characters"
-        }),
-        Kryptonian.Text.email({
-          message: "Email should be valid"
-        }),
-      ]
+export const routes = Kryptonian.Jorel.createRoutes({
+  getKryptonians: {
+    request: Kryptonian.empty({
+      message: "Request should be void or undefined"
     }),
-    languages: Kryptonian.list({
-      message: "Should be an array",
-      rules: [
-        Kryptonian.List.length({
-          length: 4,
-          message: "There should be exactly 4 languages"
-        })
-      ],
-      schema: Kryptonian.text({
-        message: "Should be a string",
+    response: Kryptonian.list({
+      message: "Response should be an array",
+      rules: [],
+      schema: Kryptonian.record({
+        message: "Response should be a record",
         rules: [],
+        fields: {
+          createdAt: Kryptonian.date({
+            message: "Response record should have a property createdAt that is a date",
+            rules: []
+          }),
+          name: Kryptonian.text({
+            message: "Response record should be an array of strings",
+            rules: []
+          })
+        }
       })
-    }),
-    age: Kryptonian.numeric({
-      message: "This should be a number",
-      rules: [
-        Kryptonian.Numeric.between({
-          minimum: 18,
-          maximum: 55,
-          message: "Should be between 18 and 55"
-        })
-      ]
     })
-  },
-}));
-
-const protection = protect({
-  email: "you@krypton.io",
-  age: 16,
-  languages: [
-    "JavaScript",
-    "PHP",
-    "HTML",
-    null
-  ]
+  }
 });
-
-if (protection.success) {
-  console.log(`Email is ${protection.data.email}`);
-  console.log(`You are ${protection.data.age} years old`);
-  console.log(`You like the following languages: ${protection.data.languages.join(", ")}`);
-} else {
-  console.log(protection.errors);
-}
 ```
 
-```json
-[
-  {
-    "path": ".languages[3]",
-    "message": "Should be a string"
-  },
-  {
-    "path": ".age",
-    "message": "Should be between 18 and 55"
+```typescript
+import * as Kryptonian from "kryptonian"
+import * as Http from "http";
+import { routes } from "@template/shared";
+
+const router = Kryptonian.Jorel.createRouter({
+  client: "http://localhost:5173",
+  routes,
+  spaceships: {
+    getKryptonians: async () => {
+      return [
+        {
+          name: "Kalel",
+          createdAt: new Date()
+        },
+        {
+          name: "Jorel",
+          createdAt: new Date()
+        },
+        {
+          name: "Zorel",
+          createdAt: new Date()
+        }
+      ];
+    }
   }
-]
+});
+
+const server = Http.createServer(router);
+
+server.listen(8000, "0.0.0.0", () => {
+  console.log("Spaceship launched and ready for communications");
+});
+```
+
+```typescript
+import * as React from "react";
+import * as Kryptonian from "kryptonian";
+import { routes } from "@template/shared";
+
+const client = Kryptonian.Jorel.createClient({
+  endpoint: "http://localhost:8000",
+  routes
+});
+
+export interface Inhabitant {
+  name: string,
+  createdAt: Date
+}
+
+export const App = () => {
+  const [kryptonians, setKryptonians] = React.useState<Array<Inhabitant>>([]);
+
+  React.useEffect(() => {
+    client.getKryptonians().then(kryptonians => {
+      setKryptonians(kryptonians);
+    }).catch(error => {
+      console.error(error);
+    })
+  }, []);
+
+  return (
+    <ul>
+      {kryptonians.map(kryptonian => (
+        <li key={kryptonian.name}>
+          {kryptonian.name} - {kryptonian.createdAt.toLocaleDateString()}
+        </li>
+      ))}
+    </ul>
+  );
+}
 ```
 
 ## API
@@ -847,6 +872,209 @@ if (protectionGoneWrong.success) {
   {
     "path": "",
     "message": "This should be an integer number"
+  }
+]
+```
+
+### date
+
+Date is a schema representing a date object.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.date({
+  message: "This should be a date",
+  rules: []
+}));
+
+const goodData: unknown = new Date(2023, 1, 2, 3, 4, 5);
+const alsoGoodData: unknown = "2023-11-19T13:32:34.479Z";
+const badData: unknown = NaN;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneRightAgain = protect(alsoGoodData);
+const protectionGoneWrong = protect(badData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneRightAgain.success) {
+  console.log(protectionGoneRightAgain.data);
+} else {
+  console.log(protectionGoneRightAgain.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+Thu Feb 02 2023 03:04:05 GMT+0100
+Sun Nov 19 2023 14:32:34 GMT+0100
+[
+  {
+    "path": "",
+    "message": "This should be a date"
+  }
+]
+```
+
+#### between
+
+Validate that a date is between two dates.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.date({
+  message: "This should be a date",
+  rules: [
+    Kryptonian.Date.between({
+      minimum: new Date(2021, 0, 1, 0, 0, 0),
+      maximum: new Date(2024, 0, 1, 1, 1, 1),
+      message: "This should be a date between 01/01/2021 & 01/01/2024"
+    })
+  ]
+}));
+
+const goodData: unknown = new Date(2023, 0, 1, 0, 0, 0);
+const badData: unknown = new Date(2025, 0, 1, 0, 0, 0);
+const alsoBadData: unknown = new Date(2020, 0, 1, 0, 0, 0);
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(badData);
+const protectionGoneWrongAgain = protect(alsoBadData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+
+if (protectionGoneWrongAgain.success) {
+  console.log(protectionGoneWrongAgain.data);
+} else {
+  console.log(protectionGoneWrongAgain.errors);
+}
+```
+
+```json
+Sun Jan 01 2023 00:00:00 GMT+0100 (heure normale d’Europe centrale)
+[
+  {
+    "path": "",
+    "message": "This should be a date between 01/01/2021 & 01/01/2024"
+  }
+]
+[
+  {
+    "path": "",
+    "message": "This should be a date between 01/01/2021 & 01/01/2024"
+  }
+]
+```
+
+#### before
+
+Validate that a date is before a given date.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.date({
+  message: "This should be a date",
+  rules: [
+    Kryptonian.Date.before({
+      date: new Date(2025, 0, 1, 0, 0, 0),
+      message: "This should be a date before 01/01/2025"
+    })
+  ]
+}));
+
+const goodData: unknown = new Date(2023, 0, 1, 0, 0, 0);
+const badData: unknown = new Date(2028, 0, 1, 0, 0, 0);
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(badData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+Sun Jan 01 2023 00:00:00 GMT+0100 (heure normale d’Europe centrale)
+[
+  {
+    "path": "",
+    "message": "This should be a date before 01/01/2025"
+  }
+]
+```
+
+#### after
+
+Validate that a date is after a given date.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.date({
+  message: "This should be a date",
+  rules: [
+    Kryptonian.Date.after({
+      date: new Date(2021, 0, 1, 0, 0, 0),
+      message: "This should be a date after 01/01/2021"
+    })
+  ]
+}));
+
+const goodData: unknown = new Date(2023, 0, 1, 0, 0, 0);
+const badData: unknown = new Date(2020, 0, 1, 0, 0, 0);
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(badData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+Sun Jan 01 2023 00:00:00 GMT+0100 (heure normale d’Europe centrale)
+[
+  {
+    "path": "",
+    "message": "This should be a date after 01/01/2021"
   }
 ]
 ```
