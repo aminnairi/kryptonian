@@ -34,8 +34,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup --config rollup.config.ts --configPlugin typescript",
-    "test": "npx ts-node --project tsconfig.test.json src/index.test.ts"
+    "build": "rollup --config rollup.config.ts --configPlugin typescript"
   },
   "devDependencies": {
     "@rollup/plugin-terser": "0.4.4",
