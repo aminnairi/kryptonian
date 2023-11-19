@@ -1,9 +1,9 @@
-import * as Kryptonian from "kryptonian";
+import * as Kryptonian from "../../";
 
 export const routes = Kryptonian.Jorel.createRoutes({
   getKryptonians: {
-    request: Kryptonian.none({
-      message: "Request should be null"
+    request: Kryptonian.empty({
+      message: "Request should be void or undefined"
     }),
     response: Kryptonian.list({
       message: "Response should be an array",
