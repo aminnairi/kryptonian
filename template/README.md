@@ -5,6 +5,28 @@
 - Node
 - NPM
 
+## Setup
+
+Replace all occurrences of this string
+
+```typescript
+import * as Kryptonian from "../../";
+```
+
+By
+
+```typescript
+import * as Kryptonian from "kryptonian";
+```
+
+In these files
+
+```
+client/index.ts
+server/index.ts
+shared/index.ts
+```
+
 ## Installation
 
 ```bash
