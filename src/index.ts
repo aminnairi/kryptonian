@@ -87,6 +87,11 @@ export interface NotDefinedSchema {
   message: string
 }
 
+export interface EmptySchema {
+  type: "empty",
+  message: string
+}
+
 export type Schema =
   | UnknownSchema
   | AnySchema
@@ -95,6 +100,7 @@ export type Schema =
   | BooleanSchema
   | NoneSchema
   | NotDefinedSchema
+  | EmptySchema
   | ListSchema<Schema>
   | RecordSchema<RecordSchemaFields<Schema>>
 
@@ -113,6 +119,8 @@ export type InferType<S extends Schema> =
   ? null
   : S extends NotDefinedSchema
   ? undefined
+  : S extends EmptySchema
+  ? void
   : S extends ListSchema<infer AS>
   ? Array<InferType<AS>>
   : S extends RecordSchema<infer Fields>
@@ -288,6 +296,23 @@ export const notDefined = ({ message }: NotDefinedOptions): NotDefinedSchema => 
   }
 };
 
+export interface EmptyOptions {
+  /**
+   * The message attached to the error
+   */
+  message: string
+}
+
+/**
+ * Create a schema to validate void values
+ */
+export const empty = ({ message }: EmptyOptions): EmptySchema => {
+  return {
+    type: "empty",
+    message
+  };
+};
+
 /**
  * Create a validator function to validate data
  * @param schema The schema to apply for validation
@@ -295,6 +320,25 @@ export const notDefined = ({ message }: NotDefinedOptions): NotDefinedSchema => 
  */
 export const createProtector = <S extends Schema>(schema: S, initialPath: string = ""): Validator<S> => {
   return data => {
+    if (schema.type === "empty") {
+      if (typeof data !== "undefined") {
+        return {
+          success: false,
+          errors: [
+            {
+              path: initialPath,
+              message: schema.message
+            }
+          ]
+        };
+      }
+
+      return {
+        success: true,
+        data: data as InferType<S>
+      };
+    }
+
     if (schema.type === "boolean") {
       if (typeof data !== "boolean") {
         return {
