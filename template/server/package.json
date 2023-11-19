@@ -17,6 +17,6 @@
     "typescript": "5.2.2"
   },
   "dependencies": {
-    "kryptonian": "1.0.0"
+    "kryptonian": "*"
   }
 }
