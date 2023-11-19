@@ -1282,6 +1282,46 @@ if (alsoGoodProtection.success) {
 42
 ```
 
+### empty
+
+`empty` is a schema representing the `void` value in TypeScript. Any value that is `undefined` is allowed in this schema. Also, if validating function arguments, `void` represent the absence of value, so you can also omit the value in this schema.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.empty({
+  message: "This should be empty (void or undefined)"
+}));
+
+const goodData: unknown = undefined;
+const badData: unknown = null;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(badData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+undefined
+[
+  {
+    "path": "",
+    "message": "This should be empty (void or undefined)"
+  }
+]
+```
+
 ### Jorel
 
 Jorel is the name of the client/server technology that is inherent to the Kryptonian library. With it, you can define a server and a client that sends data to each other in a pure, functional and safe way.
