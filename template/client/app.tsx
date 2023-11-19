@@ -7,8 +7,13 @@ const client = Kryptonian.Jorel.createClient({
   routes
 });
 
+export interface Inhabitant {
+  name: string,
+  createdAt: Date
+}
+
 export const App = () => {
-  const [kryptonians, setKryptonians] = React.useState<Array<string>>([]);
+  const [kryptonians, setKryptonians] = React.useState<Array<Inhabitant>>([]);
 
   React.useEffect(() => {
     client.getKryptonians().then(kryptonians => {
@@ -21,8 +26,8 @@ export const App = () => {
   return (
     <ul>
       {kryptonians.map(kryptonian => (
-        <li key={kryptonian}>
-          {kryptonian}
+        <li key={kryptonian.name}>
+          {kryptonian.name} - {kryptonian.createdAt.toLocaleDateString()}
         </li>
       ))}
     </ul>
