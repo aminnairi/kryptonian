@@ -1751,6 +1751,15 @@ const createKryptonian = (event: FormEvent) => {
 </template>
 ```
 
+#### getting started
+
+```bash
+npx degit aminnairi/kryptonian/template my-project
+cd my-project
+# read the README.md!
+```
+
+
 ### InferType
 
 `InferType` helps you get the underlying TypeScript type of a schema.
@@ -1787,13 +1796,97 @@ type AnotherSchema = Kryptonian.InferType<typeof anotherSchema>;
 // { email: string, administrator: boolean }
 ```
 
-#### getting started
+### Custom rules
 
-```bash
-npx degit aminnairi/kryptonian/template my-project
-cd my-project
-# read the README.md!
+A rule is a function that is applied in most functions exposed by this library. Every time you see a function taking a `rules` properties as its argument, it means that it is accepting an array of rules. In fact, creating custom rules would be exactly the same as the rules defined by this library. Here is for instance the source-code for the `Kyrptonian.List.length` rule.
+
+```typescript
+export interface LengthOptions {
+  length: number,
+  message: string
+}
+
+export const length = ({ length, message }: LengthOptions): ListRule => {
+  return {
+    message,
+    valid: value => value.length === length
+  };
+};
 ```
+
+And here is another example featuring the `Kryptonian.Text.minimumLength` rule.
+
+```typescript
+export interface MinimumLengthOptions {
+  minimum: number,
+  message: string
+}
+
+export const minimumLength = ({ minimum, message }: MinimumLengthOptions): TextRule => {
+  return {
+    message,
+    valid: value => value.length >= minimum
+  }
+}
+```
+
+As you probably guessed, a rule is a function. And those functions must return a rule. There as several rules that you can return and for each type that is exposed (`Kryptonian.List`, `Kryptonian.Text`, ...) there is an associated rule that you can import.
+
+Here is a non-exhaustive list of rules, and many more to come in a near future.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+Kryptonian.TextRule; // For strings
+Kryptonian.NumericRule; // For numbers
+Kryptonian.ListRule; // For arrays
+Kryptonian.DateRule; // For dates
+```
+
+Every rule is a pure function, meaning it should take an argument (you can also choose not to accept any argument such as the `Kryptonian.Text.email` rule) and must return a rule. There is no mutation nor effect that is going on in a rule, bringing guarantees and robustness to the library itself. In fact, every function exposed (except for `Jorel.createClient` and `Jorel.createServer`) is a pure function and will not imply side-effects of any kind.
+
+Here is an example of a rule that you might want to create to valide that a user's age is in legal compliance with your business domain.
+
+```typescript
+import * Kryptonian from "kryptonian";
+
+export interface ValidAgeOptions {
+  message: string
+}
+
+export const validAge = ({ message }: ValidAgeOptions): Kryptonian.NumericRule => {
+  return {
+    message,
+    valid: age => age >= 18 && age <= 60
+  }
+};
+```
+
+As you can see, here we can validate that the age of a user is between `18` and `60` (those are abritrary values, of course this would be different from an application to another).
+
+One important thing to note here is that you don't have to type yourself the value of the `age` variable in this case, the `NumericRule` is here to ensure that it is always a `number` type.
+
+What would happen if you use the wrong rule? Let's find out.
+
+```typescript
+export interface ValidAgeOptions {
+  message: string
+}
+
+export const validAge = ({ message }: ValidAgeOptions): Kryptonian.TextRule => {
+  return {
+    message,
+    valid: age => age >= 18 && age <= 60
+    // Operator '>=' cannot be applied to types 'string' and 'number'.ts(2365)
+    // Operator '<=' cannot be applied to types 'string' and 'number'.ts(2365)
+  }
+};
+```
+We added a comment to help you understand this code without having to test it yourself (but you are encouraged to do so!). As you can see, there is no way we can make a mistake by comparing a `string` with a `number` here since now that we replaced `Kryptonian.NumericRule` with `Kryptonian.TextRule`, the `age` value is typed as a `string`, not a `number`. Hence the error we got in the comment below the comparison.
+
+That's it! There is nothing more to know about custom rules and it is very trivial and easy to create its own. 
+
+More validation are yet to be brought with each and every future releases of this library, and if you don't find your use-case in those, you can probably be off creating your own custom rule in no time!
 
 ## Issues
 
