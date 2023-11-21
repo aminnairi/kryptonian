@@ -184,7 +184,7 @@ import * as Kryptonian from "kryptonian";
 
 const protect = Kryptonian.createProtector(Kryptonian.literal({
   message: "This should be true",
-  value: true
+  value: true as const
 }));
 
 const goodData: unknown = true;
@@ -214,6 +214,24 @@ true
     "message": "This should be true"
   }
 ]
+```
+
+Beware, if you use this in a server, you should use the `as const` keyword in order to create literal values instead of plain values.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+import { routes } from "./routes";
+
+export const router = Kryptonian.Jorel.createServer({
+  getKryptonians: async () => {
+    return [
+      {
+        success: true as const, // Instead of just "true"
+        name: "Kalel"
+      }
+    ];
+  }
+});
 ```
 
 ### boolean
