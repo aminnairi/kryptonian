@@ -16,8 +16,12 @@ export const App = () => {
   const [kryptonians, setKryptonians] = React.useState<Array<Inhabitant>>([]);
 
   React.useEffect(() => {
-    client.getKryptonians().then(kryptonians => {
-      setKryptonians(kryptonians);
+    client.getKryptonians().then(response => {
+      if (response.success) {
+        console.log(response.message)
+      } else {
+        response.error
+      }
     }).catch(error => {
       console.error(error);
     })
