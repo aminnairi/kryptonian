@@ -105,6 +105,12 @@ export interface DateSchema {
   message: string
 }
 
+export interface LiteralSchema<Value> {
+  type: "literal",
+  message: string,
+  value: Value
+}
+
 export type Schema =
   | UnknownSchema
   | AnySchema
@@ -117,6 +123,7 @@ export type Schema =
   | DateSchema
   | ListSchema<Schema>
   | RecordSchema<RecordSchemaFields<Schema>>
+  | LiteralSchema<any>
 
 export type InferType<S extends Schema> =
   S extends AnySchema
@@ -137,6 +144,8 @@ export type InferType<S extends Schema> =
   ? undefined
   : S extends EmptySchema
   ? void
+  : S extends LiteralSchema<infer InferedType>
+  ? InferedType
   : S extends ListSchema<infer AS>
   ? Array<InferType<AS>>
   : S extends RecordSchema<infer Fields>
@@ -351,6 +360,28 @@ export const empty = ({ message }: EmptyOptions): EmptySchema => {
   };
 };
 
+export interface LiteralOptions<Value> {
+  /**
+   * Message attached to the error
+   */
+  message: string,
+  /**
+   * The literal value to validate
+   */
+  value: Value
+}
+
+/**
+ * Create a schema to validate any literal value
+ */
+export const literal = <Value>({ message, value }: LiteralOptions<Value>): LiteralSchema<Value> => {
+  return {
+    type: "literal",
+    message,
+    value
+  };
+}
+
 /**
  * Create a validator function to validate data
  * @param schema The schema to apply for validation
@@ -358,6 +389,25 @@ export const empty = ({ message }: EmptyOptions): EmptySchema => {
  */
 export const createProtector = <S extends Schema>(schema: S, initialPath: string = ""): Validator<S> => {
   return data => {
+    if (schema.type === "literal") {
+      if (schema.value !== data) {
+        return {
+          success: false,
+          errors: [
+            {
+              path: initialPath,
+              message: schema.message
+            }
+          ]
+        };
+      }
+
+      return {
+        success: true,
+        data: data as InferType<S>
+      };
+    }
+
     if (schema.type === "empty") {
       if (typeof data !== "undefined") {
         return {
