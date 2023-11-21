@@ -12,6 +12,10 @@ export const routes = Kryptonian.Jorel.createRoutes({
         message: "Response should be a record",
         rules: [],
         fields: {
+          success: Kryptonian.literal({
+            value: true as const,
+            message: "Response record should have a property success of value true"
+          }),
           createdAt: Kryptonian.date({
             message: "Response record should have a property createdAt that is a date",
             rules: []
