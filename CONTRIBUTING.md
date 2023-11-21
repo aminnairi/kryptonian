@@ -13,14 +13,50 @@ git clone https://github.com/aminnairi/kryptonian
 cd kryptonian
 ```
 
-## Install
+### Library
+
+#### Install
 
 ```bash
 npm install
 ```
 
-## Build
+#### Build
 
 ```bash
 npm run build
+```
+
+### Template
+
+```bash
+cd template
+```
+
+#### Install
+
+```bash
+npm --workspaces install
+```
+
+#### Build
+
+```bash
+npm --workspaces run build
+```
+
+Or
+
+```bash
+npm --workspace shared run build
+npm --workspace shared run server
+npm --workspace shared run client
+```
+
+#### Development
+
+```bash
+npm --workspace shared run dev
+npm --workspace shared run dev
+npm --workspace shared run dev
 ```
