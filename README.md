@@ -175,6 +175,47 @@ if (protection.success) {
 "Hello, world!"
 ```
 
+### literal
+
+`literal` is a function that will create a `LiteralSchema<Value>` that can validate values that are exactly equal to the value that you'll pass. Beware, literal values works well for scalar data types that can be compared with each others like `string` or `boolean`, but not so well for `array` and `object` since they are compared by references.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.literal({
+  message: "This should be true",
+  value: true
+}));
+
+const goodData: unknown = true;
+const badData: unknown = false;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(badData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+true
+[
+  {
+    "path": "",
+    "message": "This should be true"
+  }
+]
+```
+
 ### boolean
 
 Boolean is a schema representing a value that can either be true or false.
