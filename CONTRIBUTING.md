@@ -83,11 +83,11 @@ npm run build
 
 #### Changelog
 
-Add the necessary changelogs for the next release.
+Add the necessary changelogs in the `CHANGELOG.md` file for the next release.
 
 #### Package Version
 
-Update the package version to reflect the new release.
+Update the package version in the `package.json` file to reflect the new release.
 
 #### Publish
 
