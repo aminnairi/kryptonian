@@ -60,3 +60,37 @@ npm --workspace shared run dev
 npm --workspace shared run dev
 npm --workspace shared run dev
 ```
+
+## Publish
+
+### Setup
+
+Go on https://www.npmjs.com and login as a maintainer of the package. Create a publish key and add it to the `.npmrc` file.
+
+```bash
+touch .npmrc
+```
+
+```
+//registry.npmjs.org/:_authToken=INSERTAUTHTOKENHERE
+```
+
+#### Build
+
+```bash
+npm run build
+```
+
+#### Changelog
+
+Add the necessary changelogs for the next release.
+
+#### Package Version
+
+Update the package version to reflect the new release.
+
+#### Publish
+
+```bash
+npm publish
+```
