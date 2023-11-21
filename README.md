@@ -1751,6 +1751,42 @@ const createKryptonian = (event: FormEvent) => {
 </template>
 ```
 
+### InferType
+
+`InferType` helps you get the underlying TypeScript type of a schema.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const schema = Kryptonian.list({
+  message: "This should be an array",
+  rules: [],
+  schema: Kryptonian.text({
+    message: "This should be an array of strings",
+    rules: []
+  })
+});
+
+type Schema = Kryptonian.InferType<typeof schema>;
+// string[]
+
+const anotherSchema = Kryptonian.record({
+  message: "This should be an object",
+  rules: [],
+  fields: {
+    email: Kryptonian.text({
+      message: "Field email should be a string"
+    }),
+    administrator: Kryptonian.boolean({
+      message: "Field administrator should be a boolean"
+    })
+  }
+});
+
+type AnotherSchema = Kryptonian.InferType<typeof anotherSchema>;
+// { email: string, administrator: boolean }
+```
+
 #### getting started
 
 ```bash
