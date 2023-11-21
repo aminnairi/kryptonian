@@ -2,9 +2,9 @@
 
 ## Requirements
 
-- Git
-- Node
-- NPM
+- [Git](https://git-scm.com/)
+- [Node](https://nodejs.org/)
+- [NPM](https://www.npmjs.com/)
 
 ## Clone
 
