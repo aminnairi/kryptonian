@@ -111,7 +111,12 @@ export interface LiteralSchema<Value> {
   value: Value
 }
 
-export type Schema =
+interface OneOfSchema<S extends Schema> {
+    type: "oneOf",
+    schema: Array<S>
+}
+
+export type BasicSchema =
   | UnknownSchema
   | AnySchema
   | TextSchema
@@ -125,7 +130,14 @@ export type Schema =
   | RecordSchema<RecordSchemaFields<Schema>>
   | LiteralSchema<any>
 
-export type InferType<S extends Schema> =
+export type ConstraintSchema =
+  | OneOfSchema<BasicSchema>
+
+export type Schema =
+  | BasicSchema
+  | ConstraintSchema
+
+export type InferBasicType<S extends BasicSchema> =
   S extends AnySchema
   ? any
   : S extends UnknownSchema
@@ -146,13 +158,25 @@ export type InferType<S extends Schema> =
   ? void
   : S extends LiteralSchema<infer InferedType>
   ? InferedType
-  : S extends ListSchema<infer AS>
-  ? Array<InferType<AS>>
+  : S extends ListSchema<infer InferedSchema extends Schema>
+  ? Array<InferType<InferedSchema>>
   : S extends RecordSchema<infer Fields>
   ? { [FieldKey in keyof Fields]: InferType<Fields[FieldKey]> }
+  : never;
+
+export type InferConstraintType<S extends ConstraintSchema> =
+  S extends OneOfSchema<infer InferedSchema extends BasicSchema>
+  ? InferBasicType<InferedSchema>
   : never
 
-type Validator<S extends Schema> = (data: unknown) => Validation<S>
+export type InferType<S extends Schema> =
+  S extends BasicSchema
+  ? InferBasicType<S>
+  : S extends ConstraintSchema
+  ? InferConstraintType<S>
+  : never
+
+export type Validator<S extends Schema> = (data: unknown) => Validation<S>
 
 export interface TextOptions {
   /**
@@ -383,12 +407,69 @@ export const literal = <Value>({ message, value }: LiteralOptions<Value>): Liter
 }
 
 /**
+ * Create a schema to validate a union of values
+ */
+export const oneOf = <S extends Schema>(schema: Array<S>): OneOfSchema<S> => {
+  return {
+    type: "oneOf",
+    schema: schema
+  }
+}
+
+/**
  * Create a validator function to validate data
  * @param schema The schema to apply for validation
  * @param initialPath The initial path (used internally for recursivity)
  */
 export const createProtector = <S extends Schema>(schema: S, initialPath: string = ""): Validator<S> => {
   return data => {
+    if (schema.type === "oneOf") {
+      const validations = schema.schema.map(validation => {
+        const protect = createProtector(validation);
+        const protection = protect(data);
+
+        return protection;
+      });
+
+      const isValidationFailure = (validation: Validation<S>): validation is ValidationErrors => {
+        return !validation.success;
+      }
+
+      const isValidationSuccess = (validation: Validation<S>): validation is ValidationSuccess<S> => {
+        return validation.success;
+      }
+
+      const validationFailures = validations.filter(isValidationFailure);
+
+      if (validationFailures.length !== 0) {
+        return {
+          success: false,
+          errors: validationFailures.flatMap(validation => {
+            return validation.errors;
+          })
+        };
+      }
+
+      const validationSuccess = validations.find(isValidationSuccess);
+
+      if (validationSuccess) {
+        return {
+          success: true,
+          data: validationSuccess.data
+        };
+      }
+
+      return {
+        success: false,
+        errors: [
+          {
+            path: "",
+            message: ""
+          }
+        ]
+      };
+    }
+
     if (schema.type === "literal") {
       if (schema.value !== data) {
         return {
