@@ -10,14 +10,17 @@ const router = Kryptonian.Jorel.createRouter({
       return [
         {
           name: "Kalel",
+          success: true as const,
           createdAt: new Date()
         },
         {
           name: "Jorel",
+          success: true as const,
           createdAt: new Date()
         },
         {
           name: "Zorel",
+          success: true as const,
           createdAt: new Date()
         }
       ];
