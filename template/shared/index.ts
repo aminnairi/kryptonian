@@ -14,7 +14,7 @@ export const routes = Kryptonian.Jorel.createRoutes({
             message: "success should be true",
             value: true as const
           }),
-          kryptonians: Kryptonian.list({
+          kryptonians: Kryptonian.array({
             message: "kryptonians should be an array",
             rules: [],
             schema: Kryptonian.record({
