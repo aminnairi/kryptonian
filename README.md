@@ -1684,8 +1684,8 @@ if (anotherProtection.success) {
 ```
 
 ```json
-Successfully added the user in database
-Username is already taken
+"Successfully added the user in database"
+"Username is already taken"
 ```
 
 ### Jorel
