@@ -42,6 +42,12 @@ Draw inspiration from Zod's design principles, incorporating best practices for 
 
 Participate in the open-source community by contributing to the project through bug reports, feature requests, or pull requests. The library encourages collaboration and welcomes input from developers worldwide, fostering a community-driven approach to continuous improvement.
 
+## Installation
+
+```bash
+npm install kryptonian
+```
+
 ## Usage
 
 ```typescript
