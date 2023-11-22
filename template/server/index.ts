@@ -9,7 +9,20 @@ const router = Kryptonian.Jorel.createRouter({
     getKryptonians: async () => {
       return {
         success: true as const,
-        message: ""
+        kryptonians: [
+          {
+            name: "Kalel",
+            createdAt: new Date()
+          },
+          {
+            name: "Jorel",
+            createdAt: new Date()
+          },
+          {
+            name: "Zorel",
+            createdAt: new Date()
+          }
+        ]
       }
     }
   }

@@ -3,7 +3,7 @@ import * as Kryptonian from "kryptonian";
 import { routes } from "@template/shared";
 
 const client = Kryptonian.Jorel.createClient({
-  endpoint: "http://localhost:8000",
+  server: "http://localhost:8000",
   routes
 });
 
@@ -14,18 +14,25 @@ export interface Inhabitant {
 
 export const App = () => {
   const [kryptonians, setKryptonians] = React.useState<Array<Inhabitant>>([]);
+  const [error, setError] = React.useState("");
 
   React.useEffect(() => {
     client.getKryptonians().then(response => {
       if (response.success) {
-        console.log(response.message)
+        setKryptonians(response.kryptonians);
       } else {
-        response.error
+        setError(response.error);
       }
     }).catch(error => {
       console.error(error);
     })
   }, []);
+
+  if (error) {
+    return (
+      <p>There has been an error: ${error}</p>
+    );
+  }
 
   return (
     <ul>
