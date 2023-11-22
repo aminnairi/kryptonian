@@ -97,15 +97,39 @@ export const createClient = <R extends Routes>({ server, routes }: CreateClientO
   return routeWithCallbacks as Pathways<R>;
 };
 
-export const createRouter = <R extends Routes>({ client, routes, spaceships }: { client: string, routes: R, spaceships: Spaceships<R> }) => {
-  const headers = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Allow-Methods": "POST,OPTIONS",
-    "Access-Control-Allow-Origin": client
-  }
+export interface CreateRouterOptions<R extends Routes> {
+  clients: Array<string>,
+  routes: R,
+  spaceships: Spaceships<R>
+}
 
+export const createRouter = <R extends Routes>({ clients, routes, spaceships }: CreateRouterOptions<R>) => {
   return async (request: IncomingMessage, response: ServerResponse) => {
+    const requestUrl = request.url ?? "";
+
+    const allowedOrigin = clients.find(client => {
+      return client === requestUrl;
+    });
+
+    const baseHeaders = {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "POST,OPTIONS",
+    };
+
+    const headers = (() => {
+      switch (typeof allowedOrigin) {
+        case "string":
+          return {
+            ...baseHeaders,
+            "Access-Control-Allow-Origin": allowedOrigin
+          } 
+
+        default:
+          return baseHeaders;
+      }
+    })();
+
     try {
       if (request.method === "OPTIONS") {
         return response.writeHead(200, headers).end();
