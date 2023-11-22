@@ -1,4 +1,4 @@
-import { DateRule } from "."
+import * as Kalel from "../kalel"
 
 export interface BetweenOptions {
   /**
@@ -18,7 +18,7 @@ export interface BetweenOptions {
 /**
  * Ensure that a date is between a minimum and maximum
  */
-export const between = ({ minimum, maximum, message }: BetweenOptions): DateRule => {
+export const between = ({ minimum, maximum, message }: BetweenOptions): Kalel.DateRule => {
   return {
     valid: date => {
       const dateTime = date.getTime();
@@ -45,7 +45,7 @@ export interface BeforeOptions {
 /**
  * Ensure that a date is before another
  */
-export const before = ({ date, message }: BeforeOptions): DateRule => {
+export const before = ({ date, message }: BeforeOptions): Kalel.DateRule => {
   return {
     valid: dateToValidate => {
       const dateToValidateTime = dateToValidate.getTime();
@@ -71,7 +71,7 @@ export interface AfterOptions {
 /**
  * Ensure that a date is before another
  */
-export const after = ({ date, message }: AfterOptions): DateRule => {
+export const after = ({ date, message }: AfterOptions): Kalel.DateRule => {
   return {
     valid: dateToValidate => {
       const dateToValidateTime = dateToValidate.getTime();
