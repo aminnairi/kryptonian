@@ -2,11 +2,25 @@
 
 ## Versions
 
+- [`2.0.0`](#200)
 - [`1.1.0`](#110)
 - [`1.0.0`](#100)
 - [`0.3.0`](#030)
 - [`0.2.0`](#020)
 - [`0.1.0`](#010)
+
+## 2.0.0
+
+- Displaying the minzipped size of this package in the documentation ([#72](https://github.com/aminnairi/kryptonian/pull/72))
+- Displaying the license in the documentation ([#73](https://github.com/aminnairi/kryptonian/pull/73))
+- Added installation instructions ([#74](https://github.com/aminnairi/kryptonian/pull/74))
+- Added a summary and backlinks to the summary for each sections ([#75](https://github.com/aminnairi/kryptonian/pull/75))
+- Renamed endpoint to server in the createClient function's options ([#76](https://github.com/aminnairi/kryptonian/pull/76))
+- Now allowing Fetch API's options in the client's actions ([#77](https://github.com/aminnairi/kryptonian/pull/77))
+- Added multiple client support in createServer ([#78](https://github.com/aminnairi/kryptonian/pull/78))
+- Renamed list to array ([#79](https://github.com/aminnairi/kryptonian/pull/79))
+- Added a new namespace named Kalel for all core functions and types ([#81](https://github.com/aminnairi/kryptonian/pull/81))
+- Renamed record to object ([#82](https://github.com/aminnairi/kryptonian/pull/82))
 
 ## 1.1.0
 
