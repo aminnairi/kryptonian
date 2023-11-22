@@ -1609,6 +1609,85 @@ undefined
 ]
 ```
 
+#### oneOf
+
+`oneOf` is a function that returns a `OneOfSchema<Schema>` that helps you validate a union of multiple things, very useful to return multiple types at once and have the client validate them.
+
+For instance, you may want to return multiple business errors without the fear of changing anything and desynchronizing your client application and your server application. Returning business errors this way is a very powerful way of discriminating errors and preventing logic errors.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.createProtector(Kryptonian.oneOf([
+  Kryptonian.record({
+    message: "This should be an object",
+    rules: [],
+    fields: {
+      success: Kryptonian.literal({
+        value: true as const,
+        message: "This should be true"
+      }),
+      message: Kryptonian.text({
+        message: "This should be a string",
+        rules: []
+      })
+    }
+  }),
+  Kryptonian.record({
+    message: "This should be an object",
+    rules: [],
+    fields: {
+      success: Kryptonian.literal({
+        value: false as const,
+        message: "This should be false"
+      }),
+      error: Kryptonian.text({
+        message: "This should be a string",
+        rules: []
+      })
+    }
+  })
+]));
+
+const data: unknown = {
+  success: true,
+  message: "Successfully added the user in database"
+};
+
+const anotherData: unknown = {
+  success: false,
+  error: "Username is already taken"
+}
+
+const protection = protect(data);
+const anotherProtection = protect(anotherData);
+
+if (protection.success) {
+  if (protection.data.success) {
+    console.log(protection.data.message);
+  } else {
+    protection.data.error;
+  }
+} else {
+  console.log(protection.errors);
+}
+
+if (anotherProtection.success) {
+  if (anotherProtection.data.success) {
+    console.log(anotherProtection.data.message);
+  } else {
+    console.log(anotherProtection.data.error)
+  }
+} else {
+  console.log(anotherProtection.errors);
+}
+```
+
+```json
+Successfully added the user in database
+Username is already taken
+```
+
 ### Jorel
 
 Jorel is the name of the client/server technology that is inherent to the Kryptonian library. With it, you can define a server and a client that sends data to each other in a pure, functional and safe way.
