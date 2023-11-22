@@ -1,4 +1,4 @@
-import * as Kryptonian from "../../"
+import * as Kryptonian from "kryptonian";
 import * as Http from "http";
 import { routes } from "@template/shared";
 
