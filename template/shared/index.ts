@@ -1,4 +1,4 @@
-import * as Kryptonian from "../../";
+import * as Kryptonian from "kryptonian";
 
 export const routes = Kryptonian.Jorel.createRoutes({
   getKryptonians: {
