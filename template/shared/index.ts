@@ -8,7 +8,6 @@ export const routes = Kryptonian.Jorel.createRoutes({
     response: Kryptonian.Kalel.oneOf([
       Kryptonian.Kalel.object({
         message: "response should be an object",
-        rules: [],
         fields: {
           success: Kryptonian.Kalel.literal({
             message: "success should be true",
@@ -19,7 +18,6 @@ export const routes = Kryptonian.Jorel.createRoutes({
             rules: [],
             schema: Kryptonian.Kalel.object({
               message: "kryptonian should be an object",
-              rules: [],
               fields: {
                 name: Kryptonian.Kalel.text({
                   message: "Name should be a string",
@@ -36,7 +34,6 @@ export const routes = Kryptonian.Jorel.createRoutes({
       }),
       Kryptonian.Kalel.object({
         message: "response should be a object",
-        rules: [],
         fields: {
           success: Kryptonian.Kalel.literal({
             message: "success should be false",
