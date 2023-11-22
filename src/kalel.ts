@@ -31,15 +31,11 @@ export type NumericRule = Rule<number>
 
 export type ArrayRule = Rule<Array<unknown>>
 
-export type ObjectRule = Rule<object>
-
 export type TextRules = Array<TextRule>
 
 export type NumericRules = Array<NumericRule>
 
 export type ArrayRules = Array<ArrayRule>
-
-export type ObjectRules = Array<ObjectRule>
 
 export type DateRules = Array<DateRule>
 
@@ -67,8 +63,7 @@ type ObjectSchemaFields<S extends Schema> = Record<string, S>
 export interface ObjectSchema<Fields extends ObjectSchemaFields<Schema>> {
   type: "object",
   message: string,
-  fields: Fields,
-  rules: ObjectRules
+  fields: Fields
 }
 
 export interface AnySchema {
@@ -258,21 +253,16 @@ export interface ObjectOptions<S extends Schema, F extends ObjectSchemaFields<S>
    * The message to attach to the error
    */
   message: string,
-  /**
-   * A list of rules to apply the object being validated
-   */
-  rules: ObjectRules
 }
 
 /**
  * Create a schema to validate object
  */
-export const object = <S extends Schema, F extends ObjectSchemaFields<S>>({ fields, message, rules }: ObjectOptions<S, F>): ObjectSchema<F> => {
+export const object = <S extends Schema, F extends ObjectSchemaFields<S>>({ fields, message }: ObjectOptions<S, F>): ObjectSchema<F> => {
   return {
     type: "object",
     fields,
     message,
-    rules
   }
 }
 
@@ -796,29 +786,6 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
             }
           ]
         }
-      }
-
-      const initialErrors: Array<ValidationError> = [];
-
-      const errors = schema.rules.reduce((previousErrors, rule) => {
-        if (!rule.valid(data)) {
-          return [
-            ...previousErrors,
-            {
-              path: initialPath,
-              message: rule.message
-            }
-          ]
-        }
-
-        return previousErrors
-      }, initialErrors);
-
-      if (errors.length !== 0) {
-        return {
-          success: false,
-          errors
-        };
       }
 
       const validations = Object.entries(schema.fields).map(([fieldName, schema]) => {
