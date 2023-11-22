@@ -1,4 +1,4 @@
-import { ArrayRule } from ".";
+import * as Kalel from "../kalel";
 
 export interface LengthOptions {
   /**
@@ -15,7 +15,7 @@ export interface LengthOptions {
 /**
  * Ensure the length of a list is exactly what you want
  */
-export const length = ({ length, message }: LengthOptions): ArrayRule => {
+export const length = ({ length, message }: LengthOptions): Kalel.ArrayRule => {
   return {
     message,
     valid: value => value.length === length
@@ -41,7 +41,7 @@ export interface LengthBetweenOptions {
 /**
  * Ensure that a list has a length between two given values
  */
-export const lengthBetween = ({ minimum, maximum, message }: LengthBetweenOptions): ArrayRule => {
+export const lengthBetween = ({ minimum, maximum, message }: LengthBetweenOptions): Kalel.ArrayRule => {
   return {
     message,
     valid: value => value.length >= minimum && value.length <= maximum
@@ -63,7 +63,7 @@ export interface MinimumLengthOptions {
 /**
  * Ensure that the length of a list is above a minimum
  */
-export const minimumLength = ({ minimum, message }: MinimumLengthOptions): ArrayRule => {
+export const minimumLength = ({ minimum, message }: MinimumLengthOptions): Kalel.ArrayRule => {
   return {
     message,
     valid: value => value.length >= minimum
@@ -85,7 +85,7 @@ export interface MaximumLengthOptions {
 /**
  * Ensure that the length of a list is below a maximum
  */
-export const maximumLength = ({ maximum, message }: MaximumLengthOptions): ArrayRule => {
+export const maximumLength = ({ maximum, message }: MaximumLengthOptions): Kalel.ArrayRule => {
   return {
     message,
     valid: value => value.length <= maximum

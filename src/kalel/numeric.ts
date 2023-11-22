@@ -1,4 +1,4 @@
-import { NumericRule } from ".";
+import * as Kalel from "../kalel";
 
 export interface BetweenOptions {
   /**
@@ -19,7 +19,7 @@ export interface BetweenOptions {
 /**
  * Ensure that a number is between a range of values
  */
-export const between = ({ minimum, maximum, message }: BetweenOptions): NumericRule => {
+export const between = ({ minimum, maximum, message }: BetweenOptions): Kalel.NumericRule => {
   return {
     message,
     valid: value => value >= minimum && value <= maximum
@@ -42,7 +42,7 @@ export interface DivisibleByOptions {
 /**
  * Ensure that a number is can be divided without remaining value by another
  */
-export const divisibleBy = ({ divisor, message }: DivisibleByOptions): NumericRule => {
+export const divisibleBy = ({ divisor, message }: DivisibleByOptions): Kalel.NumericRule => {
   return {
     message,
     valid: (value: number) => value % divisor === 0
@@ -65,7 +65,7 @@ export interface NotDivisibleByOptions {
 /**
  * Ensure that a number is cannot be divided without remaining value by another
  */
-export const notDivisibleBy = ({ divisor, message }: NotDivisibleByOptions): NumericRule => {
+export const notDivisibleBy = ({ divisor, message }: NotDivisibleByOptions): Kalel.NumericRule => {
   return {
     message,
     valid: (value: number) => value % divisor !== 0
@@ -82,7 +82,7 @@ export interface EvenOptions {
 /**
  * Ensure that a number is even
  */
-export const even = ({ message }: EvenOptions): NumericRule => {
+export const even = ({ message }: EvenOptions): Kalel.NumericRule => {
   return {
     message,
     valid: (value: number) => value % 2 === 0
@@ -99,7 +99,7 @@ export interface OddOptions {
 /**
  * Ensure that a number is odd
  */
-export const odd = ({ message }: OddOptions): NumericRule => {
+export const odd = ({ message }: OddOptions): Kalel.NumericRule => {
   return {
     message,
     valid: (value: number) => value % 2 !== 0
@@ -116,7 +116,7 @@ export interface PositiveOptions {
 /**
  * Ensure that a number is positive
  */
-export const positive = ({ message }: PositiveOptions): NumericRule => {
+export const positive = ({ message }: PositiveOptions): Kalel.NumericRule => {
   return {
     message,
     valid: (value: number) => value > 0
@@ -133,7 +133,7 @@ export interface NegativeOptions {
 /**
  * Ensure that a number is negative
  */
-export const negative = ({ message }: NegativeOptions): NumericRule => {
+export const negative = ({ message }: NegativeOptions): Kalel.NumericRule => {
   return {
     message,
     valid: (value: number) => value < 0
@@ -150,7 +150,7 @@ export interface IntegerOptions {
 /**
  * Ensure that a number is integer
  */
-export const integer = ({ message }: IntegerOptions): NumericRule => {
+export const integer = ({ message }: IntegerOptions): Kalel.NumericRule => {
   return {
     message,
     valid: (value: number) => Number.isInteger(value)
