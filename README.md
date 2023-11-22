@@ -144,7 +144,6 @@ export const routes = Kryptonian.Jorel.createRoutes({
       rules: [],
       schema: Kryptonian.Kalel.object({
         message: "Response should be an object",
-        rules: [],
         fields: {
           createdAt: Kryptonian.Kalel.date({
             message: "Response object should have a property createdAt that is a date",
@@ -1283,7 +1282,6 @@ import * as Kryptonian from "kryptonian";
 
 const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.object({
   message: "This is not an object",
-  rules: [],
   fields: {
     email: Kryptonian.Kalel.text({
       message: "This is not a string",
@@ -1775,7 +1773,6 @@ import * as Kryptonian from "kryptonian";
 const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.oneOf([
   Kryptonian.Kalel.object({
     message: "This should be an object",
-    rules: [],
     fields: {
       success: Kryptonian.Kalel.literal({
         value: true as const,
@@ -1789,7 +1786,6 @@ const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.oneOf([
   }),
   Kryptonian.Kalel.object({
     message: "This should be an object",
-    rules: [],
     fields: {
       success: Kryptonian.Kalel.literal({
         value: false as const,
@@ -1861,7 +1857,6 @@ const routes = Kryptonian.Kalel.Jorel.createRoutes({
   createKryptonian: {
     request: Kryptonian.Kalel.object({
       message: "This should be a object",
-      rules: [],
       fields: {
         name: Kryptonian.Kalel.text({
           message: "Name is not a string",
@@ -2096,7 +2091,6 @@ type Schema = Kryptonian.InferType<typeof schema>;
 
 const anotherSchema = Kryptonian.Kalel.object({
   message: "This should be an object",
-  rules: [],
   fields: {
     email: Kryptonian.Kalel.text({
       message: "Field email should be a string"
