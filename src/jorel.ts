@@ -105,11 +105,15 @@ export interface CreateRouterOptions<R extends Routes> {
 
 export const createRouter = <R extends Routes>({ clients, routes, spaceships }: CreateRouterOptions<R>) => {
   return async (request: IncomingMessage, response: ServerResponse) => {
-    const requestUrl = request.url ?? "";
+    const url = new URL(`http://127.0.0.1${request.url ?? "/"}`);
+    const origin = request.headers.origin ?? "";
+    const pathname = url.pathname;
 
     const allowedOrigin = clients.find(client => {
-      return client === requestUrl;
+      return client === origin;
     });
+
+    console.log({ origin, clients, allowedOrigin });
 
     const baseHeaders = {
       "Content-Type": "application/json",
@@ -148,13 +152,9 @@ export const createRouter = <R extends Routes>({ clients, routes, spaceships }: 
       }
 
       const foundRoute = Object.entries(routes).find(([routeName]) => {
-        if (!request.url) {
-          return false;
-        }
+        const normalizedPathname = pathname.replace(/^\//, "").replace(/\/$/, "");
 
-        const requestUrl = request.url.replace(/^\//, "").replace(/\/$/, "");
-
-        return routeName === requestUrl;
+        return routeName === normalizedPathname;
       });
 
       if (!foundRoute) {
