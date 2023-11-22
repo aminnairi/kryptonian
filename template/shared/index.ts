@@ -7,29 +7,43 @@ export const routes = Kryptonian.Jorel.createRoutes({
     }),
     response: Kryptonian.oneOf([
       Kryptonian.record({
-        message: "",
+        message: "response should be a record",
         rules: [],
         fields: {
           success: Kryptonian.literal({
-            message: "",
+            message: "success should be true",
             value: true as const
           }),
-          message: Kryptonian.text({
-            message: "",
-            rules: []
+          kryptonians: Kryptonian.list({
+            message: "kryptonians should be an array",
+            rules: [],
+            schema: Kryptonian.record({
+              message: "kryptonian should be an object",
+              rules: [],
+              fields: {
+                name: Kryptonian.text({
+                  message: "Name should be a string",
+                  rules: []
+                }),
+                createdAt: Kryptonian.date({
+                  message: "createdAt should be a date",
+                  rules: []
+                })
+              }
+            })
           })
         }
       }),
       Kryptonian.record({
-        message: "",
+        message: "response should be a record",
         rules: [],
         fields: {
           success: Kryptonian.literal({
-            message: "",
+            message: "success should be false",
             value: false as const
           }),
           error: Kryptonian.text({
-            message: "",
+            message: "text should be a string",
             rules: []
           })
         }
