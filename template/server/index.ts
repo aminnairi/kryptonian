@@ -3,7 +3,7 @@ import * as Http from "http";
 import { routes } from "@template/shared";
 
 const router = Kryptonian.Jorel.createRouter({
-  client: "http://localhost:5173",
+  clients: ["http://localhost:5173"],
   routes,
   spaceships: {
     getKryptonians: async () => {
