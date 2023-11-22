@@ -29,7 +29,7 @@ export type TextRule = Rule<string>
 
 export type NumericRule = Rule<number>
 
-export type ListRule = Rule<Array<unknown>>
+export type ArrayRule = Rule<Array<unknown>>
 
 export type RecordRule = Rule<object>
 
@@ -37,7 +37,7 @@ export type TextRules = Array<TextRule>
 
 export type NumericRules = Array<NumericRule>
 
-export type ListRules = Array<ListRule>
+export type ArrayRules = Array<ArrayRule>
 
 export type RecordRules = Array<RecordRule>
 
@@ -55,11 +55,11 @@ export interface NumericSchema {
   rules: NumericRules
 }
 
-export interface ListSchema<S extends Schema> {
-  type: "list",
+export interface ArraySchema<S extends Schema> {
+  type: "array",
   message: string,
   schema: S,
-  rules: ListRules
+  rules: ArrayRules
 }
 
 type RecordSchemaFields<S extends Schema> = Record<string, S>
@@ -126,7 +126,7 @@ export type BasicSchema =
   | NotDefinedSchema
   | EmptySchema
   | DateSchema
-  | ListSchema<Schema>
+  | ArraySchema<Schema>
   | RecordSchema<RecordSchemaFields<Schema>>
   | LiteralSchema<any>
 
@@ -158,7 +158,7 @@ export type InferBasicType<S extends BasicSchema> =
   ? void
   : S extends LiteralSchema<infer InferedType>
   ? InferedType
-  : S extends ListSchema<infer InferedSchema extends Schema>
+  : S extends ArraySchema<infer InferedSchema extends Schema>
   ? Array<InferType<InferedSchema>>
   : S extends RecordSchema<infer Fields>
   ? { [FieldKey in keyof Fields]: InferType<Fields[FieldKey]> }
@@ -222,9 +222,9 @@ export const numeric = ({ message, rules }: NumberOptions): NumericSchema => {
   };
 };
 
-export interface ListOptions<S extends Schema> {
+export interface ArrayOptions<S extends Schema> {
   /**
-   * The schema to use for each item in the list
+   * The schema to use for each item in the array
    */
   schema: S,
   /**
@@ -234,15 +234,15 @@ export interface ListOptions<S extends Schema> {
   /**
    * A list of rules to apply to the array being validated
    */
-  rules: ListRules
+  rules: ArrayRules
 }
 
 /**
  * Create a schema to validate arrays
  */
-export const list = <S extends Schema>({ schema, message, rules }: ListOptions<S>): ListSchema<S> => {
+export const array = <S extends Schema>({ schema, message, rules }: ArrayOptions<S>): ArraySchema<S> => {
   return {
-    type: "list",
+    type: "array",
     schema,
     message,
     rules
@@ -709,7 +709,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
       }
     }
 
-    if (schema.type === "list") {
+    if (schema.type === "array") {
       if (!Array.isArray(data)) {
         return {
           success: false,
@@ -882,7 +882,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
   };
 };
 
-export * as List from "./list";
+export * as Array from "./array";
 export * as Numeric from "./numeric"
 export * as Text from "./text";
 export * as Jorel from "./jorel";
