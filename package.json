@@ -28,7 +28,15 @@
     "integrity",
     "superman",
     "reliability",
-    "quality"
+    "quality",
+    "json",
+    "rpc",
+    "jsonrpc",
+    "json-rpc",
+    "client",
+    "server",
+    "client-server",
+    "server-client"
   ],
   "files": [
     "dist"
