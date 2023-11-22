@@ -202,7 +202,7 @@ import * as Kryptonian from "kryptonian";
 import { routes } from "@template/shared";
 
 const client = Kryptonian.Jorel.createClient({
-  endpoint: "http://localhost:8000",
+  server: "http://localhost:8000",
   routes
 });
 
@@ -215,7 +215,10 @@ export const App = () => {
   const [kryptonians, setKryptonians] = React.useState<Array<Inhabitant>>([]);
 
   React.useEffect(() => {
-    client.getKryptonians().then(kryptonians => {
+    client.getKryptonians({
+      parameters: null,
+      options: {}
+    }).then(kryptonians => {
       setKryptonians(kryptonians);
     }).catch(error => {
       console.error(error);
@@ -1940,7 +1943,7 @@ import * as Kryptonian from "kryptonian";
 import { routes } from "./routes";
 
 const client = Kryptonian.Jorel.createClient({
-  endpoint: "http://localhost:8000",
+  server: "http://localhost:8000",
   routes
 });
 
@@ -1953,7 +1956,10 @@ export const Component = () => {
   }, []);
 
   const getKryptonians = React.useCallback(() => {
-    client.getKryptonians(null).then(kryptonian => {
+    client.getKryptonians({
+      parameters: null,
+      options: {}
+    }).then(kryptonian => {
       setKryptonians(kryptonian);
     }).catch(() => {
       alert("An error occurred");
@@ -1964,7 +1970,10 @@ export const Component = () => {
     event.preventDefault();
 
     client.createKryptonian({
-      name: kryptonian
+      parameters: {
+        name: kryptonian
+      },
+      options: {}
     }).then(() => {
       alert("Kryptonian saved!");
     }).catch(error => {
@@ -2004,7 +2013,7 @@ import * as Kryptonian from "kryptonian";
 import { routes } from "./routes";
 
 const client = Kryptonian.Jorel.createClient({
-  endpoint: "http://localhost:8000",
+  server: "http://localhost:8000",
   routes
 });
 
@@ -2016,7 +2025,10 @@ const updateKryptonian = (event: EventTarget) => {
 };
 
 const getKryptonians = () => {
-  client.getKryptonians(null).then(kryptonian => {
+  client.getKryptonians({
+    parameters: null,
+    options: {}
+  }).then(kryptonian => {
     setKryptonians(kryptonian);
   }).catch(() => {
     alert("An error occurred");
@@ -2027,7 +2039,10 @@ const createKryptonian = (event: FormEvent) => {
   event.preventDefault();
 
   client.createKryptonian({
-    name: kryptonian.value
+    parameters: {
+      name: kryptonian.value
+    },
+    options: {}
   }).then(() => {
     alert("Kryptonian saved!");
   }).catch(error => {
