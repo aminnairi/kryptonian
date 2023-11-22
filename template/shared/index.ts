@@ -1,31 +1,31 @@
-import * as Kryptonian from "kryptonian";
+import * as Kryptonian from "../../";
 
 export const routes = Kryptonian.Jorel.createRoutes({
   getKryptonians: {
-    request: Kryptonian.none({
+    request: Kryptonian.Kalel.none({
       message: "Request should be void or undefined"
     }),
-    response: Kryptonian.oneOf([
-      Kryptonian.record({
+    response: Kryptonian.Kalel.oneOf([
+      Kryptonian.Kalel.record({
         message: "response should be a record",
         rules: [],
         fields: {
-          success: Kryptonian.literal({
+          success: Kryptonian.Kalel.literal({
             message: "success should be true",
             value: true as const
           }),
-          kryptonians: Kryptonian.array({
+          kryptonians: Kryptonian.Kalel.array({
             message: "kryptonians should be an array",
             rules: [],
-            schema: Kryptonian.record({
+            schema: Kryptonian.Kalel.record({
               message: "kryptonian should be an object",
               rules: [],
               fields: {
-                name: Kryptonian.text({
+                name: Kryptonian.Kalel.text({
                   message: "Name should be a string",
                   rules: []
                 }),
-                createdAt: Kryptonian.date({
+                createdAt: Kryptonian.Kalel.date({
                   message: "createdAt should be a date",
                   rules: []
                 })
@@ -34,15 +34,15 @@ export const routes = Kryptonian.Jorel.createRoutes({
           })
         }
       }),
-      Kryptonian.record({
+      Kryptonian.Kalel.record({
         message: "response should be a record",
         rules: [],
         fields: {
-          success: Kryptonian.literal({
+          success: Kryptonian.Kalel.literal({
             message: "success should be false",
             value: false as const
           }),
-          error: Kryptonian.text({
+          error: Kryptonian.Kalel.text({
             message: "text should be a string",
             rules: []
           })

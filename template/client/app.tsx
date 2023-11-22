@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as Kryptonian from "kryptonian";
+import * as Kryptonian from "../../";
 import { routes } from "@template/shared";
 
 const client = Kryptonian.Jorel.createClient({
