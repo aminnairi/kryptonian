@@ -15,7 +15,8 @@ cd my-project
 ## Installation
 
 ```bash
-npm install
+npm --workspaces install
+npm --workspaces install kryptonian
 ```
 
 ## Development
