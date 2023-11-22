@@ -136,21 +136,21 @@ import * as Kryptonian from "kryptonian";
 
 export const routes = Kryptonian.Jorel.createRoutes({
   getKryptonians: {
-    request: Kryptonian.empty({
+    request: Kryptonian.Kalel.empty({
       message: "Request should be void or undefined"
     }),
-    response: Kryptonian.array({
+    response: Kryptonian.Kalel.array({
       message: "Response should be an array",
       rules: [],
-      schema: Kryptonian.record({
+      schema: Kryptonian.Kalel.record({
         message: "Response should be a record",
         rules: [],
         fields: {
-          createdAt: Kryptonian.date({
+          createdAt: Kryptonian.Kalel.date({
             message: "Response record should have a property createdAt that is a date",
             rules: []
           }),
-          name: Kryptonian.text({
+          name: Kryptonian.Kalel.text({
             message: "Response record should have a property name that is a string",
             rules: []
           })
@@ -248,7 +248,7 @@ Create a protection function helping you validate data according to the schema p
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.text({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.text({
   message: "This is not a string",
   rules: []
 }));
@@ -276,7 +276,7 @@ if (protection.success) {
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.literal({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.literal({
   message: "This should be true",
   value: true as const
 }));
@@ -337,7 +337,7 @@ Boolean is a schema representing a value that can either be true or false.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.boolean({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.boolean({
   message: "This is not a boolean"
 }));
 
@@ -379,7 +379,7 @@ None is a schema representing a value that can be null.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.none({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.none({
   message: "This is not null"
 }));
 
@@ -421,7 +421,7 @@ NotDefined is a schema representing a value that can be undefined.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.notDefined({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.notDefined({
   message: "This is not undefined"
 }));
 
@@ -463,7 +463,7 @@ Text is a schema representing a string.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.text({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.text({
   message: "This is not a string",
   rules: []
 }));
@@ -506,10 +506,10 @@ Validate that a string has exactly a given length.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.text({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.text({
   message: "This is not an array",
   rules: [
-    Kryptonian.Text.length({
+    Kryptonian.Kalel.Text.length({
       length: 13,
       message: "This should be a string of 10 characters"
     })
@@ -552,10 +552,10 @@ if (protectionGoneWrong.success) {
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.text({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.text({
   message: "This is not an array",
   rules: [
-    Kryptonian.Text.minimumLength({
+    Kryptonian.Kalel.Text.minimumLength({
       minimum: 10,
       message: "This should be a string of at least 10 characters"
     })
@@ -600,10 +600,10 @@ Validate that a string is a valid email.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.text({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.text({
   message: "This is not an array",
   rules: [
-    Kryptonian.Text.email({
+    Kryptonian.Kalel.Text.email({
       message: "This should be a valid email"
     })
   ]
@@ -647,7 +647,7 @@ Numeric is a schema representing a number.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
   message: "This is not a number",
   rules: []
 }));
@@ -690,10 +690,10 @@ Validate that a number is between two values.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
   message: "This is not a number",
   rules: [
-    Kryptonian.Numeric.between({
+    Kryptonian.Kalel.Numeric.between({
       minimum: 10,
       maximum: 20,
       message: "This should be a number between 10 & 20"
@@ -739,10 +739,10 @@ Validate that a number can be divided by another number without remaining value.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
   message: "This is not a number",
   rules: [
-    Kryptonian.Numeric.divisibleBy({
+    Kryptonian.Kalel.Numeric.divisibleBy({
       divisor: 5,
       message: "This should be a number divisible by 5"
     })
@@ -787,10 +787,10 @@ Validate that a number cannot be divided by another number without remaining val
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
   message: "This is not a number",
   rules: [
-    Kryptonian.Numeric.notDivisibleBy({
+    Kryptonian.Kalel.Numeric.notDivisibleBy({
       divisor: 2,
       message: "This should be a number not divisible by 2"
     })
@@ -835,10 +835,10 @@ Validate that a number is even.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
   message: "This is not a number",
   rules: [
-    Kryptonian.Numeric.even({
+    Kryptonian.Kalel.Numeric.even({
       message: "This should be an even number"
     })
   ]
@@ -882,10 +882,10 @@ Validate that a number is odd.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
   message: "This is not a number",
   rules: [
-    Kryptonian.Numeric.odd({
+    Kryptonian.Kalel.Numeric.odd({
       message: "This should be an odd number"
     })
   ]
@@ -929,10 +929,10 @@ Validate that a number is positive.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
   message: "This is not a number",
   rules: [
-    Kryptonian.Numeric.positive({
+    Kryptonian.Kalel.Numeric.positive({
       message: "This should be a positive number"
     })
   ]
@@ -976,10 +976,10 @@ Validate that a number is negative.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
   message: "This is not a number",
   rules: [
-    Kryptonian.Numeric.negative({
+    Kryptonian.Kalel.Numeric.negative({
       message: "This should be a negative number"
     })
   ]
@@ -1023,10 +1023,10 @@ Validate that a number is integer
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
   message: "This is not a number",
   rules: [
-    Kryptonian.Numeric.integer({
+    Kryptonian.Kalel.Numeric.integer({
       message: "This should be an integer number"
     })
   ]
@@ -1070,7 +1070,7 @@ Date is a schema representing a date object.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.date({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.date({
   message: "This should be a date",
   rules: []
 }));
@@ -1122,10 +1122,10 @@ Validate that a date is between two dates.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.date({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.date({
   message: "This should be a date",
   rules: [
-    Kryptonian.Date.between({
+    Kryptonian.Kalel.Date.between({
       minimum: new Date(2021, 0, 1, 0, 0, 0),
       maximum: new Date(2024, 0, 1, 1, 1, 1),
       message: "This should be a date between 01/01/2021 & 01/01/2024"
@@ -1185,10 +1185,10 @@ Validate that a date is before a given date.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.date({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.date({
   message: "This should be a date",
   rules: [
-    Kryptonian.Date.before({
+    Kryptonian.Kalel.Date.before({
       date: new Date(2025, 0, 1, 0, 0, 0),
       message: "This should be a date before 01/01/2025"
     })
@@ -1233,10 +1233,10 @@ Validate that a date is after a given date.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.date({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.date({
   message: "This should be a date",
   rules: [
-    Kryptonian.Date.after({
+    Kryptonian.Kalel.Date.after({
       date: new Date(2021, 0, 1, 0, 0, 0),
       message: "This should be a date after 01/01/2021"
     })
@@ -1281,11 +1281,11 @@ Record is a schema representing an object.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.record({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.record({
   message: "This is not an object",
   rules: [],
   fields: {
-    email: Kryptonian.text({
+    email: Kryptonian.Kalel.text({
       message: "This is not a string",
       rules: []
     })
@@ -1352,10 +1352,10 @@ if (protectionGoneWrongAgain.success) {
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.array({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.array({
   message: "This is not an array",
   rules: [],
-  schema: Kryptonian.text({
+  schema: Kryptonian.Kalel.text({
     message: "This is not a string",
     rules: []
   })
@@ -1415,15 +1415,15 @@ Validate the length of a array.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.array({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.array({
   message: "This is not an array",
   rules: [
-    Kryptonian.Array.length({
+    Kryptonian.Kalel.Array.length({
       length: 3,
       message: "This should be an array of 3 elements"
     })
   ],
-  schema: Kryptonian.text({
+  schema: Kryptonian.Kalel.text({
     message: "This is not a string",
     rules: []
   })
@@ -1483,16 +1483,16 @@ Validate that the length of a array is between a range.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.array({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.array({
   message: "This is not an array",
   rules: [
-    Kryptonian.Array.lengthBetween({
+    Kryptonian.Kalel.Array.lengthBetween({
       minimum: 2,
       maximum: 3,
       message: "This should be an array of 2 to 3 elements"
     })
   ],
-  schema: Kryptonian.text({
+  schema: Kryptonian.Kalel.text({
     message: "This is not a string",
     rules: []
   })
@@ -1552,15 +1552,15 @@ Validate that the length of a array is above a value.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.array({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.array({
   message: "This is not an array",
   rules: [
-    Kryptonian.Array.minimumLength({
+    Kryptonian.Kalel.Array.minimumLength({
       minimum: 2,
       message: "This should be an array of at least 2 elements"
     })
   ],
-  schema: Kryptonian.text({
+  schema: Kryptonian.Kalel.text({
     message: "This is not a string",
     rules: []
   })
@@ -1605,15 +1605,15 @@ Validate that the length of a array is above a value.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.array({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.array({
   message: "This is not an array",
   rules: [
-    Kryptonian.Array.maximumLength({
+    Kryptonian.Kalel.Array.maximumLength({
       maximum: 2,
       message: "This should be an array of at most 2 elements"
     })
   ],
-  schema: Kryptonian.text({
+  schema: Kryptonian.Kalel.text({
     message: "This is not a string",
     rules: []
   })
@@ -1658,7 +1658,7 @@ Unknown is a schema representing a TypeScript unknown value.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.unknown());
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.unknown());
 
 const goodData: unknown = "Hello, world!";
 const alsoGoodData: unknown = 42;
@@ -1693,7 +1693,7 @@ Unknown is a schema representing a TypeScript any value.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.any());
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.any());
 
 const goodData: unknown = "Hello, world!";
 const alsoGoodData: unknown = 42;
@@ -1728,7 +1728,7 @@ if (alsoGoodProtection.success) {
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.empty({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.empty({
   message: "This should be empty (void or undefined)"
 }));
 
@@ -1772,30 +1772,30 @@ For instance, you may want to return multiple business errors without the fear o
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.oneOf([
-  Kryptonian.record({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.oneOf([
+  Kryptonian.Kalel.record({
     message: "This should be an object",
     rules: [],
     fields: {
-      success: Kryptonian.literal({
+      success: Kryptonian.Kalel.literal({
         value: true as const,
         message: "This should be true"
       }),
-      message: Kryptonian.text({
+      message: Kryptonian.Kalel.text({
         message: "This should be a string",
         rules: []
       })
     }
   }),
-  Kryptonian.record({
+  Kryptonian.Kalel.record({
     message: "This should be an object",
     rules: [],
     fields: {
-      success: Kryptonian.literal({
+      success: Kryptonian.Kalel.literal({
         value: false as const,
         message: "This should be false"
       }),
-      error: Kryptonian.text({
+      error: Kryptonian.Kalel.text({
         message: "This should be a string",
         rules: []
       })
@@ -1857,31 +1857,31 @@ createRoutes is a function that will help you define the shape of your server us
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const routes = Kryptonian.Jorel.createRoutes({
+const routes = Kryptonian.Kalel.Jorel.createRoutes({
   createKryptonian: {
-    request: Kryptonian.record({
+    request: Kryptonian.Kalel.record({
       message: "This should be a record",
       rules: [],
       fields: {
-        name: Kryptonian.text({
+        name: Kryptonian.Kalel.text({
           message: "Name is not a string",
           rules: []
         })
       }
     }),
-    response: Kryptonian.text({
+    response: Kryptonian.Kalel.text({
       rules: [],
       message: "Expected a string as the response"
     })
   },
   getKryptonians: {
-    request: Kryptonian.none({
+    request: Kryptonian.Kalel.none({
       message: "Expected nothing except null"
     }),
-    response: Kryptonian.array({
+    response: Kryptonian.Kalel.array({
       message: "Response is not a array",
       rules: [],
-      schema: Kryptonian.text({
+      schema: Kryptonian.Kalel.text({
         message: "Response is not a array of text",
         rules: []
       })
@@ -1903,7 +1903,7 @@ import { routes } from "./routes";
 
 const kryptoniansDatabase: Array<string> = [];
 
-const serverRouter = Kryptonian.Jorel.createRouter({
+const serverRouter = Kryptonian.Kalel.Jorel.createRouter({
   clients: ["http://localhost:5173"],
   routes,
   spaceships: {
@@ -2082,10 +2082,10 @@ cd my-project
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const schema = Kryptonian.array({
+const schema = Kryptonian.Kalel.array({
   message: "This should be an array",
   rules: [],
-  schema: Kryptonian.text({
+  schema: Kryptonian.Kalel.text({
     message: "This should be an array of strings",
     rules: []
   })
@@ -2094,20 +2094,20 @@ const schema = Kryptonian.array({
 type Schema = Kryptonian.InferType<typeof schema>;
 // string[]
 
-const anotherSchema = Kryptonian.record({
+const anotherSchema = Kryptonian.Kalel.record({
   message: "This should be an object",
   rules: [],
   fields: {
-    email: Kryptonian.text({
+    email: Kryptonian.Kalel.text({
       message: "Field email should be a string"
     }),
-    administrator: Kryptonian.boolean({
+    administrator: Kryptonian.Kalel.boolean({
       message: "Field administrator should be a boolean"
     })
   }
 });
 
-type AnotherSchema = Kryptonian.InferType<typeof anotherSchema>;
+type AnotherSchema = Kryptonian.Kalel.InferType<typeof anotherSchema>;
 // { email: string, administrator: boolean }
 ```
 
@@ -2115,7 +2115,7 @@ type AnotherSchema = Kryptonian.InferType<typeof anotherSchema>;
 
 ### Custom rules
 
-A rule is a function that is applied in most functions exposed by this library. Every time you see a function taking a `rules` properties as its argument, it means that it is accepting an array of rules. In fact, creating custom rules would be exactly the same as the rules defined by this library. Here is for instance the source-code for the `Kyrptonian.Array.length` rule.
+A rule is a function that is applied in most functions exposed by this library. Every time you see a function taking a `rules` properties as its argument, it means that it is accepting an array of rules. In fact, creating custom rules would be exactly the same as the rules defined by this library. Here is for instance the source-code for the `Kyrptonian.Kalel.Array.length` rule.
 
 ```typescript
 export interface LengthOptions {
@@ -2131,7 +2131,7 @@ export const length = ({ length, message }: LengthOptions): ArrayRule => {
 };
 ```
 
-And here is another example featuring the `Kryptonian.Text.minimumLength` rule.
+And here is another example featuring the `Kryptonian.Kalel.Text.minimumLength` rule.
 
 ```typescript
 export interface MinimumLengthOptions {
@@ -2147,20 +2147,20 @@ export const minimumLength = ({ minimum, message }: MinimumLengthOptions): TextR
 }
 ```
 
-As you probably guessed, a rule is a function. And those functions must return a rule. There as several rules that you can return and for each type that is exposed (`Kryptonian.Array`, `Kryptonian.Text`, ...) there is an associated rule that you can import.
+As you probably guessed, a rule is a function. And those functions must return a rule. There as several rules that you can return and for each type that is exposed (`Kryptonian.Kalel.Array`, `Kryptonian.Kalel.Text`, ...) there is an associated rule that you can import.
 
 Here is a non-exhaustive list of rules, and many more to come in a near future.
 
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-Kryptonian.TextRule; // For strings
-Kryptonian.NumericRule; // For numbers
-Kryptonian.ArrayRule; // For arrays
-Kryptonian.DateRule; // For dates
+Kryptonian.Kalel.TextRule; // For strings
+Kryptonian.Kalel.NumericRule; // For numbers
+Kryptonian.Kalel.ArrayRule; // For arrays
+Kryptonian.Kalel.DateRule; // For dates
 ```
 
-Every rule is a pure function, meaning it should take an argument (you can also choose not to accept any argument such as the `Kryptonian.Text.email` rule) and must return a rule. There is no mutation nor effect that is going on in a rule, bringing guarantees and robustness to the library itself. In fact, every function exposed (except for `Jorel.createClient` and `Jorel.createServer`) is a pure function and will not imply side-effects of any kind.
+Every rule is a pure function, meaning it should take an argument (you can also choose not to accept any argument such as the `Kryptonian.Kalel.Text.email` rule) and must return a rule. There is no mutation nor effect that is going on in a rule, bringing guarantees and robustness to the library itself. In fact, every function exposed (except for `Jorel.createClient` and `Jorel.createServer`) is a pure function and will not imply side-effects of any kind.
 
 Here is an example of a rule that you might want to create to valide that a user's age is in legal compliance with your business domain.
 
@@ -2171,7 +2171,7 @@ export interface ValidAgeOptions {
   message: string
 }
 
-export const validAge = ({ message }: ValidAgeOptions): Kryptonian.NumericRule => {
+export const validAge = ({ message }: ValidAgeOptions): Kryptonian.Kalel.NumericRule => {
   return {
     message,
     valid: age => age >= 18 && age <= 60
@@ -2186,11 +2186,13 @@ One important thing to note here is that you don't have to type yourself the val
 What would happen if you use the wrong rule? Let's find out.
 
 ```typescript
+import * as Kryptonian from "kryptonian";
+
 export interface ValidAgeOptions {
   message: string
 }
 
-export const validAge = ({ message }: ValidAgeOptions): Kryptonian.TextRule => {
+export const validAge = ({ message }: ValidAgeOptions): Kryptonian.Kalel.TextRule => {
   return {
     message,
     valid: age => age >= 18 && age <= 60
@@ -2199,7 +2201,8 @@ export const validAge = ({ message }: ValidAgeOptions): Kryptonian.TextRule => {
   }
 };
 ```
-We added a comment to help you understand this code without having to test it yourself (but you are encouraged to do so!). As you can see, there is no way we can make a mistake by comparing a `string` with a `number` here since now that we replaced `Kryptonian.NumericRule` with `Kryptonian.TextRule`, the `age` value is typed as a `string`, not a `number`. Hence the error we got in the comment below the comparison.
+
+We added a comment to help you understand this code without having to test it yourself (but you are encouraged to do so!). As you can see, there is no way we can make a mistake by comparing a `string` with a `number` here since now that we replaced `Kryptonian.Kalel.NumericRule` with `Kryptonian.Kalel.TextRule`, the `age` value is typed as a `string`, not a `number`. Hence the error we got in the comment below the comparison.
 
 That's it! There is nothing more to know about custom rules and it is very trivial and easy to create its own. 
 
