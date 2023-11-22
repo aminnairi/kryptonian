@@ -41,7 +41,7 @@ Purity, hope, and the strength of Krypton in one package
     - [between](#between-1)
     - [before](#before)
     - [after](#after)
-  - [record](#record)
+  - [object](#object)
   - [array](#array)
     - [length](#length-1)
     - [lengthBetween](#lengthbetween)
@@ -142,16 +142,16 @@ export const routes = Kryptonian.Jorel.createRoutes({
     response: Kryptonian.Kalel.array({
       message: "Response should be an array",
       rules: [],
-      schema: Kryptonian.Kalel.record({
-        message: "Response should be a record",
+      schema: Kryptonian.Kalel.object({
+        message: "Response should be an object",
         rules: [],
         fields: {
           createdAt: Kryptonian.Kalel.date({
-            message: "Response record should have a property createdAt that is a date",
+            message: "Response object should have a property createdAt that is a date",
             rules: []
           }),
           name: Kryptonian.Kalel.text({
-            message: "Response record should have a property name that is a string",
+            message: "Response object should have a property name that is a string",
             rules: []
           })
         }
@@ -1274,14 +1274,14 @@ if (protectionGoneWrong.success) {
 
 [Back to summary](#summary)
 
-### record
+### object
 
-Record is a schema representing an object.
+`object` is a schema representing an object.
 
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.record({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.object({
   message: "This is not an object",
   rules: [],
   fields: {
@@ -1773,7 +1773,7 @@ For instance, you may want to return multiple business errors without the fear o
 import * as Kryptonian from "kryptonian";
 
 const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.oneOf([
-  Kryptonian.Kalel.record({
+  Kryptonian.Kalel.object({
     message: "This should be an object",
     rules: [],
     fields: {
@@ -1787,7 +1787,7 @@ const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.oneOf([
       })
     }
   }),
-  Kryptonian.Kalel.record({
+  Kryptonian.Kalel.object({
     message: "This should be an object",
     rules: [],
     fields: {
@@ -1859,8 +1859,8 @@ import * as Kryptonian from "kryptonian";
 
 const routes = Kryptonian.Kalel.Jorel.createRoutes({
   createKryptonian: {
-    request: Kryptonian.Kalel.record({
-      message: "This should be a record",
+    request: Kryptonian.Kalel.object({
+      message: "This should be a object",
       rules: [],
       fields: {
         name: Kryptonian.Kalel.text({
@@ -2094,7 +2094,7 @@ const schema = Kryptonian.Kalel.array({
 type Schema = Kryptonian.InferType<typeof schema>;
 // string[]
 
-const anotherSchema = Kryptonian.Kalel.record({
+const anotherSchema = Kryptonian.Kalel.object({
   message: "This should be an object",
   rules: [],
   fields: {
