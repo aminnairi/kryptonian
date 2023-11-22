@@ -2,10 +2,23 @@
 
 ## Versions
 
+- [`1.1.0`](#110)
 - [`1.0.0`](#100)
 - [`0.3.0`](#030)
 - [`0.2.0`](#020)
 - [`0.1.0`](#010)
+
+## 1.1.0
+
+- Added a template and updated the instruction on how to get started with the client/server architecture ([#52](https://github.com/aminnairi/kryptonian/pull/52))
+- Added void support ([#55](https://github.com/aminnairi/kryptonian/pull/55))
+- Added support for dates ([#56](https://github.com/aminnairi/kryptonian/pull/56))
+- Added InferType documentation ([#63](https://github.com/aminnairi/kryptonian/pull/63))
+- Added documentation for custom rules ([#64](https://github.com/aminnairi/kryptonian/pull/64))
+- More contribution guidelines ([#65](https://github.com/aminnairi/kryptonian/pull/65))
+- Added literal values support ([#66](https://github.com/aminnairi/kryptonian/pull/66))
+- Added one of support ([#67](https://github.com/aminnairi/kryptonian/pull/67))
+- Added more keywords in the package definition file ([#68](https://github.com/aminnairi/kryptonian/pull/68))
 
 ## 1.0.0
 
