@@ -5,26 +5,11 @@
 - Node
 - NPM
 
-## Setup
+## Create project
 
-Replace all occurrences of this string
-
-```typescript
-import * as Kryptonian from "../../";
-```
-
-By
-
-```typescript
-import * as Kryptonian from "kryptonian";
-```
-
-In these files
-
-```
-client/index.ts
-server/index.ts
-shared/index.ts
+```bash
+npx degit aminnairi/kryptonian/template my-project
+cd my-project
 ```
 
 ## Installation
