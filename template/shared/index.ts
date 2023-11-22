@@ -6,8 +6,8 @@ export const routes = Kryptonian.Jorel.createRoutes({
       message: "Request should be void or undefined"
     }),
     response: Kryptonian.Kalel.oneOf([
-      Kryptonian.Kalel.record({
-        message: "response should be a record",
+      Kryptonian.Kalel.object({
+        message: "response should be an object",
         rules: [],
         fields: {
           success: Kryptonian.Kalel.literal({
@@ -17,7 +17,7 @@ export const routes = Kryptonian.Jorel.createRoutes({
           kryptonians: Kryptonian.Kalel.array({
             message: "kryptonians should be an array",
             rules: [],
-            schema: Kryptonian.Kalel.record({
+            schema: Kryptonian.Kalel.object({
               message: "kryptonian should be an object",
               rules: [],
               fields: {
@@ -34,8 +34,8 @@ export const routes = Kryptonian.Jorel.createRoutes({
           })
         }
       }),
-      Kryptonian.Kalel.record({
-        message: "response should be a record",
+      Kryptonian.Kalel.object({
+        message: "response should be a object",
         rules: [],
         fields: {
           success: Kryptonian.Kalel.literal({
