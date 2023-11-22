@@ -31,7 +31,7 @@ export type NumericRule = Rule<number>
 
 export type ArrayRule = Rule<Array<unknown>>
 
-export type RecordRule = Rule<object>
+export type ObjectRule = Rule<object>
 
 export type TextRules = Array<TextRule>
 
@@ -39,7 +39,7 @@ export type NumericRules = Array<NumericRule>
 
 export type ArrayRules = Array<ArrayRule>
 
-export type RecordRules = Array<RecordRule>
+export type ObjectRules = Array<ObjectRule>
 
 export type DateRules = Array<DateRule>
 
@@ -62,13 +62,13 @@ export interface ArraySchema<S extends Schema> {
   rules: ArrayRules
 }
 
-type RecordSchemaFields<S extends Schema> = Record<string, S>
+type ObjectSchemaFields<S extends Schema> = Record<string, S>
 
-export interface RecordSchema<Fields extends RecordSchemaFields<Schema>> {
-  type: "record",
+export interface ObjectSchema<Fields extends ObjectSchemaFields<Schema>> {
+  type: "object",
   message: string,
   fields: Fields,
-  rules: RecordRules
+  rules: ObjectRules
 }
 
 export interface AnySchema {
@@ -127,7 +127,7 @@ export type BasicSchema =
   | EmptySchema
   | DateSchema
   | ArraySchema<Schema>
-  | RecordSchema<RecordSchemaFields<Schema>>
+  | ObjectSchema<ObjectSchemaFields<Schema>>
   | LiteralSchema<any>
 
 export type ConstraintSchema =
@@ -160,7 +160,7 @@ export type InferBasicType<S extends BasicSchema> =
   ? InferedType
   : S extends ArraySchema<infer InferedSchema extends Schema>
   ? Array<InferType<InferedSchema>>
-  : S extends RecordSchema<infer Fields>
+  : S extends ObjectSchema<infer Fields>
   ? { [FieldKey in keyof Fields]: InferType<Fields[FieldKey]> }
   : never;
 
@@ -249,7 +249,7 @@ export const array = <S extends Schema>({ schema, message, rules }: ArrayOptions
   }
 }
 
-export interface RecordOptions<S extends Schema, F extends RecordSchemaFields<S>> {
+export interface ObjectOptions<S extends Schema, F extends ObjectSchemaFields<S>> {
   /**
    * The fields along with their schema
    */
@@ -261,15 +261,15 @@ export interface RecordOptions<S extends Schema, F extends RecordSchemaFields<S>
   /**
    * A list of rules to apply the object being validated
    */
-  rules: RecordRules
+  rules: ObjectRules
 }
 
 /**
  * Create a schema to validate object
  */
-export const record = <S extends Schema, F extends RecordSchemaFields<S>>({ fields, message, rules }: RecordOptions<S, F>): RecordSchema<F> => {
+export const object = <S extends Schema, F extends ObjectSchemaFields<S>>({ fields, message, rules }: ObjectOptions<S, F>): ObjectSchema<F> => {
   return {
-    type: "record",
+    type: "object",
     fields,
     message,
     rules
@@ -785,7 +785,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
       }
     }
 
-    if (schema.type === "record") {
+    if (schema.type === "object") {
       if (typeof data !== "object" || data === null || Array.isArray(data)) {
         return {
           success: false,
@@ -822,9 +822,9 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
       }
 
       const validations = Object.entries(schema.fields).map(([fieldName, schema]) => {
-        const validateRecordField = createProtector(schema, `${initialPath}.${fieldName}`);
+        const validateObjectField = createProtector(schema, `${initialPath}.${fieldName}`);
         const fieldData = (data as Record<string, unknown>)[fieldName];
-        const fieldValidation = validateRecordField(fieldData);
+        const fieldValidation = validateObjectField(fieldData);
 
         return [
           fieldName,
