@@ -2,7 +2,7 @@ import * as Kryptonian from "kryptonian";
 
 export const routes = Kryptonian.Jorel.createRoutes({
   getKryptonians: {
-    request: Kryptonian.empty({
+    request: Kryptonian.none({
       message: "Request should be void or undefined"
     }),
     response: Kryptonian.oneOf([
