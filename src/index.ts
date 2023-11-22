@@ -431,42 +431,44 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
         return protection;
       });
 
-      const isValidationFailure = (validation: Validation<S>): validation is ValidationErrors => {
-        return !validation.success;
-      }
-
       const isValidationSuccess = (validation: Validation<S>): validation is ValidationSuccess<S> => {
         return validation.success;
       }
 
-      const validationFailures = validations.filter(isValidationFailure);
+      const validationSuccesses = validations.filter(isValidationSuccess);
 
-      if (validationFailures.length !== 0) {
-        return {
-          success: false,
-          errors: validationFailures.flatMap(validation => {
-            return validation.errors;
-          })
-        };
-      }
+      if (validationSuccesses.length !== 0) {
+        const validationSuccess = validationSuccesses[0];
 
-      const validationSuccess = validations.find(isValidationSuccess);
+        if (!validationSuccess) {
+          return {
+            success: false,
+            errors: [
+              {
+                path: "",
+                message: "Invalid type"
+              }
+            ]
+          };
+        }
 
-      if (validationSuccess) {
         return {
           success: true,
           data: validationSuccess.data
         };
       }
 
+      const isValidationFailure = (validation: Validation<S>): validation is ValidationErrors => {
+        return !validation.success;
+      }
+
+      const validationFailures = validations.filter(isValidationFailure);
+
       return {
         success: false,
-        errors: [
-          {
-            path: "",
-            message: ""
-          }
-        ]
+        errors: validationFailures.flatMap(validation => {
+          return validation.errors;
+        })
       };
     }
 
