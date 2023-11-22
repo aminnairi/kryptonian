@@ -17,7 +17,10 @@ export const App = () => {
   const [error, setError] = React.useState("");
 
   React.useEffect(() => {
-    client.getKryptonians().then(response => {
+    client.getKryptonians({
+      parameters: null,
+      options: {}
+    }).then(response => {
       if (response.success) {
         setKryptonians(response.kryptonians);
       } else {
