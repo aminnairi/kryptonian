@@ -1609,7 +1609,7 @@ undefined
 ]
 ```
 
-#### oneOf
+### oneOf
 
 `oneOf` is a function that returns a `OneOfSchema<Schema>` that helps you validate a union of multiple things, very useful to return multiple types at once and have the client validate them.
 
