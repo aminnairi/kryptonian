@@ -167,7 +167,7 @@ import * as Http from "http";
 import { routes } from "@template/shared";
 
 const router = Kryptonian.Jorel.createRouter({
-  client: "http://localhost:5173",
+  clients: ["http://localhost:5173"],
   routes,
   spaceships: {
     getKryptonians: async () => {
@@ -1904,7 +1904,7 @@ import { routes } from "./routes";
 const kryptoniansDatabase: Array<string> = [];
 
 const serverRouter = Kryptonian.Jorel.createRouter({
-  client: "http://localhost:5173",
+  clients: ["http://localhost:5173"],
   routes,
   spaceships: {
     // Parameters are properly typed from the routes!
