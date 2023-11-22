@@ -2,7 +2,7 @@
 
 Purity, hope, and the strength of Krypton in one package
 
-[![npm](https://img.shields.io/npm/v/kryptonian)](https://www.npmjs.com/package/kryptonian) [![npm type definitions](https://img.shields.io/npm/types/kryptonian)](https://github.com/aminnairi/kryptonian) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/kryptonian)](https://bundlephobia.com/package/kryptonian)
+[![npm](https://img.shields.io/npm/v/kryptonian)](https://www.npmjs.com/package/kryptonian) [![npm type definitions](https://img.shields.io/npm/types/kryptonian)](https://github.com/aminnairi/kryptonian) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/kryptonian)](https://bundlephobia.com/package/kryptonian) [![NPM](https://img.shields.io/npm/l/kryptonian)](https://github.com/aminnairi/kryptonian/blob/development/LICENSE)
 
 ## Features
 
