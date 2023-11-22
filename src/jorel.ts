@@ -22,11 +22,31 @@ export type Spaceships<R extends Routes> = {
   [Key in keyof R]: Spaceship<R[Key]>
 }
 
+export interface CreateClientOptions<R extends Routes> {
+  /**
+   * The url to the server exposing the endpoints
+   */
+  server: string,
+  /**
+   * The implementation of all available routes that have been defined in the
+   * createRoutes function call
+   */
+  routes: R 
+}
+
+/**
+ * Create a set of routes to be implemented later by the server, and consumed by
+ * the client
+ */
 export const createRoutes = <R extends Routes>(routes: R): R => {
   return routes;
 }
 
-export const createClient = <R extends Routes>({ endpoint, routes }: { endpoint: string, routes: R }): Pathways<R> => {
+/**
+ * Create a client that will send request to the server and use the routes as
+ * the source of truth for all things related to request input
+ */
+export const createClient = <R extends Routes>({ server, routes }: CreateClientOptions<R>): Pathways<R> => {
   const routeWithCallbacks = Object.fromEntries(Object.entries(routes).map(([routeName, route]) => {
     const callback = async (body: unknown) => {
       const protectBody = Kryptonian.createProtector(route.request);
@@ -37,7 +57,7 @@ export const createClient = <R extends Routes>({ endpoint, routes }: { endpoint:
       }
 
 
-      return fetch(`${endpoint}/${routeName}`, {
+      return fetch(`${server}/${routeName}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
