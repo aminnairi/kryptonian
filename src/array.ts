@@ -1,4 +1,4 @@
-import { ListRule } from ".";
+import { ArrayRule } from ".";
 
 export interface LengthOptions {
   /**
@@ -15,7 +15,7 @@ export interface LengthOptions {
 /**
  * Ensure the length of a list is exactly what you want
  */
-export const length = ({ length, message }: LengthOptions): ListRule => {
+export const length = ({ length, message }: LengthOptions): ArrayRule => {
   return {
     message,
     valid: value => value.length === length
@@ -41,7 +41,7 @@ export interface LengthBetweenOptions {
 /**
  * Ensure that a list has a length between two given values
  */
-export const lengthBetween = ({ minimum, maximum, message }: LengthBetweenOptions): ListRule => {
+export const lengthBetween = ({ minimum, maximum, message }: LengthBetweenOptions): ArrayRule => {
   return {
     message,
     valid: value => value.length >= minimum && value.length <= maximum
@@ -63,7 +63,7 @@ export interface MinimumLengthOptions {
 /**
  * Ensure that the length of a list is above a minimum
  */
-export const minimumLength = ({ minimum, message }: MinimumLengthOptions): ListRule => {
+export const minimumLength = ({ minimum, message }: MinimumLengthOptions): ArrayRule => {
   return {
     message,
     valid: value => value.length >= minimum
@@ -85,7 +85,7 @@ export interface MaximumLengthOptions {
 /**
  * Ensure that the length of a list is below a maximum
  */
-export const maximumLength = ({ maximum, message }: MaximumLengthOptions): ListRule => {
+export const maximumLength = ({ maximum, message }: MaximumLengthOptions): ArrayRule => {
   return {
     message,
     valid: value => value.length <= maximum
