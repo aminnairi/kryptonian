@@ -10,7 +10,12 @@ export type Routes = {
   [key: string]: Route
 }
 
-export type Pathway<R extends Route> = (parameters: Kryptonian.InferType<R["request"]>) => Promise<Kryptonian.InferType<R["response"]>>;
+export interface PathwayOptions<R extends Route> {
+  parameters: Kryptonian.InferType<R["request"]>,
+  options: RequestInit
+}
+
+export type Pathway<R extends Route> = (options: PathwayOptions<R>) => Promise<Kryptonian.InferType<R["response"]>>;
 
 export type Pathways<R extends Routes> = {
   [Key in keyof R]: Pathway<R[Key]>
@@ -48,9 +53,9 @@ export const createRoutes = <R extends Routes>(routes: R): R => {
  */
 export const createClient = <R extends Routes>({ server, routes }: CreateClientOptions<R>): Pathways<R> => {
   const routeWithCallbacks = Object.fromEntries(Object.entries(routes).map(([routeName, route]) => {
-    const callback = async (body: unknown) => {
+    const callback = async ({parameters, options}: { parameters: unknown, options: RequestInit}) => {
       const protectBody = Kryptonian.createProtector(route.request);
-      const bodyProtection = protectBody(body);
+      const bodyProtection = protectBody(parameters);
 
       if (!bodyProtection.success) {
         return Promise.reject(bodyProtection.errors);
@@ -58,12 +63,14 @@ export const createClient = <R extends Routes>({ server, routes }: CreateClientO
 
 
       return fetch(`${server}/${routeName}`, {
+        ...options,
         method: "POST",
         headers: {
+          ...options.headers,
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(bodyProtection.data)
       }).then(response => {
         if (response.ok) {
           return response.json();
