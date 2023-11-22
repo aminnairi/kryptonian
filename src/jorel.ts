@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from "http";
-import * as Kryptonian from ".";
+import * as Kalel from "./kalel";
 
 export interface Route {
-  request: Kryptonian.Schema,
-  response: Kryptonian.Schema
+  request: Kalel.Schema,
+  response: Kalel.Schema
 }
 
 export type Routes = {
@@ -11,17 +11,17 @@ export type Routes = {
 }
 
 export interface PathwayOptions<R extends Route> {
-  parameters: Kryptonian.InferType<R["request"]>,
+  parameters: Kalel.InferType<R["request"]>,
   options: RequestInit
 }
 
-export type Pathway<R extends Route> = (options: PathwayOptions<R>) => Promise<Kryptonian.InferType<R["response"]>>;
+export type Pathway<R extends Route> = (options: PathwayOptions<R>) => Promise<Kalel.InferType<R["response"]>>;
 
 export type Pathways<R extends Routes> = {
   [Key in keyof R]: Pathway<R[Key]>
 }
 
-export type Spaceship<R extends Route> = (parameters: Kryptonian.InferType<R["request"]>) => Promise<Kryptonian.InferType<R["response"]>>
+export type Spaceship<R extends Route> = (parameters: Kalel.InferType<R["request"]>) => Promise<Kalel.InferType<R["response"]>>
 
 export type Spaceships<R extends Routes> = {
   [Key in keyof R]: Spaceship<R[Key]>
@@ -54,7 +54,7 @@ export const createRoutes = <R extends Routes>(routes: R): R => {
 export const createClient = <R extends Routes>({ server, routes }: CreateClientOptions<R>): Pathways<R> => {
   const routeWithCallbacks = Object.fromEntries(Object.entries(routes).map(([routeName, route]) => {
     const callback = async ({parameters, options}: { parameters: unknown, options: RequestInit}) => {
-      const protectBody = Kryptonian.createProtector(route.request);
+      const protectBody = Kalel.createProtector(route.request);
       const bodyProtection = protectBody(parameters);
 
       if (!bodyProtection.success) {
@@ -80,7 +80,7 @@ export const createClient = <R extends Routes>({ server, routes }: CreateClientO
           return Promise.reject(response);
         })
       }).then(response => {
-        const protectResponse = Kryptonian.createProtector(route.response);
+        const protectResponse = Kalel.createProtector(route.response);
         const responseProtection = protectResponse(response);
 
         if (!responseProtection.success) {
@@ -208,7 +208,7 @@ export const createRouter = <R extends Routes>({ clients, routes, spaceships }: 
       }
 
       const body = await getBody(request);
-      const protectBody = Kryptonian.createProtector(route.request);
+      const protectBody = Kalel.createProtector(route.request);
       const bodyProtection = protectBody(body);
 
 
@@ -218,7 +218,7 @@ export const createRouter = <R extends Routes>({ clients, routes, spaceships }: 
 
       const spaceshipResponse = await spaceship(bodyProtection.data);
 
-      const protectSpaceshipResponse = Kryptonian.createProtector(route.response);
+      const protectSpaceshipResponse = Kalel.createProtector(route.response);
       const spaceshipResponseProtection = protectSpaceshipResponse(spaceshipResponse);
 
       if (!spaceshipResponseProtection.success) {
