@@ -42,7 +42,7 @@ Purity, hope, and the strength of Krypton in one package
     - [before](#before)
     - [after](#after)
   - [record](#record)
-  - [list](#list)
+  - [array](#array)
     - [length](#length-1)
     - [lengthBetween](#lengthbetween)
     - [minimumLength](#minimumlength-1)
@@ -139,7 +139,7 @@ export const routes = Kryptonian.Jorel.createRoutes({
     request: Kryptonian.empty({
       message: "Request should be void or undefined"
     }),
-    response: Kryptonian.list({
+    response: Kryptonian.array({
       message: "Response should be an array",
       rules: [],
       schema: Kryptonian.record({
@@ -1345,14 +1345,14 @@ if (protectionGoneWrongAgain.success) {
 
 [Back to summary](#summary)
 
-### list
+### array
 
-List is a schema representing an array
+`array` is a schema representing an array
 
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.list({
+const protect = Kryptonian.createProtector(Kryptonian.array({
   message: "This is not an array",
   rules: [],
   schema: Kryptonian.text({
@@ -1410,15 +1410,15 @@ if (protectionGoneWrongAgain.success) {
 
 #### length
 
-Validate the length of a list.
+Validate the length of a array.
 
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.list({
+const protect = Kryptonian.createProtector(Kryptonian.array({
   message: "This is not an array",
   rules: [
-    Kryptonian.List.length({
+    Kryptonian.Array.length({
       length: 3,
       message: "This should be an array of 3 elements"
     })
@@ -1478,15 +1478,15 @@ if (protectionGoneWrongAgain.success) {
 
 #### lengthBetween
 
-Validate that the length of a list is between a range.
+Validate that the length of a array is between a range.
 
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.list({
+const protect = Kryptonian.createProtector(Kryptonian.array({
   message: "This is not an array",
   rules: [
-    Kryptonian.List.lengthBetween({
+    Kryptonian.Array.lengthBetween({
       minimum: 2,
       maximum: 3,
       message: "This should be an array of 2 to 3 elements"
@@ -1547,15 +1547,15 @@ if (protectionGoneWrongAgain.success) {
 
 #### minimumLength
 
-Validate that the length of a list is above a value.
+Validate that the length of a array is above a value.
 
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.list({
+const protect = Kryptonian.createProtector(Kryptonian.array({
   message: "This is not an array",
   rules: [
-    Kryptonian.List.minimumLength({
+    Kryptonian.Array.minimumLength({
       minimum: 2,
       message: "This should be an array of at least 2 elements"
     })
@@ -1600,15 +1600,15 @@ if (protectionGoneWrong.success) {
 
 #### maximumLength
 
-Validate that the length of a list is above a value.
+Validate that the length of a array is above a value.
 
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.createProtector(Kryptonian.list({
+const protect = Kryptonian.createProtector(Kryptonian.array({
   message: "This is not an array",
   rules: [
-    Kryptonian.List.maximumLength({
+    Kryptonian.Array.maximumLength({
       maximum: 2,
       message: "This should be an array of at most 2 elements"
     })
@@ -1878,11 +1878,11 @@ const routes = Kryptonian.Jorel.createRoutes({
     request: Kryptonian.none({
       message: "Expected nothing except null"
     }),
-    response: Kryptonian.list({
-      message: "Response is not a list",
+    response: Kryptonian.array({
+      message: "Response is not a array",
       rules: [],
       schema: Kryptonian.text({
-        message: "Response is not a list of text",
+        message: "Response is not a array of text",
         rules: []
       })
     })
@@ -2082,7 +2082,7 @@ cd my-project
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const schema = Kryptonian.list({
+const schema = Kryptonian.array({
   message: "This should be an array",
   rules: [],
   schema: Kryptonian.text({
@@ -2115,7 +2115,7 @@ type AnotherSchema = Kryptonian.InferType<typeof anotherSchema>;
 
 ### Custom rules
 
-A rule is a function that is applied in most functions exposed by this library. Every time you see a function taking a `rules` properties as its argument, it means that it is accepting an array of rules. In fact, creating custom rules would be exactly the same as the rules defined by this library. Here is for instance the source-code for the `Kyrptonian.List.length` rule.
+A rule is a function that is applied in most functions exposed by this library. Every time you see a function taking a `rules` properties as its argument, it means that it is accepting an array of rules. In fact, creating custom rules would be exactly the same as the rules defined by this library. Here is for instance the source-code for the `Kyrptonian.Array.length` rule.
 
 ```typescript
 export interface LengthOptions {
@@ -2123,7 +2123,7 @@ export interface LengthOptions {
   message: string
 }
 
-export const length = ({ length, message }: LengthOptions): ListRule => {
+export const length = ({ length, message }: LengthOptions): ArrayRule => {
   return {
     message,
     valid: value => value.length === length
@@ -2147,7 +2147,7 @@ export const minimumLength = ({ minimum, message }: MinimumLengthOptions): TextR
 }
 ```
 
-As you probably guessed, a rule is a function. And those functions must return a rule. There as several rules that you can return and for each type that is exposed (`Kryptonian.List`, `Kryptonian.Text`, ...) there is an associated rule that you can import.
+As you probably guessed, a rule is a function. And those functions must return a rule. There as several rules that you can return and for each type that is exposed (`Kryptonian.Array`, `Kryptonian.Text`, ...) there is an associated rule that you can import.
 
 Here is a non-exhaustive list of rules, and many more to come in a near future.
 
@@ -2156,7 +2156,7 @@ import * as Kryptonian from "kryptonian";
 
 Kryptonian.TextRule; // For strings
 Kryptonian.NumericRule; // For numbers
-Kryptonian.ListRule; // For arrays
+Kryptonian.ArrayRule; // For arrays
 Kryptonian.DateRule; // For dates
 ```
 
