@@ -3,7 +3,7 @@
   "name": "kryptonian",
   "types": "dist/index.d.ts",
   "description": "Purity, hope, and the strength of Krypton in one package",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "homepage": "https://github.com/aminnairi/kryptonian",
   "license": "MIT",
   "main": "dist/index.js",
