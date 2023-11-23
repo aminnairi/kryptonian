@@ -1,0 +1,21 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - development
+      - production
+
+jobs:
+  continuous_integration:
+    name: Check that the source-code respects the project's standards
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
