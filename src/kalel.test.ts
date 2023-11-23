@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { any, array, boolean, date, empty, literal, none, notDefined, numeric, object, oneOf, text, unknown } from "./kalel";
+import { any, array, boolean, createProtector, date, empty, literal, none, notDefined, numeric, object, oneOf, text, unknown } from "./kalel";
 
 describe("kalel", () => {
   describe("text", () => {
@@ -211,6 +211,20 @@ describe("kalel", () => {
           }
         }
       });
+    });
+  });
+
+  describe("createProtector", () => {
+    test("It shoul validate an any schema", () => {
+      const protect = createProtector(any());
+      const protection = protect(123);
+
+      if (!protection.success) {
+        throw new Error("Protection failure");
+      }
+
+      expect(protection.success).toEqual(true);
+      expect(protection.data).toEqual(123);
     });
   });
 });
