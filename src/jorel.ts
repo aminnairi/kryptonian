@@ -113,8 +113,6 @@ export const createRouter = <R extends Routes>({ clients, routes, spaceships }: 
       return client === origin;
     });
 
-    console.log({ origin, clients, allowedOrigin });
-
     const baseHeaders = {
       "Content-Type": "application/json",
       "Access-Control-Allow-Headers": "Content-Type",
