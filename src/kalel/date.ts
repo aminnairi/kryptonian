@@ -1,4 +1,4 @@
-import * as Kalel from "../kalel"
+import * as Kalel from "../kalel";
 
 export interface BetweenOptions {
   /**
@@ -28,8 +28,8 @@ export const between = ({ minimum, maximum, message }: BetweenOptions): Kalel.Da
       return dateTime >= minimumTime && dateTime <= maximumTime;
     },
     message
-  }
-} 
+  };
+}; 
 
 export interface BeforeOptions {
   /**
@@ -55,7 +55,7 @@ export const before = ({ date, message }: BeforeOptions): Kalel.DateRule => {
     },
     message
   };
-}
+};
 
 export interface AfterOptions {
   /**
@@ -81,4 +81,4 @@ export const after = ({ date, message }: AfterOptions): Kalel.DateRule => {
     },
     message
   };
-}
+};
