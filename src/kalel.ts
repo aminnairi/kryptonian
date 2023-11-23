@@ -429,19 +429,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
       const validationSuccesses = validations.filter(isValidationSuccess);
 
       if (validationSuccesses.length !== 0) {
-        const validationSuccess = validationSuccesses[0];
-
-        if (!validationSuccess) {
-          return {
-            success: false,
-            errors: [
-              {
-                path: "",
-                message: "Invalid type"
-              }
-            ]
-          };
-        }
+        const validationSuccess = validationSuccesses[0] as ValidationSuccess<S>;
 
         return {
           success: true,
