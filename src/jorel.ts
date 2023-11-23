@@ -61,7 +61,6 @@ export const createClient = <R extends Routes>({ server, routes }: CreateClientO
         return Promise.reject(bodyProtection.errors);
       }
 
-
       return fetch(`${server}/${routeName}`, {
         ...options,
         method: "POST",
