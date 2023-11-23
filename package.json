@@ -1,5 +1,6 @@
 {
   "type": "module",
+  "sideEffects": false,
   "name": "kryptonian",
   "types": "dist/index.d.ts",
   "description": "Purity, hope, and the strength of Krypton in one package",
