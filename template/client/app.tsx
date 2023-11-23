@@ -28,7 +28,7 @@ export const App = () => {
       }
     }).catch(error => {
       console.error(error);
-    })
+    });
   }, []);
 
   if (error) {
@@ -46,4 +46,4 @@ export const App = () => {
       ))}
     </ul>
   );
-}
+};

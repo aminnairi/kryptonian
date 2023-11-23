@@ -123,7 +123,7 @@ export type BasicSchema =
   | DateSchema
   | ArraySchema<Schema>
   | ObjectSchema<ObjectSchemaFields<Schema>>
-  | LiteralSchema<any>
+  | LiteralSchema<unknown>
 
 export type ConstraintSchema =
   | OneOfSchema<BasicSchema>
@@ -134,6 +134,7 @@ export type Schema =
 
 export type InferBasicType<S extends BasicSchema> =
   S extends AnySchema
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ? any
   : S extends UnknownSchema
   ? unknown
@@ -192,8 +193,8 @@ export const text = ({ message, rules }: TextOptions): TextSchema => {
     type: "text",
     message,
     rules
-  }
-}
+  };
+};
 
 export interface NumberOptions {
   /**
@@ -241,8 +242,8 @@ export const array = <S extends Schema>({ schema, message, rules }: ArrayOptions
     schema,
     message,
     rules
-  }
-}
+  };
+};
 
 export interface ObjectOptions<S extends Schema, F extends ObjectSchemaFields<S>> {
   /**
@@ -263,8 +264,8 @@ export const object = <S extends Schema, F extends ObjectSchemaFields<S>>({ fiel
     type: "object",
     fields,
     message,
-  }
-}
+  };
+};
 
 export interface DateOptions {
   /**
@@ -285,7 +286,7 @@ export const date = ({ message, rules }: DateOptions): DateSchema => {
     type: "date",
     rules,
     message
-  }
+  };
 };
 
 /**
@@ -295,7 +296,7 @@ export const any = (): AnySchema => {
   return {
     type: "any"
   };
-}
+};
 
 /**
  * Create a schema to validate data to unknown
@@ -304,7 +305,7 @@ export const unknown = (): UnknownSchema => {
   return {
     type: "unknown"
   };
-}
+};
 
 export interface BooleanOptions {
   /**
@@ -320,7 +321,7 @@ export const boolean = ({ message }: BooleanOptions): BooleanSchema => {
   return {
     type: "boolean",
     message
-  }
+  };
 };
 
 export interface NoneOptions {
@@ -338,7 +339,7 @@ export const none = ({ message }: NoneOptions): NoneSchema => {
     type: "none",
     message
   };
-}
+};
 
 export interface NotDefinedOptions {
   /***
@@ -354,7 +355,7 @@ export const notDefined = ({ message }: NotDefinedOptions): NotDefinedSchema => 
   return {
     type: "notDefined",
     message
-  }
+  };
 };
 
 export interface EmptyOptions {
@@ -394,7 +395,7 @@ export const literal = <Value>({ message, value }: LiteralOptions<Value>): Liter
     message,
     value
   };
-}
+};
 
 /**
  * Create a schema to validate a union of values
@@ -403,8 +404,8 @@ export const oneOf = <S extends Schema>(schema: Array<S>): OneOfSchema<S> => {
   return {
     type: "oneOf",
     schema: schema
-  }
-}
+  };
+};
 
 /**
  * Create a validator function to validate data
@@ -423,7 +424,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 
       const isValidationSuccess = (validation: Validation<S>): validation is ValidationSuccess<S> => {
         return validation.success;
-      }
+      };
 
       const validationSuccesses = validations.filter(isValidationSuccess);
 
@@ -450,7 +451,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 
       const isValidationFailure = (validation: Validation<S>): validation is ValidationErrors => {
         return !validation.success;
-      }
+      };
 
       const validationFailures = validations.filter(isValidationFailure);
 
@@ -568,7 +569,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
       return {
         success: true,
         data: data as InferType<S>
-      }
+      };
     }
 
     if (schema.type === "date") {
@@ -596,10 +597,10 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
               path: initialPath,
               message: rule.message
             }
-          ]
+          ];
         }
 
-        return previousErrors
+        return previousErrors;
       }, initialErrors);
 
       if (errors.length !== 0) {
@@ -625,7 +626,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
               message: schema.message
             }
           ]
-        }
+        };
       }
 
       const initialErrors: Array<ValidationError> = [];
@@ -638,10 +639,10 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
               path: initialPath,
               message: rule.message
             }
-          ]
+          ];
         }
 
-        return previousErrors
+        return previousErrors;
       }, initialErrors);
 
       if (errors.length !== 0) {
@@ -654,7 +655,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
       return {
         success: true,
         data: data as InferType<S>
-      }
+      };
     }
 
     if (schema.type === "text") {
@@ -669,10 +670,10 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
                 path: initialPath,
                 message: rule.message
               }
-            ]
+            ];
           }
 
-          return previousErrors
+          return previousErrors;
         }, initialErrors);
 
         if (errors.length !== 0) {
@@ -685,7 +686,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
         return {
           success: true,
           data: data as InferType<S>
-        }
+        };
       }
 
       return {
@@ -696,7 +697,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
             message: schema.message
           }
         ]
-      }
+      };
     }
 
     if (schema.type === "array") {
@@ -709,7 +710,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
               message: schema.message
             }
           ]
-        }
+        };
       }
 
       const initialErrors: Array<ValidationError> = [];
@@ -722,10 +723,10 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
               path: initialPath,
               message: rule.message
             }
-          ]
+          ];
         }
 
-        return previousErrors
+        return previousErrors;
       }, initialErrors);
 
       if (errors.length !== 0) {
@@ -766,13 +767,13 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
         return {
           success: false,
           errors: itemValidationErrors
-        }
+        };
       }
 
       return {
         success: true,
         data: itemValidationData
-      }
+      };
     }
 
     if (schema.type === "object") {
@@ -785,7 +786,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
               message: schema.message
             }
           ]
-        }
+        };
       }
 
       const validations = Object.entries(schema.fields).map(([fieldName, schema]) => {
@@ -806,7 +807,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 
         return validation.errors;
       }).filter(validationErrors => {
-        return validationErrors !== null
+        return validationErrors !== null;
       }) as Array<ValidationError>;
 
       const validationEntries = validations.map(([field, validation]) => {
@@ -845,11 +846,11 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
           message: "Unknown type"
         }
       ]
-    }
+    };
   };
 };
 
 export * as Array from "./kalel/array";
-export * as Numeric from "./kalel/numeric"
+export * as Numeric from "./kalel/numeric";
 export * as Text from "./kalel/text";
 export * as Date from "./kalel/date";

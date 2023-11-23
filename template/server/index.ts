@@ -23,7 +23,7 @@ const router = Kryptonian.Jorel.createRouter({
             createdAt: new Date()
           }
         ]
-      }
+      };
     }
   }
 });
