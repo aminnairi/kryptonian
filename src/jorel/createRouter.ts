@@ -32,14 +32,14 @@ export const createRouter = <R extends Routes>({ clients, routes, spaceships }: 
 
     const headers = (() => {
       switch (typeof allowedOrigin) {
-        case "string":
-          return {
-            ...baseHeaders,
-            "Access-Control-Allow-Origin": allowedOrigin
-          } 
+      case "string":
+        return {
+          ...baseHeaders,
+          "Access-Control-Allow-Origin": allowedOrigin
+        }; 
 
-        default:
-          return baseHeaders;
+      default:
+        return baseHeaders;
       }
     })();
 
@@ -91,15 +91,15 @@ export const createRouter = <R extends Routes>({ clients, routes, spaceships }: 
 
       const getBody = (request: IncomingMessage) => {
         return new Promise((resolve, reject) => {
-          let body = '';
+          let body = "";
 
           // Listen for the 'data' event to accumulate chunks
-          request.on('data', (chunk) => {
+          request.on("data", (chunk) => {
             body += chunk;
           });
 
           // Listen for the 'end' event to resolve the promise when all data is received
-          request.on('end', () => {
+          request.on("end", () => {
             try {
               const json = JSON.parse(body);
 
@@ -110,11 +110,11 @@ export const createRouter = <R extends Routes>({ clients, routes, spaceships }: 
           });
 
           // Listen for any 'error' events
-          request.on('error', (error) => {
+          request.on("error", (error) => {
             reject(error);
           });
         });
-      }
+      };
 
       const body = await getBody(request);
       const protectBody = Kalel.createProtector(route.request);
