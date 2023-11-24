@@ -2062,10 +2062,32 @@ const createKryptonian = (event: FormEvent) => {
 
 #### getting started
 
+You can start writing client & server applications right away by using the template folder.
+
+Here is how you can get this template to get started developing locally.
+
 ```bash
-npx degit aminnairi/kryptonian/template my-project
+npx degit aminnairi/kryptonian/template#production my-project
 cd my-project
 # read the README.md!
+```
+
+Where `production` is the branch to use. We recommend starting from the `production` branch since it is the most stable branch for using this template, but you can use any branches from the GitHub repository as well as tags.
+
+Here is an example using the `2.0.0` release tag for demonstration purposes.
+
+```bash
+npx degit aminnairi/kryptonian/template#2.0.0 my-project
+cd my-project
+# read the README.md!
+```
+
+Be sure to install the package for all workspaces inside the template using the following command before starting the servers.
+
+Here again, using the `2.0.0` release tag for demonstration purposes.
+
+```bash
+npm --workspaces install kryptonian@2.0.0
 ```
 
 [Back to summary](#summary)
