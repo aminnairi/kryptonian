@@ -2037,7 +2037,7 @@ const getKryptonians = () => {
     options: {}
   }).then(kryptonian => {
     setKryptonians(kryptonian);
-  }).catch(() => {
+  }).catch(error => {
     if (error instanceof Kryptonian.Jorel.BadRequestError) {
       console.log(error.errors);
 
