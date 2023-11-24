@@ -16,7 +16,7 @@ export interface CreateRouterOptions<R extends Routes> {
 
 export const createRouter = <R extends Routes>({ clients, routes, spaceships }: CreateRouterOptions<R>) => {
   return async (request: IncomingMessage, response: ServerResponse) => {
-    const url = new URL(`http://127.0.0.1${request.url ?? "/"}`);
+    const url = new URL(`http://127.0.0.1${String(request.url)}`);
     const origin = request.headers.origin ?? "";
     const pathname = url.pathname;
 
