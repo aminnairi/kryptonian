@@ -830,7 +830,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
       success: false,
       errors: [
         {
-          path: "",
+          path: initialPath,
           message: "Unknown type"
         }
       ]
