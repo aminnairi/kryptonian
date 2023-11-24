@@ -27,7 +27,15 @@ export const App = () => {
         setError(response.error);
       }
     }).catch(error => {
-      console.error(error);
+      if (error instanceof Kryptonian.Jorel.BadRequestError) {
+        return setError("Bad request, please check your form");
+      } 
+
+      if (error instanceof Kryptonian.Jorel.BadResponseError) {
+        return setError("Bad response from the server, please try again later.");
+      }
+
+      setError("Unknown error, sorry for the inconvenience!");
     });
   }, []);
 
