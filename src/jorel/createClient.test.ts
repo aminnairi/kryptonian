@@ -6,7 +6,7 @@ import { createClient } from "./createClient";
 Vitest.describe("createClient", () => {
   Vitest.test("It should return the correct shape", async () => {
     global.fetch = Vitest.vi.fn().mockImplementation(() => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         resolve(new Response(JSON.stringify(null), {
           status: 200,
           headers: {
@@ -42,7 +42,7 @@ Vitest.describe("createClient", () => {
 
   Vitest.test("It should return an error when the schema for the request is incorrect (from the server)", async () => {
     global.fetch = Vitest.vi.fn().mockImplementation(() => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         resolve(new Response(JSON.stringify([{path: "", message: "none"}]), {
           status: 400,
           headers: {
@@ -111,7 +111,7 @@ Vitest.describe("createClient", () => {
 
     try {
       await client.getUsers({
-        // @ts-expect-error
+        // @ts-expect-error This is for our JavaScript users, TypeScript users won't be able to pass a wrong schema
         parameters: 123,
         options: {}
       });
@@ -136,7 +136,7 @@ Vitest.describe("createClient", () => {
 
   Vitest.test("It should return an error when the schema for the response is incorrect", async () => {
     global.fetch = Vitest.vi.fn().mockImplementation(() => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         resolve(new Response(JSON.stringify(123), {
           status: 200,
           headers: {
@@ -188,7 +188,7 @@ Vitest.describe("createClient", () => {
 
   Vitest.test("It should return an error when an unhandled error occurs", async () => {
     global.fetch = Vitest.vi.fn().mockImplementation(() => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         resolve(new Response("Unknown error", {
           status: 405,
           headers: {
