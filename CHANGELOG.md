@@ -2,6 +2,7 @@
 
 ## Versions
 
+- [`2.1.0`](#210)
 - [`2.0.1`](#201)
 - [`2.0.0`](#200)
 - [`1.1.0`](#110)
@@ -9,6 +10,16 @@
 - [`0.3.0`](#030)
 - [`0.2.0`](#020)
 - [`0.1.0`](#010)
+
+## 2.1.0
+
+- Removed unecessary debug logs ([#89](https://github.com/aminnairi/kryptonian/pull/89))
+- Marked this package as side-effects free ([#90](https://github.com/aminnairi/kryptonian/pull/90))
+- Added a linter and an automation for pull request linting ([#91](https://github.com/aminnairi/kryptonian/pull/91))
+- Added unit tests ([#94](https://github.com/aminnairi/kryptonian/pull/94))
+- Added more instruction for getting started ([#96](https://github.com/aminnairi/kryptonian/pull/96))
+- Initial path unknown schema accounted ([#97](https://github.com/aminnairi/kryptonian/pull/97))
+- Added error handling examples in the documentation ([#98](https://github.com/aminnairi/kryptonian/pull/98))
 
 ## 2.0.1
 
