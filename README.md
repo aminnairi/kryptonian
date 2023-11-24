@@ -2038,7 +2038,19 @@ const getKryptonians = () => {
   }).then(kryptonian => {
     setKryptonians(kryptonian);
   }).catch(() => {
-    alert("An error occurred");
+    if (error instanceof Kryptonian.Jorel.BadRequestError) {
+      console.log(error.errors);
+
+      return alert("Bad request, please check your form");
+    } 
+
+    if (error instanceof Kryptonian.Jorel.BadResponseError) {
+      console.log(error.errors);
+
+      return alert("Bad response from the server, please try again later.");
+    }
+
+    alert("Unknown error, sorry for the inconvenience!");
   });
 };
 
