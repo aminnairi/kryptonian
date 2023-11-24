@@ -15,4 +15,4 @@ export type Routes = {
  */
 export const createRoutes = <R extends Routes>(routes: R): R => {
   return routes;
-}
+};

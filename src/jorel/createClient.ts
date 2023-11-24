@@ -77,12 +77,12 @@ export const createClient = <R extends Routes>({ server, routes }: CreateClientO
         if (response.status === 400) {
           return response.json().then(response => {
             return Promise.reject(new BadRequestError(response));
-          })
+          });
         }
 
         return response.text().then(response => {
           return Promise.reject(new Error(response));
-        })
+        });
       }).then(response => {
         const protectResponse = Kalel.createProtector(route.response);
         const responseProtection = protectResponse(response);
@@ -93,9 +93,9 @@ export const createClient = <R extends Routes>({ server, routes }: CreateClientO
 
         return responseProtection.data;
       });
-    }
+    };
 
-    return [routeName, callback]
+    return [routeName, callback];
   }));
 
   return routeWithCallbacks as Pathways<R>;

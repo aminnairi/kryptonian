@@ -1022,7 +1022,7 @@ describe("kalel", () => {
     describe("unhandled", () => {
       test("It should return a failed validation", () => {
         const protect = createProtector({
-          // @ts-expect-error
+          // @ts-expect-error This is for our JavaScript users, TypeScript users won't be able to create an undefined schema
           type: "unhandled"
         });
 

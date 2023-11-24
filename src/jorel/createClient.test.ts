@@ -14,7 +14,7 @@ Vitest.describe("createClient", () => {
           }
         }));
       });
-    })
+    });
 
     const routes = Jorel.createRoutes({
       getUsers: {
@@ -50,7 +50,7 @@ Vitest.describe("createClient", () => {
           }
         }));
       });
-    })
+    });
 
     const routes = Jorel.createRoutes({
       getUsers: {
@@ -144,7 +144,7 @@ Vitest.describe("createClient", () => {
           }
         }));
       });
-    })
+    });
 
     const routes = Jorel.createRoutes({
       getUsers: {
@@ -196,7 +196,7 @@ Vitest.describe("createClient", () => {
           }
         }));
       });
-    })
+    });
 
     const routes = Jorel.createRoutes({
       getUsers: {
