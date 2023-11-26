@@ -78,4 +78,24 @@ describe("string", () => {
       expect(rule.valid("email@domain")).toEqual(false);
     });
   });
+
+  describe("uniformResourceLocator", () => {
+    test("It should return a rule", () => {
+      const rule = uniformResourceLocator({
+        message: "Message"
+      });
+
+      // Valid URLs
+      expect(rule.valid("https://kryptonian.dev")).toEqual(true);
+      expect(rule.valid("http://www.example.com")).toEqual(true);
+      expect(rule.valid("ftp://ftp.example.com:8080/path/to/file")).toEqual(true);
+      expect(rule.valid("https://www.example.com/path/to/page?query=string#fragment")).toEqual(true);
+      expect(rule.valid("kryptonian.dev")).toEqual(true);
+
+      // Invalid URLs
+      expect(rule.valid("https:/kryptonian.dev")).toEqual(false);
+      expect(rule.valid("http://example.com:abc")).toEqual(false);
+    });
+  });
+
 });

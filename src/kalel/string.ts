@@ -124,4 +124,21 @@ export const endsWith = ({ message, string }: EndsWithOptions): Kalel.StringRule
   };
 };
 
+export interface UniformResourceLocatorOptions {
+  /**
+   * The message attached to the error when the string is not a valid URL
+   */
+  message: string
+}
+
+/**
+ * Ensure that a string is a well-formed URL
+ */
+export const uniformResourceLocator = ({ message }: UniformResourceLocatorOptions): Kalel.StringRule => {
+  return {
+    message,
+    valid: value => {
+      return /^(\w+:\/\/)?(\w+\.)?\w+\.\w+(:\d+)?(\/\w+)*(\?\w+(=\w+)?)?(&\w+(=\w+)?)*(#\w+)?$/.test(value);
+    }
+  };
 };
