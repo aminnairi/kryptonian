@@ -201,4 +201,26 @@ export const lower = ({ message, number }: LowerOptions): Kalel.NumberRule => {
   };
 };
 
+export interface GreaterOrEqualOptions {
+  /**
+   * Message to attach to the error when the number is not greater or equal to another
+   * one
+   */
+  message: string,
+  /**
+   * The number that the value must be greater or equal to
+   */
+  number: number
+}
+
+/**
+ * Ensure that a number is lower than another one
+ */
+export const greaterOrEqual = ({ message, number }: GreaterOrEqualOptions): Kalel.NumberRule => {
+  return {
+    message,
+    valid: value => value >= number
+  };
+};
+
 };
