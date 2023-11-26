@@ -58,7 +58,7 @@ export interface ArraySchema<S extends Schema> {
   rules: ArrayRules
 }
 
-type ObjectSchemaFields<S extends Schema> = Record<string, S>
+export type ObjectSchemaFields<S extends Schema> = Record<string, S>
 
 export interface ObjectSchema<Fields extends ObjectSchemaFields<Schema>> {
   type: "object",
