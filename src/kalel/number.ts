@@ -223,4 +223,26 @@ export const greaterOrEqual = ({ message, number }: GreaterOrEqualOptions): Kale
   };
 };
 
+export interface LowerOrEqualOptions {
+  /**
+   * Message to attach to the error when the number is not lower or equal to another
+   * one
+   */
+  message: string,
+  /**
+   * The number that the value must be lower or equal to
+   */
+  number: number
+}
+
+/**
+ * Ensure that a number is lower or equal to another one
+ */
+export const lowerOrEqual = ({ message, number }: LowerOrEqualOptions): Kalel.NumberRule => {
+  return {
+    message,
+    valid: value => value <= number
+  };
+};
+
 };
