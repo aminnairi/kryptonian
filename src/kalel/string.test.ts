@@ -98,4 +98,17 @@ describe("string", () => {
     });
   });
 
+  describe("internetProtocolVersion4", () => {
+    test("It should return a rule", () => {
+      const rule = internetProtocolVersion4({
+        message: "Message"
+      });
+
+      // Valid URLs
+      expect(rule.valid("1.1.1.1")).toEqual(true);
+      expect(rule.valid("1.2.3")).toEqual(false);
+      expect(rule.valid("1.2.3.4.5")).toEqual(false);
+    });
+  });
+
 });

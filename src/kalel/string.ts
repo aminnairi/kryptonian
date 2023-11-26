@@ -131,6 +131,23 @@ export interface UniformResourceLocatorOptions {
   message: string
 }
 
+export interface InternetProtocolVersion4Options {
+  /**
+   * The message to attach to the error if the string is not in the Internet Protocol version 4 format
+   */
+  message: string
+}
+
+/**
+ * Ensure that a string is in the Internet Protocol version 4 format
+ */
+export const internetProtocolVersion4 = ({ message }: InternetProtocolVersion4Options): Kalel.StringRule => {
+  return {
+    message,
+    valid: value => /^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})){3}$/.test(value)
+  };
+};
+
 /**
  * Ensure that a string is a well-formed URL
  */
