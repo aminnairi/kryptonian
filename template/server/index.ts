@@ -1,30 +1,13 @@
 import * as Kryptonian from "kryptonian";
 import * as Http from "http";
 import { routes } from "@template/shared";
+import { getKryptonians } from "./routes/getKryptonians";
 
 const router = Kryptonian.Jorel.createRouter({
   clients: ["http://localhost:5173"],
   routes,
   spaceships: {
-    getKryptonians: async () => {
-      return {
-        success: true as const,
-        kryptonians: [
-          {
-            name: "Kalel",
-            createdAt: new Date()
-          },
-          {
-            name: "Jorel",
-            createdAt: new Date()
-          },
-          {
-            name: "Zorel",
-            createdAt: new Date()
-          }
-        ]
-      };
-    }
+    getKryptonians
   }
 });
 
