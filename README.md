@@ -46,6 +46,7 @@ Purity, hope, and the strength of Krypton in one package
     - [greater](#greater)
     - [lower](#lower)
     - [greaterOrEqual](#greaterorequal)
+    - [lowerOrEqual](#lowerorequal)
   - [date](#date)
     - [between](#between-1)
     - [before](#before)
@@ -1498,6 +1499,54 @@ if (protectionGoneWrong.success) {
   {
     "path": "",
     "message": "This should be greater or equal to 5"
+  }
+]
+```
+
+[Back to summary](#summary)
+
+#### lowerOrEqual
+
+Validate that a number is greater or equal to another value.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.number({
+  message: "This is not a number",
+  rules: [
+    Kryptonian.Kalel.Number.lowerOrEqual({
+      number: 5,
+      message: "This should be lower or equal to 5"
+    })
+  ]
+}));
+
+const goodData: unknown = 5;
+const wrongData: unknown = 7;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+5
+[
+  {
+    "path": "",
+    "message": "This should be lower or equal to 5"
   }
 ]
 ```
