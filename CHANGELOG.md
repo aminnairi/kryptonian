@@ -2,6 +2,7 @@
 
 ## Versions
 
+- [`3.0.1`](#301)
 - [`3.0.0`](#300)
 - [`2.1.0`](#210)
 - [`2.0.1`](#201)
@@ -11,6 +12,10 @@
 - [`0.3.0`](#030)
 - [`0.2.0`](#020)
 - [`0.1.0`](#010)
+
+## 3.0.1
+
+- Fixed an issue with the createServerRoute function not exported properly ([#110](https://github.com/aminnairi/kryptonian/pull/110))
 
 ## 3.0.0
 
