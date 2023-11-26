@@ -47,6 +47,7 @@ Purity, hope, and the strength of Krypton in one package
     - [lengthBetween](#lengthbetween)
     - [minimumLength](#minimumlength-1)
     - [maximumLength](#maximumlength)
+    - [nonEmpty](#nonempty)
   - [unknown](#unknown)
   - [any](#any)
   - [empty](#empty)
@@ -1644,6 +1645,58 @@ if (protectionGoneWrong.success) {
   {
     "path": "",
     "message": "This should be an array of at most 2 elements"
+  }
+]
+```
+
+[Back to summary](#summary)
+
+#### nonEmpty
+
+Validate that the length of a array is above 0.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.array({
+  message: "This is not an array",
+  rules: [
+    Kryptonian.Kalel.Array.nonEmpty({
+      message: "This should be an array of at least 1 element"
+    })
+  ],
+  schema: Kryptonian.Kalel.string({
+    message: "This is not a string",
+    rules: []
+  })
+}));
+
+const goodData: unknown = [ "Hello", "world" ];
+
+const wrongData: unknown = [];
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+[ "Hello", "world" ]
+[
+  {
+    "path": "",
+    "message": "This should be an array of at least 1 element"
   }
 ]
 ```
