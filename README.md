@@ -555,6 +555,8 @@ if (protectionGoneWrong.success) {
 
 #### minimumLength
 
+Validate that a string has a minimum length.
+
 ```typescript
 import * as Kryptonian from "kryptonian";
 
