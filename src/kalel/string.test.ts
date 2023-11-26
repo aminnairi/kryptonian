@@ -54,6 +54,19 @@ describe("string", () => {
     });
   });
 
+  describe("includes", () => {
+    test("It should return a rule", () => {
+      const rule = includes({
+        string: "type",
+        message: "Message"
+      });
+
+      expect(rule.message).toEqual("Message");
+      expect(rule.valid("typescript")).toEqual(true);
+      expect(rule.valid("javascript")).toEqual(false);
+    });
+  });
+
   describe("email", () => {
     test("It should return a rule", () => {
       const rule = email({
