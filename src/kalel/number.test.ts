@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { between, divisibleBy, notDivisibleBy, even, odd, positive, negative, integer } from "./number";
+import { between, divisibleBy, notDivisibleBy, even, odd, positive, negative, integer, greater, lower, greaterOrEqual, lowerOrEqual, finite } from "./number";
 
 describe("number", () => {
   describe("between", () => {
