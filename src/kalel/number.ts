@@ -179,4 +179,26 @@ export const greater = ({ message, number }: GreaterOptions): Kalel.NumberRule =
   };
 };
 
+export interface LowerOptions {
+  /**
+   * Message to attach to the error when the number is not greater than another
+   * one
+   */
+  message: string,
+  /**
+   * The number that the value must be lower than
+   */
+  number: number
+}
+
+/**
+ * Ensure that a number is lower than another one
+ */
+export const lower = ({ message, number }: LowerOptions): Kalel.NumberRule => {
+  return {
+    message,
+    valid: value => value < number
+  };
+};
+
 };
