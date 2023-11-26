@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { length, lengthBetween, maximumLength, minimumLength } from "./array";
+import { length, lengthBetween, maximumLength, minimumLength, nonEmpty } from "./array";
 
 describe("array", () => {
   describe("length", () => {
@@ -52,6 +52,18 @@ describe("array", () => {
       expect(rule.message).toEqual("Message");
       expect(rule.valid([1, 2])).toEqual(true);
       expect(rule.valid([2, 3, 4])).toEqual(false);
+    });
+  });
+
+  describe("nonEmpty", () => {
+    test("It should return a rule", () => {
+      const rule = nonEmpty({
+        message: "Message"
+      });
+
+      expect(rule.message).toEqual("Message");
+      expect(rule.valid([1, 2, 3])).toEqual(true);
+      expect(rule.valid([])).toEqual(false);
     });
   });
 });
