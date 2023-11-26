@@ -31,6 +31,7 @@ Purity, hope, and the strength of Krypton in one package
     - [startsWith](#startswith)
     - [endsWith](#endswith)
     - [email](#email)
+    - [uniformResourceLocator](#uniformresourcelocator)
     - [internetProtocolVersion4](#internetprotocolversion4)
     - [internetProtocolVersion4WithClasslessInterDomainRouting](#internetprotocolversion4withclasslessinterdomainrouting)
   - [number](#number)
@@ -786,6 +787,53 @@ if (protectionGoneWrong.success) {
   {
     "path": "",
     "message": "This should be a valid email"
+  }
+]
+```
+
+[Back to summary](#summary)
+
+#### uniformResourceLocator
+
+Validate that a string is a valid url.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.string({
+  message: "This is not a string",
+  rules: [
+    Kryptonian.Kalel.String.uniformResourceLocator({
+      message: "This should be a valid URL"
+    })
+  ]
+}));
+
+const goodData: unknown = "https://krypton.dev";
+const wrongData: unknown = "https:/krypton.dev";
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+"https://krypton.dev"
+[
+  {
+    "path": "",
+    "message": "This should be a valid URL"
   }
 ]
 ```
