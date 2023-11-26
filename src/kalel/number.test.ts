@@ -154,4 +154,15 @@ describe("number", () => {
     });
   });
 
+  describe("finite", () => {
+    test("It should return a rule", () => {
+      const rule = finite({
+        message: "Message"
+      });
+
+      expect(rule.message).toEqual("Message");
+      expect(rule.valid(5)).toEqual(true);
+      expect(rule.valid(Infinity)).toEqual(false);
+    });
+  });
 });
