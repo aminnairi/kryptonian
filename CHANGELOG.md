@@ -2,6 +2,7 @@
 
 ## Versions
 
+- [`3.0.0`](#300)
 - [`2.1.0`](#210)
 - [`2.0.1`](#201)
 - [`2.0.0`](#200)
@@ -10,6 +11,16 @@
 - [`0.3.0`](#030)
 - [`0.2.0`](#020)
 - [`0.1.0`](#010)
+
+## 3.0.0
+
+- Added a new function to help creating smaller implementation of the routes ([#102](https://github.com/aminnairi/kryptonian/pull/102))
+- Renamed createServer in createRouter in the documentation ([#103](https://github.com/aminnairi/kryptonian/pull/103))
+- Renamed numeric to number ([#104](https://github.com/aminnairi/kryptonian/pull/104))
+- Renamed text to string ([#105](https://github.com/aminnairi/kryptonian/pull/105))
+- More array rules ([#106](https://github.com/aminnairi/kryptonian/pull/106))
+- Added more string rules ([#107](https://github.com/aminnairi/kryptonian/pull/107))
+- Added more number rules ([#108](https://github.com/aminnairi/kryptonian/pull/108))
 
 ## 2.1.0
 
