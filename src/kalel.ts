@@ -25,13 +25,13 @@ export interface DateRule {
   message: string
 }
 
-export type TextRule = Rule<string>
+export type StringRule = Rule<string>
 
 export type NumberRule = Rule<number>
 
 export type ArrayRule = Rule<Array<unknown>>
 
-export type TextRules = Array<TextRule>
+export type StringRules = Array<StringRule>
 
 export type NumberRules = Array<NumberRule>
 
@@ -39,10 +39,10 @@ export type ArrayRules = Array<ArrayRule>
 
 export type DateRules = Array<DateRule>
 
-export interface TextSchema {
-  type: "text",
+export interface StringSchema {
+  type: "string",
   message: string,
-  rules: TextRules
+  rules: StringRules
 }
 
 export interface NumberSchema {
@@ -114,7 +114,7 @@ interface OneOfSchema<S extends Schema> {
 export type BasicSchema =
   | UnknownSchema
   | AnySchema
-  | TextSchema
+  | StringSchema
   | NumberSchema
   | BooleanSchema
   | NoneSchema
@@ -140,7 +140,7 @@ export type InferBasicType<S extends BasicSchema> =
   ? unknown
   : S extends NumberSchema
   ? number
-  : S extends TextSchema
+  : S extends StringSchema
   ? string
   : S extends BooleanSchema
   ? boolean
@@ -174,7 +174,7 @@ export type InferType<S extends Schema> =
 
 export type Validator<S extends Schema> = (data: unknown) => Validation<S>
 
-export interface TextOptions {
+export interface StringOptions {
   /**
    * The message attached to the error
    */
@@ -182,15 +182,15 @@ export interface TextOptions {
   /**
    * A list of rules to apply to the string being validated
    */
-  rules: TextRules
+  rules: StringRules
 }
 
 /**
  * Create a schema to validate strings
  */
-export const text = ({ message, rules }: TextOptions): TextSchema => {
+export const string = ({ message, rules }: StringOptions): StringSchema => {
   return {
-    type: "text",
+    type: "string",
     message,
     rules
   };
@@ -646,7 +646,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
       };
     }
 
-    if (schema.type === "text") {
+    if (schema.type === "string") {
       if (typeof data === "string") {
         const initialErrors: Array<ValidationError> = [];
 
@@ -840,5 +840,5 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 
 export * as Array from "./kalel/array";
 export * as Number from "./kalel/number";
-export * as Text from "./kalel/text";
+export * as String from "./kalel/string";
 export * as Date from "./kalel/date";

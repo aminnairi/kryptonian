@@ -1,20 +1,20 @@
 import { describe, test, expect } from "vitest";
-import { any, array, boolean, createProtector, date, empty, literal, none, notDefined, number, object, oneOf, text, unknown } from "./kalel";
+import { any, array, boolean, createProtector, date, empty, literal, none, notDefined, number, object, oneOf, string, unknown } from "./kalel";
 import { between } from "./kalel/date";
 import * as KalelNumber from "./kalel/number";
-import * as KalelText from "./kalel/text";
+import * as KalelString from "./kalel/string";
 import * as KalelArray from "./kalel/array";
 
 describe("kalel", () => {
-  describe("text", () => {
+  describe("string", () => {
     test("should return true", () => {
-      const schema = text({
+      const schema = string({
         message: "Message",
         rules: []
       });
 
       expect(schema).toEqual({
-        type: "text",
+        type: "string",
         message: "Message",
         rules: []
       });
@@ -142,7 +142,7 @@ describe("kalel", () => {
   describe("oneOf", () => {
     test("should return true", () => {
       const schema = oneOf([
-        text({
+        string({
           message: "Message",
           rules: []
         }),
@@ -155,7 +155,7 @@ describe("kalel", () => {
         type: "oneOf",
         schema: [
           {
-            type: "text",
+            type: "string",
             message: "Message",
             rules: []
           },
@@ -173,7 +173,7 @@ describe("kalel", () => {
       const schema = array({
         message: "Message",
         rules: [],
-        schema: text({
+        schema: string({
           message: "Message",
           rules: []
         })
@@ -184,7 +184,7 @@ describe("kalel", () => {
         message: "Message",
         rules: [],
         schema: {
-          type: "text",
+          type: "string",
           message: "Message",
           rules: []
         }
@@ -197,7 +197,7 @@ describe("kalel", () => {
       const schema = object({
         message: "Message",
         fields: {
-          field: text({
+          field: string({
             message: "Message",
             rules: []
           })
@@ -209,7 +209,7 @@ describe("kalel", () => {
         message: "Message",
         fields: {
           field: {
-            type: "text",
+            type: "string",
             message: "Message",
             rules: []
           }
@@ -236,8 +236,8 @@ describe("kalel", () => {
     describe("oneOf", () => {
       test("It should return a successful validation", () => {
         const protect = createProtector(oneOf([
-          text({
-            message: "text",
+          string({
+            message: "string",
             rules: []
           }),
           boolean({
@@ -257,8 +257,8 @@ describe("kalel", () => {
 
       test("It should return a failed validation", () => {
         const protect = createProtector(oneOf([
-          text({
-            message: "text",
+          string({
+            message: "string",
             rules: []
           }),
           boolean({
@@ -277,7 +277,7 @@ describe("kalel", () => {
         expect(protection.errors).toEqual([
           {
             path: "",
-            message: "text"
+            message: "string"
           },
           {
             path: "",
@@ -290,8 +290,8 @@ describe("kalel", () => {
     describe("oneOf", () => {
       test("It should return a successful validation", () => {
         const protect = createProtector(oneOf([
-          text({
-            message: "text",
+          string({
+            message: "string",
             rules: []
           }),
           boolean({
@@ -311,8 +311,8 @@ describe("kalel", () => {
 
       test("It should return a failed validation", () => {
         const protect = createProtector(oneOf([
-          text({
-            message: "text",
+          string({
+            message: "string",
             rules: []
           }),
           boolean({
@@ -331,7 +331,7 @@ describe("kalel", () => {
         expect(protection.errors).toEqual([
           {
             path: "",
-            message: "text"
+            message: "string"
           },
           {
             path: "",
@@ -726,10 +726,10 @@ describe("kalel", () => {
       });
     });
 
-    describe("text", () => {
+    describe("string", () => {
       test("It should return a successful validation", () => {
-        const protect = createProtector(text({
-          message: "text",
+        const protect = createProtector(string({
+          message: "string",
           rules: []
         }));
 
@@ -744,8 +744,8 @@ describe("kalel", () => {
       });
 
       test("It should return a failed validation", () => {
-        const protect = createProtector(text({
-          message: "text",
+        const protect = createProtector(string({
+          message: "string",
           rules: []
         }));
 
@@ -760,16 +760,16 @@ describe("kalel", () => {
         expect(protection.errors).toEqual([
           {
             path: "",
-            message: "text"
+            message: "string"
           },
         ]);
       });
 
       test("It should return a success validation with rules", () => {
-        const protect = createProtector(text({
-          message: "text",
+        const protect = createProtector(string({
+          message: "string",
           rules: [
-            KalelText.length({
+            KalelString.length({
               length: 2,
               message: "length"
             })
@@ -787,10 +787,10 @@ describe("kalel", () => {
       });
 
       test("It should return a failed validation with rules", () => {
-        const protect = createProtector(text({
+        const protect = createProtector(string({
           message: "date",
           rules: [
-            KalelText.length({
+            KalelString.length({
               length: 2,
               message: "length"
             })
@@ -818,8 +818,8 @@ describe("kalel", () => {
         const protect = createProtector(array({
           message: "array",
           rules: [],
-          schema: text({
-            message: "text",
+          schema: string({
+            message: "string",
             rules: []
           })
         }));
@@ -838,8 +838,8 @@ describe("kalel", () => {
         const protect = createProtector(array({
           message: "array",
           rules: [],
-          schema: text({
-            message: "text",
+          schema: string({
+            message: "string",
             rules: []
           })
         }));
@@ -864,8 +864,8 @@ describe("kalel", () => {
         const protect = createProtector(array({
           message: "array",
           rules: [],
-          schema: text({
-            message: "text",
+          schema: string({
+            message: "string",
             rules: []
           })
         }));
@@ -881,7 +881,7 @@ describe("kalel", () => {
         expect(protection.errors).toEqual([
           {
             path: "[0]",
-            message: "text"
+            message: "string"
           },
         ]);
       });
@@ -889,8 +889,8 @@ describe("kalel", () => {
       test("It should return a success validation with rules", () => {
         const protect = createProtector(array({
           message: "array",
-          schema: text({
-            message: "text",
+          schema: string({
+            message: "string",
             rules: []
           }),
           rules: [
@@ -914,7 +914,7 @@ describe("kalel", () => {
       test("It should return a failed validation with rules", () => {
         const protect = createProtector(array({
           message: "array",
-          schema: text({
+          schema: string({
             message: "",
             rules: []
           }),
@@ -947,8 +947,8 @@ describe("kalel", () => {
         const protect = createProtector(object({
           message: "object",
           fields: {
-            field: text({
-              message: "text",
+            field: string({
+              message: "string",
               rules: []
             })
           }
@@ -968,8 +968,8 @@ describe("kalel", () => {
         const protect = createProtector(object({
           message: "object",
           fields: {
-            field: text({
-              message: "text",
+            field: string({
+              message: "string",
               rules: []
             })
           }
@@ -995,8 +995,8 @@ describe("kalel", () => {
         const protect = createProtector(object({
           message: "object",
           fields: {
-            field: text({
-              message: "text",
+            field: string({
+              message: "string",
               rules: []
             })
           }
@@ -1013,7 +1013,7 @@ describe("kalel", () => {
         expect(protection.errors).toEqual([
           {
             path: ".field",
-            message: "text"
+            message: "string"
           },
         ]);
       });
@@ -1045,8 +1045,8 @@ describe("kalel", () => {
         const protect = createProtector(object({
           message: "object",
           fields: {
-            field: text({
-              message: "text",
+            field: string({
+              message: "string",
               rules: []
             })
           }
@@ -1072,8 +1072,8 @@ describe("kalel", () => {
         const protect = createProtector(object({
           message: "object",
           fields: {
-            field: text({
-              message: "text",
+            field: string({
+              message: "string",
               rules: []
             })
           }
@@ -1090,7 +1090,7 @@ describe("kalel", () => {
         expect(protection.errors).toEqual([
           {
             path: ".field",
-            message: "text"
+            message: "string"
           },
         ]);
       });

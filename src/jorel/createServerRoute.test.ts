@@ -6,13 +6,13 @@ Vitest.describe("createServerRoute", () => {
     const routes = {
       getText: {
         request: {
-          type: "text" as const,
-          message: "text",
+          type: "string" as const,
+          message: "string",
           rules: []
         },
         response: {
-          type: "text" as const,
-          message: "text",
+          type: "string" as const,
+          message: "string",
           rules: []
         }
       }

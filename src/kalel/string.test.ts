@@ -1,7 +1,7 @@
 import { describe, test, expect } from "vitest";
-import { email, length, minimumLength } from "./text";
+import { email, length, minimumLength } from "./string";
 
-describe("text", () => {
+describe("string", () => {
   describe("length", () => {
     test("It should return a rule", () => {
       const rule = length({
