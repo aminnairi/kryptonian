@@ -28,7 +28,7 @@ Purity, hope, and the strength of Krypton in one package
     - [length](#length)
     - [minimumLength](#minimumlength)
     - [email](#email)
-  - [numeric](#numeric)
+  - [number](#number)
     - [between](#between)
     - [divisibleBy](#divisibleby)
     - [notDivisibleBy](#notdivisibleby)
@@ -640,14 +640,14 @@ if (protectionGoneWrong.success) {
 
 [Back to summary](#summary)
 
-### numeric
+### number
 
-Numeric is a schema representing a number.
+`number` is a schema representing a number.
 
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.number({
   message: "This is not a number",
   rules: []
 }));
@@ -690,10 +690,10 @@ Validate that a number is between two values.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.number({
   message: "This is not a number",
   rules: [
-    Kryptonian.Kalel.Numeric.between({
+    Kryptonian.Kalel.Number.between({
       minimum: 10,
       maximum: 20,
       message: "This should be a number between 10 & 20"
@@ -739,10 +739,10 @@ Validate that a number can be divided by another number without remaining value.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.number({
   message: "This is not a number",
   rules: [
-    Kryptonian.Kalel.Numeric.divisibleBy({
+    Kryptonian.Kalel.Number.divisibleBy({
       divisor: 5,
       message: "This should be a number divisible by 5"
     })
@@ -787,10 +787,10 @@ Validate that a number cannot be divided by another number without remaining val
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.number({
   message: "This is not a number",
   rules: [
-    Kryptonian.Kalel.Numeric.notDivisibleBy({
+    Kryptonian.Kalel.Number.notDivisibleBy({
       divisor: 2,
       message: "This should be a number not divisible by 2"
     })
@@ -835,10 +835,10 @@ Validate that a number is even.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.number({
   message: "This is not a number",
   rules: [
-    Kryptonian.Kalel.Numeric.even({
+    Kryptonian.Kalel.Number.even({
       message: "This should be an even number"
     })
   ]
@@ -882,10 +882,10 @@ Validate that a number is odd.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.number({
   message: "This is not a number",
   rules: [
-    Kryptonian.Kalel.Numeric.odd({
+    Kryptonian.Kalel.Number.odd({
       message: "This should be an odd number"
     })
   ]
@@ -929,10 +929,10 @@ Validate that a number is positive.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.number({
   message: "This is not a number",
   rules: [
-    Kryptonian.Kalel.Numeric.positive({
+    Kryptonian.Kalel.Number.positive({
       message: "This should be a positive number"
     })
   ]
@@ -976,10 +976,10 @@ Validate that a number is negative.
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.number({
   message: "This is not a number",
   rules: [
-    Kryptonian.Kalel.Numeric.negative({
+    Kryptonian.Kalel.Number.negative({
       message: "This should be a negative number"
     })
   ]
@@ -1023,10 +1023,10 @@ Validate that a number is integer
 ```typescript
 import * as Kryptonian from "kryptonian";
 
-const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.numeric({
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.number({
   message: "This is not a number",
   rules: [
-    Kryptonian.Kalel.Numeric.integer({
+    Kryptonian.Kalel.Number.integer({
       message: "This should be an integer number"
     })
   ]
@@ -2266,7 +2266,7 @@ Here is a non-exhaustive list of rules, and many more to come in a near future.
 import * as Kryptonian from "kryptonian";
 
 Kryptonian.Kalel.TextRule; // For strings
-Kryptonian.Kalel.NumericRule; // For numbers
+Kryptonian.Kalel.NumberRule; // For numbers
 Kryptonian.Kalel.ArrayRule; // For arrays
 Kryptonian.Kalel.DateRule; // For dates
 ```
@@ -2282,7 +2282,7 @@ export interface ValidAgeOptions {
   message: string
 }
 
-export const validAge = ({ message }: ValidAgeOptions): Kryptonian.Kalel.NumericRule => {
+export const validAge = ({ message }: ValidAgeOptions): Kryptonian.Kalel.NumberRule => {
   return {
     message,
     valid: age => age >= 18 && age <= 60
@@ -2292,7 +2292,7 @@ export const validAge = ({ message }: ValidAgeOptions): Kryptonian.Kalel.Numeric
 
 As you can see, here we can validate that the age of a user is between `18` and `60` (those are abritrary values, of course this would be different from an application to another).
 
-One important thing to note here is that you don't have to type yourself the value of the `age` variable in this case, the `NumericRule` is here to ensure that it is always a `number` type.
+One important thing to note here is that you don't have to type yourself the value of the `age` variable in this case, the `NumberRule` is here to ensure that it is always a `number` type.
 
 What would happen if you use the wrong rule? Let's find out.
 
@@ -2313,7 +2313,7 @@ export const validAge = ({ message }: ValidAgeOptions): Kryptonian.Kalel.TextRul
 };
 ```
 
-We added a comment to help you understand this code without having to test it yourself (but you are encouraged to do so!). As you can see, there is no way we can make a mistake by comparing a `string` with a `number` here since now that we replaced `Kryptonian.Kalel.NumericRule` with `Kryptonian.Kalel.TextRule`, the `age` value is typed as a `string`, not a `number`. Hence the error we got in the comment below the comparison.
+We added a comment to help you understand this code without having to test it yourself (but you are encouraged to do so!). As you can see, there is no way we can make a mistake by comparing a `string` with a `number` here since now that we replaced `Kryptonian.Kalel.NumberRule` with `Kryptonian.Kalel.TextRule`, the `age` value is typed as a `string`, not a `number`. Hence the error we got in the comment below the comparison.
 
 That's it! There is nothing more to know about custom rules and it is very trivial and easy to create its own. 
 

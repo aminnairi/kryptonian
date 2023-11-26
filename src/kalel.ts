@@ -27,13 +27,13 @@ export interface DateRule {
 
 export type TextRule = Rule<string>
 
-export type NumericRule = Rule<number>
+export type NumberRule = Rule<number>
 
 export type ArrayRule = Rule<Array<unknown>>
 
 export type TextRules = Array<TextRule>
 
-export type NumericRules = Array<NumericRule>
+export type NumberRules = Array<NumberRule>
 
 export type ArrayRules = Array<ArrayRule>
 
@@ -45,10 +45,10 @@ export interface TextSchema {
   rules: TextRules
 }
 
-export interface NumericSchema {
-  type: "numeric",
+export interface NumberSchema {
+  type: "number",
   message: string,
-  rules: NumericRules
+  rules: NumberRules
 }
 
 export interface ArraySchema<S extends Schema> {
@@ -115,7 +115,7 @@ export type BasicSchema =
   | UnknownSchema
   | AnySchema
   | TextSchema
-  | NumericSchema
+  | NumberSchema
   | BooleanSchema
   | NoneSchema
   | NotDefinedSchema
@@ -138,7 +138,7 @@ export type InferBasicType<S extends BasicSchema> =
   ? any
   : S extends UnknownSchema
   ? unknown
-  : S extends NumericSchema
+  : S extends NumberSchema
   ? number
   : S extends TextSchema
   ? string
@@ -204,15 +204,15 @@ export interface NumberOptions {
   /**
    * A list of rules to apply to the number being validated
    */
-  rules: NumericRules
+  rules: NumberRules
 }
 
 /**
  * Create a schema to validate numbers
  */
-export const numeric = ({ message, rules }: NumberOptions): NumericSchema => {
+export const number = ({ message, rules }: NumberOptions): NumberSchema => {
   return {
-    type: "numeric",
+    type: "number",
     message,
     rules
   };
@@ -604,7 +604,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
       };
     }
 
-    if (schema.type === "numeric") {
+    if (schema.type === "number") {
       if (typeof data !== "number") {
         return {
           success: false,
@@ -839,6 +839,6 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 };
 
 export * as Array from "./kalel/array";
-export * as Numeric from "./kalel/numeric";
+export * as Number from "./kalel/number";
 export * as Text from "./kalel/text";
 export * as Date from "./kalel/date";
