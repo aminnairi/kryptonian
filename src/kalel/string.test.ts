@@ -111,4 +111,16 @@ describe("string", () => {
     });
   });
 
+  describe("internetProtocolVersion4WithClasslessInterDomainRouting", () => {
+    test("It should return a rule", () => {
+      const rule = internetProtocolVersion4WithClassesInterDomainRouting({
+        message: "Message"
+      });
+
+      // Valid URLs
+      expect(rule.valid("1.1.1.1/16")).toEqual(true);
+      expect(rule.valid("1.2.3/24")).toEqual(false);
+      expect(rule.valid("1.2.3.4.5/32")).toEqual(false);
+    });
+  });
 });

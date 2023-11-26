@@ -148,6 +148,23 @@ export const internetProtocolVersion4 = ({ message }: InternetProtocolVersion4Op
   };
 };
 
+export interface InternetProtocolVersion4WithClasslessInterDomainRoutingOptions {
+  /**
+   * The message to attach to the error if the string is not in the Internet Protocol version 4 with classless inter-domain routing format
+   */
+  message: string
+}
+
+/**
+ * Ensure that a string is in the Internet Protocol version 4 with classless inter-domain routing format
+ */
+export const internetProtocolVersion4WithClassesInterDomainRouting = ({ message }: InternetProtocolVersion4Options): Kalel.StringRule => {
+  return {
+    message,
+    valid: value => /^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})){3}\/([0-9]|[1-2][0-9]|3[0-2])$/.test(value)
+  };
+};
+
 /**
  * Ensure that a string is a well-formed URL
  */
