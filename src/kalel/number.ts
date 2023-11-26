@@ -156,3 +156,27 @@ export const integer = ({ message }: IntegerOptions): Kalel.NumberRule => {
     valid: (value: number) => Number.isInteger(value)
   };
 };
+
+export interface GreaterOptions {
+  /**
+   * Message to attach to the error when the number is not greater than another
+   * one
+   */
+  message: string,
+  /**
+   * The number that the value must be greater than
+   */
+  number: number
+}
+
+/**
+ * Ensure that a number is greater than another one
+ */
+export const greater = ({ message, number }: GreaterOptions): Kalel.NumberRule => {
+  return {
+    message,
+    valid: value => value > number
+  };
+};
+
+};
