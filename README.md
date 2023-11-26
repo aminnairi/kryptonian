@@ -53,7 +53,7 @@ Purity, hope, and the strength of Krypton in one package
   - [oneOf](#oneof)
   - [Jorel](#jorel)
     - [createRoutes](#createroutes)
-    - [createServer](#createserver)
+    - [createRouter](#createrouter)
     - [createServerRoute](#createserverroute)
     - [createClient](#createclient)
     - [getting started](#getting-started)
@@ -316,7 +316,7 @@ Beware, if you use this in a server, you should use the `as const` keyword in or
 import * as Kryptonian from "kryptonian";
 import { routes } from "./routes";
 
-export const router = Kryptonian.Jorel.createServer({
+export const router = Kryptonian.Jorel.createRouter({
   getKryptonians: async () => {
     return [
       {
@@ -1888,9 +1888,9 @@ const routes = Kryptonian.Kalel.Jorel.createRoutes({
 
 [Back to summary](#summary)
 
-#### createServer
+#### createRouter
 
-createServer is a function that will take as input your server, and will let your define an implementation for the latter. For now, we only support creating a server using the built-in `http` module from Node.js, and we intend on adding support for adapters for others libraries as well such as Express or Fastify.
+`createRouter` is a function that will take as input your server, and will let your define an implementation for the latter. For now, we only support creating a server using the built-in `http` module from Node.js, and we intend on adding support for adapters for others libraries as well such as Express or Fastify.
 
 ```typescript
 import * as Http from "http";
@@ -2271,7 +2271,7 @@ Kryptonian.Kalel.ArrayRule; // For arrays
 Kryptonian.Kalel.DateRule; // For dates
 ```
 
-Every rule is a pure function, meaning it should take an argument (you can also choose not to accept any argument such as the `Kryptonian.Kalel.Text.email` rule) and must return a rule. There is no mutation nor effect that is going on in a rule, bringing guarantees and robustness to the library itself. In fact, every function exposed (except for `Jorel.createClient` and `Jorel.createServer`) is a pure function and will not imply side-effects of any kind.
+Every rule is a pure function, meaning it should take an argument (you can also choose not to accept any argument such as the `Kryptonian.Kalel.Text.email` rule) and must return a rule. There is no mutation nor effect that is going on in a rule, bringing guarantees and robustness to the library itself. In fact, every function exposed (except for `Jorel.createClient` and `Jorel.createRouter`) is a pure function and will not imply side-effects of any kind.
 
 Here is an example of a rule that you might want to create to valide that a user's age is in legal compliance with your business domain.
 
