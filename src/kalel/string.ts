@@ -80,4 +80,25 @@ export const startsWith = ({ message, string }: StartsWithOptions): Kalel.String
   };
 };
 
+export interface EndsWithOptions {
+  /**
+   * The message to attach to the error when the string does not ends with another
+   */
+  message: string,
+  /**
+   * The string that should be the end
+   */
+  string: string
+}
+
+/**
+ * Ensure that a string ends with another one
+ */
+export const endsWith = ({ message, string }: EndsWithOptions): Kalel.StringRule => {
+  return {
+    message,
+    valid: value => value.endsWith(string)
+  };
+};
+
 };
