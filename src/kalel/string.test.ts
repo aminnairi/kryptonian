@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { email, length, minimumLength } from "./string";
+import { email, endsWith, includes, internetProtocolVersion4, internetProtocolVersion4WithClassesInterDomainRouting, length, minimumLength, startsWith, uniformResourceLocator } from "./string";
 
 describe("string", () => {
   describe("length", () => {
