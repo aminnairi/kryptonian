@@ -128,4 +128,17 @@ describe("number", () => {
     });
   });
 
+  describe("greaterOrEqual", () => {
+    test("It should return a rule", () => {
+      const rule = greaterOrEqual({
+        number: 5,
+        message: "Message"
+      });
+
+      expect(rule.message).toEqual("Message");
+      expect(rule.valid(5)).toEqual(true);
+      expect(rule.valid(3)).toEqual(false);
+    });
+  });
+
 });
