@@ -1,8 +1,8 @@
 import { describe, test, expect } from "vitest";
-import { between, divisibleBy, notDivisibleBy, even, odd, positive, negative, integer } from "./numeric";
+import { between, divisibleBy, notDivisibleBy, even, odd, positive, negative, integer } from "./number";
 
-describe("array", () => {
-  describe("length", () => {
+describe("number", () => {
+  describe("between", () => {
     test("It should return a rule", () => {
       const rule = between({
         minimum: 2,

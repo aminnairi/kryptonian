@@ -1,7 +1,7 @@
 import { describe, test, expect } from "vitest";
-import { any, array, boolean, createProtector, date, empty, literal, none, notDefined, numeric, object, oneOf, text, unknown } from "./kalel";
+import { any, array, boolean, createProtector, date, empty, literal, none, notDefined, number, object, oneOf, text, unknown } from "./kalel";
 import { between } from "./kalel/date";
-import * as KalelNumeric from "./kalel/numeric";
+import * as KalelNumber from "./kalel/number";
 import * as KalelText from "./kalel/text";
 import * as KalelArray from "./kalel/array";
 
@@ -23,13 +23,13 @@ describe("kalel", () => {
 
   describe("number", () => {
     test("should return true", () => {
-      const schema = numeric({
+      const schema = number({
         message: "Message",
         rules: []
       });
 
       expect(schema).toEqual({
-        type: "numeric",
+        type: "number",
         message: "Message",
         rules: []
       });
@@ -637,10 +637,10 @@ describe("kalel", () => {
       });
     });
 
-    describe("numeric", () => {
+    describe("number", () => {
       test("It should return a successful validation", () => {
-        const protect = createProtector(numeric({
-          message: "numeric",
+        const protect = createProtector(number({
+          message: "number",
           rules: []
         }));
 
@@ -655,8 +655,8 @@ describe("kalel", () => {
       });
 
       test("It should return a failed validation", () => {
-        const protect = createProtector(numeric({
-          message: "numeric",
+        const protect = createProtector(number({
+          message: "number",
           rules: []
         }));
 
@@ -671,16 +671,16 @@ describe("kalel", () => {
         expect(protection.errors).toEqual([
           {
             path: "",
-            message: "numeric"
+            message: "number"
           },
         ]);
       });
 
       test("It should return a success validation with rules", () => {
-        const protect = createProtector(numeric({
-          message: "numeric",
+        const protect = createProtector(number({
+          message: "number",
           rules: [
-            KalelNumeric.between({
+            KalelNumber.between({
               minimum: 10,
               maximum: 20,
               message: "between"
@@ -699,10 +699,10 @@ describe("kalel", () => {
       });
 
       test("It should return a failed validation with rules", () => {
-        const protect = createProtector(numeric({
+        const protect = createProtector(number({
           message: "date",
           rules: [
-            KalelNumeric.between({
+            KalelNumber.between({
               minimum: 10,
               maximum: 20,
               message: "between"
