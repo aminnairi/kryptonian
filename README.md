@@ -43,6 +43,7 @@ Purity, hope, and the strength of Krypton in one package
     - [positive](#positive)
     - [negative](#negative)
     - [integer](#integer)
+    - [greater](#greater)
   - [date](#date)
     - [between](#between-1)
     - [before](#before)
@@ -1351,6 +1352,54 @@ if (protectionGoneWrong.success) {
   {
     "path": "",
     "message": "This should be an integer number"
+  }
+]
+```
+
+[Back to summary](#summary)
+
+#### greater
+
+Validate that a number is greater than another value.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.number({
+  message: "This is not a number",
+  rules: [
+    Kryptonian.Kalel.Number.greater({
+      number: 5,
+      message: "This should be greater than 5"
+    })
+  ]
+}));
+
+const goodData: unknown = 15;
+const wrongData: unknown = 2;
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+15
+[
+  {
+    "path": "",
+    "message": "This should be greater than 5"
   }
 ]
 ```

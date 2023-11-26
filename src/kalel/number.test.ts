@@ -101,4 +101,18 @@ describe("number", () => {
       expect(rule.valid(5.4)).toEqual(false);
     });
   });
+
+  describe("greater", () => {
+    test("It should return a rule", () => {
+      const rule = greater({
+        number: 5,
+        message: "Message"
+      });
+
+      expect(rule.message).toEqual("Message");
+      expect(rule.valid(10)).toEqual(true);
+      expect(rule.valid(2)).toEqual(false);
+    });
+  });
+
 });
