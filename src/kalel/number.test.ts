@@ -141,4 +141,17 @@ describe("number", () => {
     });
   });
 
+  describe("lowerOrEqual", () => {
+    test("It should return a rule", () => {
+      const rule = lowerOrEqual({
+        number: 5,
+        message: "Message"
+      });
+
+      expect(rule.message).toEqual("Message");
+      expect(rule.valid(5)).toEqual(true);
+      expect(rule.valid(7)).toEqual(false);
+    });
+  });
+
 });
