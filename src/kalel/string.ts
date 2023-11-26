@@ -15,7 +15,7 @@ export interface LengthOptions {
 /**
  * Ensure that a string has an exact length
  */
-export const length = ({ length, message }: LengthOptions): Kalel.TextRule => {
+export const length = ({ length, message }: LengthOptions): Kalel.StringRule => {
   return {
     message,
     valid: value => value.length === length
@@ -36,7 +36,7 @@ export interface MinimumLengthOptions {
 /**
  * Ensure that a string has a minimum length
  */
-export const minimumLength = ({ minimum, message }: MinimumLengthOptions): Kalel.TextRule => {
+export const minimumLength = ({ minimum, message }: MinimumLengthOptions): Kalel.StringRule => {
   return {
     message,
     valid: value => value.length >= minimum
@@ -53,7 +53,7 @@ export interface EmailOptions {
 /**
  * Ensure that a string is a valid email
  */
-export const email = ({ message}: EmailOptions): Kalel.TextRule => {
+export const email = ({ message}: EmailOptions): Kalel.StringRule => {
   return {
     message,
     // eslint-disable-next-line no-control-regex

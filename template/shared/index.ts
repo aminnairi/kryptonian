@@ -19,7 +19,7 @@ export const routes = Kryptonian.Jorel.createRoutes({
             schema: Kryptonian.Kalel.object({
               message: "kryptonian should be an object",
               fields: {
-                name: Kryptonian.Kalel.text({
+                name: Kryptonian.Kalel.string({
                   message: "Name should be a string",
                   rules: []
                 }),
@@ -39,8 +39,8 @@ export const routes = Kryptonian.Jorel.createRoutes({
             message: "success should be false",
             value: false as const
           }),
-          error: Kryptonian.Kalel.text({
-            message: "text should be a string",
+          error: Kryptonian.Kalel.string({
+            message: "error should be a string",
             rules: []
           })
         }
