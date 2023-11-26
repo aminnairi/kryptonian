@@ -754,7 +754,7 @@ Validate that a string is a valid email.
 import * as Kryptonian from "kryptonian";
 
 const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.string({
-  message: "This is not an array",
+  message: "This is not a string",
   rules: [
     Kryptonian.Kalel.String.email({
       message: "This should be a valid email"
