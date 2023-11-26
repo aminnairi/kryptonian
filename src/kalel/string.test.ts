@@ -28,6 +28,19 @@ describe("string", () => {
     });
   });
 
+  describe("startsWith", () => {
+    test("It should return a rule", () => {
+      const rule = startsWith({
+        string: "type",
+        message: "Message"
+      });
+
+      expect(rule.message).toEqual("Message");
+      expect(rule.valid("typescript")).toEqual(true);
+      expect(rule.valid("javascript")).toEqual(false);
+    });
+  });
+
   describe("email", () => {
     test("It should return a rule", () => {
       const rule = email({
