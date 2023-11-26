@@ -106,7 +106,7 @@ export interface LiteralSchema<Value> {
   value: Value
 }
 
-interface OneOfSchema<S extends Schema> {
+export interface OneOfSchema<S extends Schema> {
     type: "oneOf",
     schema: Array<S>
 }
