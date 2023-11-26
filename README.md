@@ -54,6 +54,7 @@ Purity, hope, and the strength of Krypton in one package
   - [Jorel](#jorel)
     - [createRoutes](#createroutes)
     - [createServer](#createserver)
+    - [createServerRoute](#createserverroute)
     - [createClient](#createclient)
     - [getting started](#getting-started)
   - [InferType](#infertype)
@@ -1927,6 +1928,76 @@ server.listen(port, hostname, () => {
 ```
 
 [Back to summary](#summary)
+
+#### createServerRoute
+
+`createServerRoute` is a functon that will help you break down the routes implementations into smaller route that you can easily export.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const routes = Kryptonian.Jorel.createRoutes({
+  getUsers: {
+    request: Kryptonian.Kalel.object({
+      message: "Request should be an object",
+      fields: {
+        since: Kryptonian.Kalel.date({
+          message: "Request should contain a property since of type Date",
+          rules: []
+        })
+      }
+    }),
+    response: Kryptonian.Kalel.array({
+      message: "Response should be an array",
+      rules: [],
+      schema: Kryptonian.Kalel.text({
+        message: "Response should be an array of strings",
+        rules: []
+      })
+    })
+  }
+});
+```
+
+```typescript
+import * as Kryptonian from "kryptonian";
+import { routes } from "./routes";
+
+export const getUsers = Kryptonian.Jorel.createServerRoute({
+  routes,
+  route: "getUsers",
+  response: async ({ since }) => {
+    return [
+      "Kalel",
+      "Zorel",
+      "Jorel"
+    ]
+  }
+});
+```
+
+```typescript
+import * as Kryptonian from "kryptonian";
+import * as Http from "http";
+import { routes } from "./routes";
+import { getUsers } from "./routes/getUsers";
+
+const router = Kryptonian.Jorel.createRouter({
+  routes,
+  clients: [
+    "http://localhost:5173"
+  ],
+  spaceships: {
+    getUsers
+  }
+});
+
+const server = Http.createServer(router);
+
+server.listen(8000, "0.0.0.0", () => {
+  console.log("Spaceships launched and ready for communications!");
+});
+```
 
 #### createClient
 
