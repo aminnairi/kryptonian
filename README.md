@@ -32,6 +32,7 @@ Purity, hope, and the strength of Krypton in one package
     - [endsWith](#endswith)
     - [email](#email)
     - [internetProtocolVersion4](#internetprotocolversion4)
+    - [internetProtocolVersion4WithClasslessInterDomainRouting](#internetprotocolversion4withclasslessinterdomainrouting)
   - [number](#number)
     - [between](#between)
     - [divisibleBy](#divisibleby)
@@ -830,6 +831,53 @@ if (protectionGoneWrong.success) {
   {
     "path": "",
     "message": "This should be a valid IPv4 address"
+  }
+]
+```
+
+[Back to summary](#summary)
+
+#### internetProtocolVersion4WithClasslessInterDomainRouting
+
+Validate that a string is a valid Internet Protocol version 4 with classless inter-domain routing format.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.string({
+  message: "This is not an array",
+  rules: [
+    Kryptonian.Kalel.String.internetProtocolVersion4WithClasslessInterDomainRouting({
+      message: "This should be a valid IPv4 address with CIDR"
+    })
+  ]
+}));
+
+const goodData: unknown = "1.2.3.4/16";
+const wrongData: unknown = "1.2.3/32";
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+"1.2.3.4/16"
+[
+  {
+    "path": "",
+    "message": "This should be a valid IPv4 address with CIDR"
   }
 ]
 ```
