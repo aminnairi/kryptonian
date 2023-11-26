@@ -41,6 +41,19 @@ describe("string", () => {
     });
   });
 
+  describe("endsWith", () => {
+    test("It should return a rule", () => {
+      const rule = endsWith({
+        string: "script",
+        message: "Message"
+      });
+
+      expect(rule.message).toEqual("Message");
+      expect(rule.valid("typescript")).toEqual(true);
+      expect(rule.valid("typeform")).toEqual(false);
+    });
+  });
+
   describe("email", () => {
     test("It should return a rule", () => {
       const rule = email({
