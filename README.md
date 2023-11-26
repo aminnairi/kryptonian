@@ -28,6 +28,7 @@ Purity, hope, and the strength of Krypton in one package
     - [length](#length)
     - [minimumLength](#minimumlength)
     - [includes](#includes)
+    - [startsWith](#startswith)
     - [email](#email)
   - [number](#number)
     - [between](#between)
@@ -637,6 +638,54 @@ if (protectionGoneWrong.success) {
   {
     "path": "",
     "message": "This should be a string with the word type"
+  }
+]
+```
+
+[Back to summary](#summary)
+
+#### startsWith
+
+Validate that a string is starting with another one.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.string({
+  message: "This is not an array",
+  rules: [
+    Kryptonian.Kalel.String.startsWith({
+      string: "type",
+      message: "This should be a string starting with the word type"
+    })
+  ]
+}));
+
+const goodData: unknown = "typescript";
+const wrongData: unknown = "javascript";
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+"typescript"
+[
+  {
+    "path": "",
+    "message": "This should be a string starting with the word type"
   }
 ]
 ```
