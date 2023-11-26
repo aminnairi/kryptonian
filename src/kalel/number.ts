@@ -245,4 +245,19 @@ export const lowerOrEqual = ({ message, number }: LowerOrEqualOptions): Kalel.Nu
   };
 };
 
+export interface FiniteOptions {
+  /**
+   * Message to attach to the error when the number is not finite one
+   */
+  message: string
+}
+
+/**
+ * Ensure that a number is finite
+ */
+export const finite = ({ message }: FiniteOptions): Kalel.NumberRule => {
+  return {
+    message,
+    valid: value => Number.isFinite(value)
+  };
 };
