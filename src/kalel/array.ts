@@ -91,3 +91,18 @@ export const maximumLength = ({ maximum, message }: MaximumLengthOptions): Kalel
     valid: value => value.length <= maximum
   };
 };
+
+export interface NonEmptyOptions {
+  // The message to attach to the error when the list is empty
+  message: string
+}
+
+/**
+ * Ensure that an array is not empty
+ */
+export const nonEmpty = ({ message }: NonEmptyOptions): Kalel.ArrayRule => {
+  return {
+    message,
+    valid: value => value.length !== 0
+  };
+};
