@@ -1,5 +1,8 @@
 import * as Kalel from "../kalel";
 
+/**
+ * Optionsf or the between rule function
+ */
 export interface BetweenOptions {
   /**
    * Minimum date possible
@@ -31,6 +34,9 @@ export const between = ({ minimum, maximum, message }: BetweenOptions): Kalel.Da
   };
 }; 
 
+/**
+ * Options for the before rule function
+ */
 export interface BeforeOptions {
   /**
    * Date to compare
@@ -57,6 +63,9 @@ export const before = ({ date, message }: BeforeOptions): Kalel.DateRule => {
   };
 };
 
+/**
+ * Options for the after rule function
+ */
 export interface AfterOptions {
   /**
    * Date to compare

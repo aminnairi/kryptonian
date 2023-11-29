@@ -1,5 +1,8 @@
 import * as Kalel from "../kalel";
 
+/**
+ * Options for the length rule function
+ */
 export interface LengthOptions {
   /**
    * The length that the string should equal
@@ -22,6 +25,9 @@ export const length = ({ length, message }: LengthOptions): Kalel.StringRule => 
   };
 };
 
+/**
+ * Options for the minimumLength rule function
+ */
 export interface MinimumLengthOptions {
   /**
    * The minimum length that the string should equal to
@@ -43,6 +49,9 @@ export const minimumLength = ({ minimum, message }: MinimumLengthOptions): Kalel
   };
 };
 
+/**
+ * Options for the email rule function
+ */
 export interface EmailOptions {
   /**
    * The message attached to the error when the string is not a valid email
@@ -61,6 +70,9 @@ export const email = ({ message}: EmailOptions): Kalel.StringRule => {
   };
 };
 
+/**
+ * Options for the includes rule function
+ */
 export interface IncludesOptions {
   /**
    * The message to attach to the error when the string does not include another
@@ -82,6 +94,9 @@ export const includes = ({ message, string }: IncludesOptions): Kalel.StringRule
   };
 };
 
+/**
+ * Options for the startsWith rule function
+ */
 export interface StartsWithOptions {
   /**
    * The message to attach to the error when the string does not starts with another
@@ -103,6 +118,9 @@ export const startsWith = ({ message, string }: StartsWithOptions): Kalel.String
   };
 };
 
+/**
+ * Options for the endsWith rule function
+ */
 export interface EndsWithOptions {
   /**
    * The message to attach to the error when the string does not ends with another
@@ -124,13 +142,9 @@ export const endsWith = ({ message, string }: EndsWithOptions): Kalel.StringRule
   };
 };
 
-export interface UniformResourceLocatorOptions {
-  /**
-   * The message attached to the error when the string is not a valid URL
-   */
-  message: string
-}
-
+/**
+ * Optionsf or the internetProtocolVersion4 rule function
+ */
 export interface InternetProtocolVersion4Options {
   /**
    * The message to attach to the error if the string is not in the Internet Protocol version 4 format
@@ -148,6 +162,9 @@ export const internetProtocolVersion4 = ({ message }: InternetProtocolVersion4Op
   };
 };
 
+/**
+ * Options for the internetProtocolVersion4WithClassesInterDomainRouting rule function
+ */
 export interface InternetProtocolVersion4WithClasslessInterDomainRoutingOptions {
   /**
    * The message to attach to the error if the string is not in the Internet Protocol version 4 with classless inter-domain routing format
@@ -164,6 +181,16 @@ export const internetProtocolVersion4WithClassesInterDomainRouting = ({ message 
     valid: value => /^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})){3}\/([0-9]|[1-2][0-9]|3[0-2])$/.test(value)
   };
 };
+
+/**
+ * Options for the uniformResourceLocator rule function
+ */
+export interface UniformResourceLocatorOptions {
+  /**
+   * The message attached to the error when the string is not a valid URL
+   */
+  message: string
+}
 
 /**
  * Ensure that a string is a well-formed URL
