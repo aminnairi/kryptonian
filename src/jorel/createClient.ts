@@ -1,6 +1,9 @@
 import * as Kalel from "../kalel";
 import { Route, Routes } from "./createRoutes";
 
+/**
+ * Error return whenever the request does not respect the schema imposed for the parameters, this can happen even when using TypeScript, especially when using rules
+ */
 export class BadRequestError extends Error {
   public errors: Array<Kalel.ValidationError>;
 

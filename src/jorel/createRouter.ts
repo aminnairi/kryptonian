@@ -2,18 +2,39 @@ import { IncomingMessage, ServerResponse } from "http";
 import * as Kalel from "../kalel";
 import { Route, Routes } from "./createRoutes";
 
+/**
+ * Implementation of a route, essentially just an asynchronous function that must respect the schema when returning a value
+ */
 export type Spaceship<R extends Route> = (parameters: Kalel.InferType<R["request"]>) => Promise<Kalel.InferType<R["response"]>>
 
+/**
+ * The list of all implementations for a route
+ */
 export type Spaceships<R extends Routes> = {
   [Key in keyof R]: Spaceship<R[Key]>
 }
 
+/**
+ * Options for creating a router
+ */
 export interface CreateRouterOptions<R extends Routes> {
+  /**
+   * Clients that must be allowed using the Access-Control-Allow-Origin header
+   */
   clients: Array<string>,
+  /**
+   * Route that have been created using the createRoute function
+   */
   routes: R,
+  /**
+   * The concrete implementations of the routes's schema
+   */
   spaceships: Spaceships<R>
 }
 
+/**
+ * Create a router that can later be used with the http built-in module or express for instance
+ */
 export const createRouter = <R extends Routes>({ clients, routes, spaceships }: CreateRouterOptions<R>) => {
   return async (request: IncomingMessage, response: ServerResponse) => {
     const url = new URL(`http://127.0.0.1${String(request.url)}`);

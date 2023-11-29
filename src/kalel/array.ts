@@ -1,5 +1,8 @@
 import * as Kalel from "../kalel";
 
+/**
+ * Options for the length rule function
+ */
 export interface LengthOptions {
   /**
    * The wanted length for the list to validate
@@ -22,6 +25,9 @@ export const length = ({ length, message }: LengthOptions): Kalel.ArrayRule => {
   };
 };
 
+/**
+ * Options for the lengthBetween rule function
+ */
 export interface LengthBetweenOptions {
   /**
    * The minimum length wanted for the list
@@ -48,6 +54,9 @@ export const lengthBetween = ({ minimum, maximum, message }: LengthBetweenOption
   };
 };
 
+/**
+ * Options for the minimumLength rule function
+ */
 export interface MinimumLengthOptions {
   /**
    * The minimum length wanted for the list
@@ -70,6 +79,9 @@ export const minimumLength = ({ minimum, message }: MinimumLengthOptions): Kalel
   };
 };
 
+/**
+ * Options for the maximumLength rule function
+ */
 export interface MaximumLengthOptions {
   /**
    * The maximum length wanted for the list
@@ -92,6 +104,9 @@ export const maximumLength = ({ maximum, message }: MaximumLengthOptions): Kalel
   };
 };
 
+/**
+ * Options for the nonEmpty rule function
+ */
 export interface NonEmptyOptions {
   // The message to attach to the error when the list is empty
   message: string

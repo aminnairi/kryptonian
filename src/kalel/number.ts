@@ -1,5 +1,8 @@
 import * as Kalel from "../kalel";
 
+/**
+ * Options for the between rule function
+ */
 export interface BetweenOptions {
   /**
    * The wanted minimum value for the number
@@ -26,6 +29,9 @@ export const between = ({ minimum, maximum, message }: BetweenOptions): Kalel.Nu
   };
 };
 
+/**
+ * Options for the divisibleBy rule function
+ */
 export interface DivisibleByOptions {
   /**
    * A number that, when used for dividing the number, should return an integer
@@ -49,6 +55,9 @@ export const divisibleBy = ({ divisor, message }: DivisibleByOptions): Kalel.Num
   };
 };
 
+/**
+ * Options for the notDivisibleBy rule function
+ */
 export interface NotDivisibleByOptions {
   /**
    * A number that, when used for dividing the number, should not return an integer
@@ -72,6 +81,9 @@ export const notDivisibleBy = ({ divisor, message }: NotDivisibleByOptions): Kal
   };
 };
 
+/**
+ * Options for the even rule function
+ */
 export interface EvenOptions {
   /**
    * The message attached to the error when the number is not even
@@ -89,6 +101,9 @@ export const even = ({ message }: EvenOptions): Kalel.NumberRule => {
   };
 };
 
+/**
+ * Options for the odd rule function
+ */
 export interface OddOptions {
   /**
    * The message attached to the error when the number is not odd
@@ -106,6 +121,9 @@ export const odd = ({ message }: OddOptions): Kalel.NumberRule => {
   };
 };
 
+/**
+ * Options for the positive rule function
+ */
 export interface PositiveOptions {
   /**
    * The message attached to the error when the number is not positive
@@ -123,6 +141,9 @@ export const positive = ({ message }: PositiveOptions): Kalel.NumberRule => {
   };
 };
 
+/**
+ * Options for the negative rule function
+ */
 export interface NegativeOptions {
   /**
    * The message attached to the error when the number is not positive
@@ -140,6 +161,9 @@ export const negative = ({ message }: NegativeOptions): Kalel.NumberRule => {
   };
 };
 
+/**
+ * Options for the integer rule function
+ */
 export interface IntegerOptions {
   /**
    * The message attached to the error when the number is not positive
@@ -157,6 +181,9 @@ export const integer = ({ message }: IntegerOptions): Kalel.NumberRule => {
   };
 };
 
+/**
+ * Options for the greater rule function
+ */
 export interface GreaterOptions {
   /**
    * Message to attach to the error when the number is not greater than another
@@ -179,6 +206,9 @@ export const greater = ({ message, number }: GreaterOptions): Kalel.NumberRule =
   };
 };
 
+/**
+ * Options for the lower rule function
+ */
 export interface LowerOptions {
   /**
    * Message to attach to the error when the number is not greater than another
@@ -201,6 +231,9 @@ export const lower = ({ message, number }: LowerOptions): Kalel.NumberRule => {
   };
 };
 
+/**
+ * Options for the greaterOrEqual rule function
+ */
 export interface GreaterOrEqualOptions {
   /**
    * Message to attach to the error when the number is not greater or equal to another
@@ -223,6 +256,9 @@ export const greaterOrEqual = ({ message, number }: GreaterOrEqualOptions): Kale
   };
 };
 
+/**
+ * Options for the lowerOrEqual function
+ */
 export interface LowerOrEqualOptions {
   /**
    * Message to attach to the error when the number is not lower or equal to another
@@ -245,6 +281,9 @@ export const lowerOrEqual = ({ message, number }: LowerOrEqualOptions): Kalel.Nu
   };
 };
 
+/**
+ * Options for the finite rule function
+ */
 export interface FiniteOptions {
   /**
    * Message to attach to the error when the number is not finite one
