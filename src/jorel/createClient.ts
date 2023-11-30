@@ -15,6 +15,9 @@ export class BadRequestError extends Error {
   }
 }
 
+/**
+ * Error returned whenever the response does not respect the schema defined in the routes, this should not happen when using this library and for now, request to foreign origins are not allowed
+ */
 export class BadResponseError extends Error {
   public errors: Array<Kalel.ValidationError>;
 
@@ -26,17 +29,35 @@ export class BadResponseError extends Error {
   }
 }
 
+/**
+ * Define what arguments are necessary to send a client request to get a server response
+ */
 export interface PathwayOptions<R extends Route> {
+  /**
+   * The parameters defined in the routes for this particular route
+   */
   parameters: Kalel.InferType<R["request"]>,
+  /**
+   * The options used by the Web API Fetch that you can augment here, note that the headers will always contain the "Content-Type" and the "Accept" headers and cannot be overriden for practicality purposes
+   */
   options: RequestInit
 }
 
+/**
+ * Implementation of the callback that will be used to respond to clients requesting for this particular route
+ */
 export type Pathway<R extends Route> = (options: PathwayOptions<R>) => Promise<Kalel.InferType<R["response"]>>;
 
+/**
+ * The whole implementations of the callbacks that will be used to respond to clients requesting for this particular route
+ */
 export type Pathways<R extends Routes> = {
   [Key in keyof R]: Pathway<R[Key]>
 }
 
+/**
+ * Options used for create a new client to send requests to the server
+ */
 export interface CreateClientOptions<R extends Routes> {
   /**
    * The url to the server exposing the endpoints
