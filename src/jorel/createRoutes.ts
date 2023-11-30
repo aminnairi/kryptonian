@@ -25,6 +25,6 @@ export type Routes = {
  * Create a set of routes to be implemented later by the server, and consumed by
  * the client
  */
- export const createRoutes = <R extends Routes>(routes: R): R => {
+export const createRoutes = <R extends Routes>(routes: R): R => {
   return routes;
 };
