@@ -17,7 +17,6 @@ Vitest.describe("createRouter", () => {
     });
 
     const router = createRouter({
-      clients: [""],
       routes,
       spaceships: {
         getUsers: async () => {
