@@ -1,7 +1,7 @@
 import * as Kryptonian from "kryptonian";
 import { routes } from "@template/shared";
 import { getKryptonians } from "./routes/getKryptonians";
-import { createHttpServer } from "./adapters/createHttpAdapter";
+import { createExpressServer } from "./adapters/createExpressServer";
 
 const router = Kryptonian.Jorel.createRouter({
   routes,
@@ -10,7 +10,7 @@ const router = Kryptonian.Jorel.createRouter({
   }
 });
 
-const server = createHttpServer({
+const server = createExpressServer({
   router,
   clients: ["http://localhost:5173"]
 });
