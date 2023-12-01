@@ -2606,6 +2606,8 @@ export const createHttpServer = ({ clients, router }: CreateHttpServerOptions) =
 };
 ```
 
+You can find examples of adapters in the [`template/server/apdaters`](./template/server/adapters) folder.
+
 [Back to summary](#summary)
 
 #### createServerRoute
@@ -2677,8 +2679,6 @@ server.listen(8000, "0.0.0.0", () => {
   console.log("Spaceships launched and ready for communications!");
 });
 ```
-
-You can find examples of adapters in the [`template/server/apdaters`](./template/server/adapters) folder.
 
 #### createClient
 
