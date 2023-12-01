@@ -1,4 +1,3 @@
-import { IncomingMessage, ServerResponse } from "http";
 import * as Kalel from "../kalel";
 import { Route, Routes } from "./createRoutes";
 
@@ -32,117 +31,97 @@ export interface CreateRouterOptions<R extends Routes> {
   spaceships: Spaceships<R>
 }
 
+export type AdapterRequest = {
+  path: string,
+  origin: string,
+  body: JSON,
+  method: string
+}
+
+export type RouterResponse = {
+  status: number,
+  headers: Record<string, string>,
+  body: string
+}
+
+export type Router = (request: AdapterRequest) => Promise<RouterResponse>;
+
 /**
  * Create a router that can later be used with the http built-in module or express for instance
  */
-export const createRouter = <R extends Routes>({ clients, routes, spaceships }: CreateRouterOptions<R>) => {
-  return async (request: IncomingMessage, response: ServerResponse) => {
-    const url = new URL(`http://127.0.0.1${String(request.url)}`);
-    const origin = request.headers.origin ?? "";
-    const pathname = url.pathname;
-
-    const allowedOrigin = clients.find(client => {
-      return client === origin;
-    });
-
-    const baseHeaders = {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Methods": "POST,OPTIONS",
-    };
-
-    const headers = (() => {
-      switch (typeof allowedOrigin) {
-      case "string":
-        return {
-          ...baseHeaders,
-          "Access-Control-Allow-Origin": allowedOrigin
-        }; 
-
-      default:
-        return baseHeaders;
-      }
-    })();
-
+export const createRouter = <R extends Routes>({ routes, spaceships }: CreateRouterOptions<R>) => {
+  return async (request: AdapterRequest) => {
     try {
       if (request.method === "OPTIONS") {
-        return response.writeHead(200, headers).end();
+        return {
+          status: 200,
+          headers: {},
+          body: null
+        };
       }
 
       if (request.method !== "POST") {
-        return response.writeHead(405, headers).end(JSON.stringify({
-          success: false,
-          errors: [
-            {
-              path: "",
-              message: "Method not allowed"
-            }
-          ]
-        }));
+        return {
+          status: 405,
+          headers: {},
+          body: {
+            success: false,
+            errors: [
+              {
+                path: "",
+                message: "Method not allowed"
+              }
+            ]
+          }
+        };
       }
 
       const foundRoute = Object.entries(routes).find(([routeName]) => {
-        const normalizedPathname = pathname.replace(/^\//, "").replace(/\/$/, "");
+        const normalizedPathname = request.path.replace(/^\//, "").replace(/\/$/, "");
 
         return routeName === normalizedPathname;
       });
 
       if (!foundRoute) {
-        return response.writeHead(412, headers).end(JSON.stringify({
-          success: false,
-          error: {
-            path: "",
-            message: "Route not found"
+        return {
+          status: 412,
+          headers: {},
+          body: {
+            success: false,
+            error: {
+              path: "",
+              message: "Route not found"
+            }
           }
-        }));
+        };
       }
 
       const [routeName, route] = foundRoute;
       const spaceship = spaceships[routeName];
 
       if (!spaceship) {
-        return response.writeHead(412, headers).end(JSON.stringify({
-          success: false,
-          error: {
-            path: "",
-            message: "Router not found"
+        return {
+          status: 412,
+          headers: {},
+          body: {
+            success: false,
+            error: {
+              path: "",
+              message: "Router not found"
+            }
           }
-        }));
+        };
       }
 
-      const getBody = (request: IncomingMessage) => {
-        return new Promise((resolve, reject) => {
-          let body = "";
-
-          // Listen for the 'data' event to accumulate chunks
-          request.on("data", (chunk) => {
-            body += chunk;
-          });
-
-          // Listen for the 'end' event to resolve the promise when all data is received
-          request.on("end", () => {
-            try {
-              const json = JSON.parse(body);
-
-              resolve(json);
-            } catch (error) {
-              resolve(undefined);
-            }
-          });
-
-          // Listen for any 'error' events
-          request.on("error", (error) => {
-            reject(error);
-          });
-        });
-      };
-
-      const body = await getBody(request);
       const protectBody = Kalel.createProtector(route.request);
-      const bodyProtection = protectBody(body);
+      const bodyProtection = protectBody(request.body);
 
       if (!bodyProtection.success) {
-        return response.writeHead(400, headers).end(JSON.stringify(bodyProtection.errors));
+        return {
+          status: 400,
+          headers: {},
+          body: bodyProtection.errors
+        };
       }
 
       const spaceshipResponse = await spaceship(bodyProtection.data);
@@ -151,21 +130,32 @@ export const createRouter = <R extends Routes>({ clients, routes, spaceships }: 
       const spaceshipResponseProtection = protectSpaceshipResponse(spaceshipResponse);
 
       if (!spaceshipResponseProtection.success) {
-        return response.writeHead(400, headers).end(JSON.stringify(spaceshipResponseProtection.errors));
+        return {
+          status: 400,
+          headers: {},
+          body: spaceshipResponseProtection.errors
+        };
       }
 
-      return response.writeHead(200, headers).end(JSON.stringify(spaceshipResponseProtection.data));
-
+      return {
+        status: 200,
+        headers: {},
+        body: spaceshipResponseProtection.data
+      };
     } catch (error) {
-      return response.writeHead(500, { "Content-Type": "application/json" }).end(JSON.stringify({
-        success: false,
-        errors: [
-          {
-            path: "",
-            message: String(error)
-          }
-        ]
-      }));
+      return {
+        status: 500,
+        headers: {},
+        body: {
+          success: false,
+          errors: [
+            {
+              path: "",
+              message: String(error)
+            }
+          ]
+        }
+      };
     }
   };
 };
