@@ -2480,41 +2480,130 @@ const routes = Kryptonian.Kalel.Jorel.createRoutes({
 
 #### createRouter
 
-`createRouter` is a function that will take as input your server, and will let your define an implementation for the latter. For now, we only support creating a server using the built-in `http` module from Node.js, and we intend on adding support for adapters for others libraries as well such as Express or Fastify.
+`createRouter` is a function that will take as input your server, and will let your define an implementation for the latter. Once it has been created, it must be fed to an adapter that can turn an abstract response into a concrete HTTP response.
 
 ```typescript
-import * as Http from "http";
 import * as Kryptonian from "kryptonian";
-import { routes } from "./routes";
+import { routes } from "@template/shared";
+import { getKryptonians } from "./routes/getKryptonians";
+import { createKryptonian } from "./routes/createKryptonian";
+import { createHttpServer } from "./adapters/createHttpServer";
 
-const kryptoniansDatabase: Array<string> = [];
-
-const serverRouter = Kryptonian.Kalel.Jorel.createRouter({
-  clients: ["http://localhost:5173"],
+const router = Kryptonian.Jorel.createRouter({
   routes,
   spaceships: {
-    // Parameters are properly typed from the routes!
-    createKryptonian: async ({ name }) => {
-      kryptoniansDatabase.push(name);
-
-      return "Successfully created the user";
-    },
-    getKryptonians: async () => {
-      return [
-        ...kryptonians
-      ];
-    }
+    getKryptonians,
+    createKryptonian
   }
 });
 
-const port = 8000;
-const hostname = "localhost";
-
-const server = Http.createServer(serverRouter);
-
-server.listen(port, hostname, () => {
-  console.log("Kryptonian spaceship launched");
+const server = createHttpServer({
+  router,
+  clients: ["http://localhost:5173"]
 });
+
+server.listen(8000, "0.0.0.0", () => {
+  console.log("Spaceship launched and ready for communications");
+});
+```
+
+Adapters are function that take a router (just like the `createHttpServer` function above) and will receive each requests from the client applications. Whenever a request has been made, the adapter transform the request into an abstraction that can be understood by the router, and will get back an abstract response that can be turned into a concrete HTTP response.
+
+You can of course create your own adapter to support your favorite HTTP library. Here is an example of an adapter for the built-in `http` module.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+import * as Http from "http";
+import * as Path from "path";
+
+/**
+ * Options used to create the HTTP server's router adapter
+ */
+export type CreateHttpServerOptions = {
+  /**
+   * The router created using the Kryptonian.Jorel.createRouter function
+   */
+  router: Kryptonian.Jorel.Router,
+  /**
+   * A list of clients that must be allowed to request the server when in a browser
+   */
+  clients: Array<string>
+}
+
+/**
+ * Create an adapter for the Router using the Node.js built-in HTTP module
+ */
+export const createHttpServer = ({ clients, router }: CreateHttpServerOptions) => {
+  const getJsonBody = (request: Http.IncomingMessage) => {
+    return new Promise<JSON>((resolve, reject) => {
+      let body = "";
+
+      request.on("data", chunk => {
+        body += chunk;
+      });
+
+      request.on("end", () => {
+        try {
+          const parsedBody = JSON.parse(body);
+          resolve(parsedBody);
+        } catch (error) {
+          resolve(undefined);
+        }
+      });
+
+      request.on("error", (error) => {
+        reject(new Error(String(error)));
+      });
+    });
+  };
+
+  return Http.createServer(async (request, response) => {
+    const url = new URL(Path.join("http://localhost/", request.url ?? ""));
+    const origin = request.headers.origin ?? "";
+    const path = url.pathname;
+    const method = request.method ?? "GET";
+    const foundClient = clients.find(client => origin === client) ?? "";
+
+    const baseHeaders = {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "POST,OPTIONS",
+      "Access-Control-Allow-Origin": foundClient
+    };
+
+    try {
+      const body = await getJsonBody(request);
+
+      const routerResponse = await router({
+        body,
+        origin,
+        method,
+        path
+      });
+
+      const routerResponseHeadersWithBaseHeaders = {
+        ...routerResponse.headers,
+        ...baseHeaders
+      };
+
+      response
+        .writeHead(routerResponse.status, routerResponseHeadersWithBaseHeaders)
+        .end(JSON.stringify(routerResponse.body));
+    } catch (error) {
+      response
+        .writeHead(500, baseHeaders)
+        .end(JSON.stringify({
+          success: false,
+          errors: [
+            {
+              path: "",
+              message: String(error)
+            }
+          ]
+        }));
+    }
+  });
+};
 ```
 
 [Back to summary](#summary)
