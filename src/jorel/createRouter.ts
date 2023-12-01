@@ -181,7 +181,7 @@ export const createRouter = <R extends Routes>({ routes, spaceships }: CreateRou
           errors: [
             {
               path: "",
-              message: String(error)
+              message: error instanceof Error ? error.message : String(error)
             }
           ]
         }
