@@ -20,7 +20,7 @@ export const App = () => {
 
   React.useEffect(() => {
     client.getKryptonians({
-      parameters: "Hello",
+      parameters: null,
       options: {}
     }).then(response => {
       if (response.success) {
