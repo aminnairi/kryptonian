@@ -67,7 +67,7 @@ Purity, hope, and the strength of Krypton in one package
     - [createRoutes](#createroutes)
     - [createRouter](#createrouter)
     - [createServerRoute](#createserverroute)
-    - [createClient](#createclient)
+    - [createClientRoutes](#createclientroutes)
     - [getting started](#getting-started)
   - [InferType](#infertype)
   - [Custom rules](#custom-rules)
@@ -213,7 +213,7 @@ import * as React from "react";
 import * as Kryptonian from "kryptonian";
 import { routes } from "@template/shared";
 
-const client = Kryptonian.Jorel.createClient({
+const client = Kryptonian.Jorel.createClientRoutes({
   server: "http://localhost:8000",
   routes
 });
@@ -2680,16 +2680,16 @@ server.listen(8000, "0.0.0.0", () => {
 });
 ```
 
-#### createClient
+#### createClientRoutes
 
-createClient is a function that will help you request informations from the server. It implements the `Fetch` Web API, and we intend on adding support for more HTTP libraries such as Axios for instance. Each time you request something, it will pick-up the validation schema and forces you to use this schema for all your request, preventing mistakes even if you decide to update the schema. When receiving the body, data validation is also applied, so that you can't mess up manipulating data that is not validated yet.
+`createClientRoutes` is a function that will help you request informations from the server. It implements the `Fetch` Web API, and we intend on adding support for more HTTP libraries such as Axios for instance. Each time you request something, it will pick-up the validation schema and forces you to use this schema for all your request, preventing mistakes even if you decide to update the schema. When receiving the body, data validation is also applied, so that you can't mess up manipulating data that is not validated yet.
 
 ```tsx
 import * as React from "react";
 import * as Kryptonian from "kryptonian";
 import { routes } from "./routes";
 
-const client = Kryptonian.Jorel.createClient({
+const client = Kryptonian.Jorel.createClientRoutes({
   server: "http://localhost:8000",
   routes
 });
@@ -2771,7 +2771,7 @@ import * as Vue from "vue";
 import * as Kryptonian from "kryptonian";
 import { routes } from "./routes";
 
-const client = Kryptonian.Jorel.createClient({
+const client = Kryptonian.Jorel.createClientRoutes({
   server: "http://localhost:8000",
   routes
 });
@@ -2952,7 +2952,7 @@ Kryptonian.Kalel.ArrayRule; // For arrays
 Kryptonian.Kalel.DateRule; // For dates
 ```
 
-Every rule is a pure function, meaning it should take an argument (you can also choose not to accept any argument such as the `Kryptonian.Kalel.String.email` rule) and must return a rule. There is no mutation nor effect that is going on in a rule, bringing guarantees and robustness to the library itself. In fact, every function exposed (except for `Jorel.createClient` and `Jorel.createRouter`) is a pure function and will not imply side-effects of any kind.
+Every rule is a pure function, meaning it should take an argument (you can also choose not to accept any argument such as the `Kryptonian.Kalel.String.email` rule) and must return a rule. There is no mutation nor effect that is going on in a rule, bringing guarantees and robustness to the library itself. In fact, every function exposed (except for `Jorel.createClientRoutes` and `Jorel.createRouter`) is a pure function and will not imply side-effects of any kind.
 
 Here is an example of a rule that you might want to create to valide that a user's age is in legal compliance with your business domain.
 
