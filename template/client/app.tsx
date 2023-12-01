@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Kryptonian from "kryptonian";
 import { routes } from "@template/shared";
 
-const client = Kryptonian.Jorel.createClient({
+const client = Kryptonian.Jorel.createClientRoutes({
   server: "http://localhost:8000",
   routes
 });
