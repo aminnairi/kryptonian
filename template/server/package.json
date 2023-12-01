@@ -17,6 +17,7 @@
     "typescript": "5.2.2"
   },
   "dependencies": {
+    "@rollup/plugin-json": "6.0.1",
     "kryptonian": "file:../../"
   }
 }
