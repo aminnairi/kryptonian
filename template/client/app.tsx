@@ -12,17 +12,19 @@ export interface Inhabitant {
   createdAt: Date
 }
 
+type GetKryptonianResponse = Kryptonian.Kalel.InferType<typeof routes.getKryptonians.response>;
+
 export const App = () => {
-  const [kryptonians, setKryptonians] = React.useState<Array<Inhabitant>>([]);
+  const [getKryptoniansResponse, setGetKryptoniansResponse] = React.useState<GetKryptonianResponse | null>(null);
   const [error, setError] = React.useState("");
 
   React.useEffect(() => {
     client.getKryptonians({
-      parameters: null,
+      parameters: "Hello",
       options: {}
     }).then(response => {
       if (response.success) {
-        setKryptonians(response.kryptonians);
+        setGetKryptoniansResponse(response);
       } else {
         setError(response.error);
       }
@@ -45,11 +47,23 @@ export const App = () => {
     );
   }
 
+  if (getKryptoniansResponse === null) {
+    return (
+      <p>Loading, please wait...</p>
+    );
+  }
+
+  if (!getKryptoniansResponse.success) {
+    return (
+      <p>Error, please try again later</p>
+    );
+  }
+
   return (
     <ul>
-      {kryptonians.map(kryptonian => (
+      {getKryptoniansResponse.kryptonians.map(kryptonian => (
         <li key={kryptonian.name}>
-          {kryptonian.name} - {kryptonian.createdAt.toLocaleDateString()}
+          {kryptonian.name} - {kryptonian.rank} - {kryptonian.createdAt.toLocaleDateString()}
         </li>
       ))}
     </ul>
