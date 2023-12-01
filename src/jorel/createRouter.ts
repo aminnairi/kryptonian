@@ -27,19 +27,49 @@ export interface CreateRouterOptions<R extends Routes> {
   spaceships: Spaceships<R>
 }
 
+/**
+ * Abstraction of a request that must be adapted for the adapter used
+ */
 export type AdapterRequest = {
+  /**
+   * The path of the route that has been requested by an HTTP client, for instance /users/123
+   */
   path: string,
+  /**
+   * The origin of the request, this refers to the HTTP header "Origin" that must be tested against the allowed clients, for instance https://my.domain.com
+   */
   origin: string,
+  /**
+   * The body of the request parsed as JSON
+   */
   body: JSON,
+  /**
+   * The HTTP method inherent to a particular request
+   */
   method: string
 }
 
+/**
+ * The abstraction of a response returned by a matching route's implementation
+ */
 export type RouterResponse = {
+  /**
+   * The status code that must be used in the HTTP response
+   */
   status: number,
+  /**
+   * The headers that must be sent along with the HTTP response
+   */
   headers: Record<string, string>,
+  /**
+   * The body of the response as a string
+   */
   body: string
 }
 
+/**
+ * A function that when used should return the response of the matching route's implementation
+ */
 export type Router = (request: AdapterRequest) => Promise<RouterResponse>;
 
 /**

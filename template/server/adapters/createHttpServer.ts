@@ -2,13 +2,24 @@ import * as Kryptonian from "kryptonian";
 import * as Http from "http";
 import * as Path from "path";
 
+/**
+ * Options used to create the HTTP server's router adapter
+ */
 export type CreateHttpServerOptions = {
+  /**
+   * The router created using the Kryptonian.Jorel.createRouter function
+   */
   router: Kryptonian.Jorel.Router,
+  /**
+   * A list of clients that must be allowed to request the server when in a browser
+   */
   clients: Array<string>
 }
 
+/**
+ * Create an adapter for the Router using the Node.js built-in HTTP module
+ */
 export const createHttpServer = ({ clients, router }: CreateHttpServerOptions) => {
-
   const getJsonBody = (request: Http.IncomingMessage) => {
     return new Promise<JSON>((resolve, reject) => {
       let body = "";
