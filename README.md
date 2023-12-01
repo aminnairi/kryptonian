@@ -2678,6 +2678,8 @@ server.listen(8000, "0.0.0.0", () => {
 });
 ```
 
+You can find examples of adapters in the [`template/server/apdaters`](./template/server/adapters) folder.
+
 #### createClient
 
 createClient is a function that will help you request informations from the server. It implements the `Fetch` Web API, and we intend on adding support for more HTTP libraries such as Axios for instance. Each time you request something, it will pick-up the validation schema and forces you to use this schema for all your request, preventing mistakes even if you decide to update the schema. When receiving the body, data validation is also applied, so that you can't mess up manipulating data that is not validated yet.
