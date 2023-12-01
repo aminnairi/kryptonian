@@ -18,10 +18,6 @@ export type Spaceships<R extends Routes> = {
  */
 export interface CreateRouterOptions<R extends Routes> {
   /**
-   * Clients that must be allowed using the Access-Control-Allow-Origin header
-   */
-  clients: Array<string>,
-  /**
    * Route that have been created using the createRoute function
    */
   routes: R,
