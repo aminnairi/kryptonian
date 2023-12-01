@@ -4,11 +4,23 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 
+/**
+ * Options used to create a Express server
+ */
 export type CreateExpressServerOptions = {
+  /**
+   * The router created using the Kryptonian.Jorel.createRouter function
+   */
   router: Kryptonian.Jorel.Router,
+  /**
+   * A list of clients that must be allowed to request the server when in a browser
+   */
   clients: Array<string>
 }
 
+/**
+ * Create an adapter for the Router using the Express module
+ */
 export const createExpressServer = ({ clients, router }: CreateExpressServerOptions) => {
   const server = express();
 
