@@ -10,14 +10,17 @@ export const getKryptonians = Kryptonian.Jorel.createServerRoute({
       kryptonians: [
         {
           name: "Kalel",
+          rank: "soldier",
           createdAt: new Date()
         },
         {
           name: "Jorel",
+          rank: "protector",
           createdAt: new Date()
         },
         {
           name: "Zorel",
+          rank: "guardian",
           createdAt: new Date()
         }
       ]
