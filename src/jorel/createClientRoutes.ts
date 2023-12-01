@@ -58,7 +58,7 @@ export type Pathways<R extends Routes> = {
 /**
  * Options used for create a new client to send requests to the server
  */
-export interface CreateClientOptions<R extends Routes> {
+export interface CreateClientRoutesOptions<R extends Routes> {
   /**
    * The url to the server exposing the endpoints
    */
@@ -74,7 +74,7 @@ export interface CreateClientOptions<R extends Routes> {
  * Create a client that will send request to the server and use the routes as
  * the source of truth for all things related to request input
  */
-export const createClient = <R extends Routes>({ server, routes }: CreateClientOptions<R>): Pathways<R> => {
+export const createClientRoutes = <R extends Routes>({ server, routes }: CreateClientRoutesOptions<R>): Pathways<R> => {
   const routeWithCallbacks = Object.fromEntries(Object.entries(routes).map(([routeName, route]) => {
     const callback = async ({parameters, options}: { parameters: unknown, options: RequestInit}) => {
       const protectBody = Kalel.createProtector(route.request);
