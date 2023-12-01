@@ -114,10 +114,12 @@ export const createRouter = <R extends Routes>({ routes, spaceships }: CreateRou
           headers: {},
           body: {
             success: false,
-            error: {
-              path: "",
-              message: "Route not found"
-            }
+            errors: [
+              {
+                path: "",
+                message: "Route not found"
+              }
+            ]
           }
         };
       }
@@ -131,10 +133,12 @@ export const createRouter = <R extends Routes>({ routes, spaceships }: CreateRou
           headers: {},
           body: {
             success: false,
-            error: {
-              path: "",
-              message: "Router not found"
-            }
+            errors: [
+              {
+                path: "",
+                message: "Implementation not found"
+              }
+            ]
           }
         };
       }
