@@ -1,7 +1,7 @@
 import * as Vitest from "vitest";
 import * as Jorel from "../jorel";
 import * as Kalel from "../kalel";
-import { createClient } from "./createClient";
+import { createClientRoutes } from "./createClientRoutes";
 
 Vitest.describe("createClient", () => {
   Vitest.test("It should return the correct shape", async () => {
@@ -27,7 +27,7 @@ Vitest.describe("createClient", () => {
       }
     });
 
-    const client = createClient({
+    const client = createClientRoutes({
       server: "",
       routes,
     });
@@ -63,7 +63,7 @@ Vitest.describe("createClient", () => {
       }
     });
 
-    const client = createClient({
+    const client = createClientRoutes({
       server: "",
       routes,
     });
@@ -104,7 +104,7 @@ Vitest.describe("createClient", () => {
       }
     });
 
-    const client = createClient({
+    const client = createClientRoutes({
       server: "",
       routes,
     });
@@ -157,7 +157,7 @@ Vitest.describe("createClient", () => {
       }
     });
 
-    const client = createClient({
+    const client = createClientRoutes({
       server: "",
       routes,
     });
@@ -209,7 +209,7 @@ Vitest.describe("createClient", () => {
       }
     });
 
-    const client = createClient({
+    const client = createClientRoutes({
       server: "",
       routes,
     });
