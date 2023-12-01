@@ -23,6 +23,10 @@ export const routes = Kryptonian.Jorel.createRoutes({
                   message: "Name should be a string",
                   rules: []
                 }),
+                rank: Kryptonian.Kalel.string({
+                  message: "Rank should be a string",
+                  rules: []
+                }),
                 createdAt: Kryptonian.Kalel.date({
                   message: "createdAt should be a date",
                   rules: []
