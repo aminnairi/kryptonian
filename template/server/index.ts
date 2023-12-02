@@ -3,7 +3,7 @@ import { routes } from "@template/shared";
 import { getKryptonians } from "./routes/getKryptonians";
 import { createExpressServer } from "./adapters/createExpressServer";
 
-const router = Kryptonian.Jorel.createRouter({
+const router = Kryptonian.Jorel.createServerRouter({
   routes,
   spaceships: {
     getKryptonians
