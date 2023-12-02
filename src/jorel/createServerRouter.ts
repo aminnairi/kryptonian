@@ -16,7 +16,7 @@ export type Spaceships<R extends Routes> = {
 /**
  * Options for creating a router
  */
-export interface CreateRouterOptions<R extends Routes> {
+export interface CreateServerRouterOptions<R extends Routes> {
   /**
    * Route that have been created using the createRoute function
    */
@@ -75,7 +75,7 @@ export type Router = (request: AdapterRequest) => Promise<RouterResponse>;
 /**
  * Create a router that can later be used with the http built-in module or express for instance
  */
-export const createRouter = <R extends Routes>({ routes, spaceships }: CreateRouterOptions<R>) => {
+export const createServerRouter = <R extends Routes>({ routes, spaceships }: CreateServerRouterOptions<R>) => {
   return async (request: AdapterRequest) => {
     try {
       if (request.method === "OPTIONS") {
