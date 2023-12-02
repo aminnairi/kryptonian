@@ -1,7 +1,7 @@
 import * as Vitest from "vitest";
 import * as Jorel from "../jorel";
 import * as Kalel from "../kalel";
-import { createRouter } from "./createRouter";
+import { createServerRouter } from "./createServerRouter";
 
 Vitest.describe("createRouter", () => {
   Vitest.test("It should return a function", () => {
@@ -16,7 +16,7 @@ Vitest.describe("createRouter", () => {
       }
     });
 
-    const router = createRouter({
+    const router = createServerRouter({
       routes,
       spaceships: {
         getUsers: async () => {
@@ -40,7 +40,7 @@ Vitest.describe("createRouter", () => {
       }
     });
 
-    const router = Jorel.createRouter({
+    const router = Jorel.createServerRouter({
       routes,
       spaceships: {
         getUsers: async () => {
@@ -73,7 +73,7 @@ Vitest.describe("createRouter", () => {
       }
     });
 
-    const router = Jorel.createRouter({
+    const router = Jorel.createServerRouter({
       routes,
       spaceships: {
         getUsers: async () => {
@@ -114,7 +114,7 @@ Vitest.describe("createRouter", () => {
       }
     });
 
-    const router = Jorel.createRouter({
+    const router = Jorel.createServerRouter({
       routes,
       spaceships: {
         getUsers: async () => {
@@ -155,7 +155,7 @@ Vitest.describe("createRouter", () => {
       }
     });
 
-    const router = Jorel.createRouter({
+    const router = Jorel.createServerRouter({
       routes,
       // @ts-expect-error This should never happen when using TypeScript
       spaceships: {}
@@ -194,7 +194,7 @@ Vitest.describe("createRouter", () => {
       }
     });
 
-    const router = Jorel.createRouter({
+    const router = Jorel.createServerRouter({
       routes,
       spaceships: {
         getUsers: async () => {
@@ -233,7 +233,7 @@ Vitest.describe("createRouter", () => {
       }
     });
 
-    const router = Jorel.createRouter({
+    const router = Jorel.createServerRouter({
       routes,
       spaceships: {
         // @ts-expect-error This should never happen when using TypeScript
@@ -278,7 +278,7 @@ Vitest.describe("createRouter", () => {
       }
     });
 
-    const router = Jorel.createRouter({
+    const router = Jorel.createServerRouter({
       routes,
       spaceships: {
         getUsers: async () => {
@@ -321,7 +321,7 @@ Vitest.describe("createRouter", () => {
       }
     });
 
-    const router = Jorel.createRouter({
+    const router = Jorel.createServerRouter({
       routes,
       spaceships: {
         getUsers: async () => {
@@ -368,7 +368,7 @@ Vitest.describe("createRouter", () => {
       }
     });
 
-    const router = Jorel.createRouter({
+    const router = Jorel.createServerRouter({
       routes,
       spaceships: {
         getUsers: async () => {
