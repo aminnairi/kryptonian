@@ -65,7 +65,7 @@ Purity, hope, and the strength of Krypton in one package
   - [oneOf](#oneof)
   - [Jorel](#jorel)
     - [createRoutes](#createroutes)
-    - [createRouter](#createrouter)
+    - [createServerRouter](#createserverrouter)
     - [createServerRoute](#createserverroute)
     - [createClientRoutes](#createclientroutes)
     - [getting started](#getting-started)
@@ -178,7 +178,7 @@ import * as Kryptonian from "kryptonian"
 import * as Http from "http";
 import { routes } from "@template/shared";
 
-const router = Kryptonian.Jorel.createRouter({
+const router = Kryptonian.Jorel.createServerRouter({
   clients: ["http://localhost:5173"],
   routes,
   spaceships: {
@@ -328,7 +328,7 @@ Beware, if you use this in a server, you should use the `as const` keyword in or
 import * as Kryptonian from "kryptonian";
 import { routes } from "./routes";
 
-export const router = Kryptonian.Jorel.createRouter({
+export const router = Kryptonian.Jorel.createServerRouter({
   getKryptonians: async () => {
     return [
       {
@@ -2478,9 +2478,9 @@ const routes = Kryptonian.Kalel.Jorel.createRoutes({
 
 [Back to summary](#summary)
 
-#### createRouter
+#### createServerRouter
 
-`createRouter` is a function that will take as input your server, and will let your define an implementation for the latter. Once it has been created, it must be fed to an adapter that can turn an abstract response into a concrete HTTP response.
+`createServerRouter` is a function that will take as input your server, and will let your define an implementation for the latter. Once it has been created, it must be fed to an adapter that can turn an abstract response into a concrete HTTP response.
 
 ```typescript
 import * as Kryptonian from "kryptonian";
@@ -2489,7 +2489,7 @@ import { getKryptonians } from "./routes/getKryptonians";
 import { createKryptonian } from "./routes/createKryptonian";
 import { createHttpServer } from "./adapters/createHttpServer";
 
-const router = Kryptonian.Jorel.createRouter({
+const router = Kryptonian.Jorel.createServerRouter({
   routes,
   spaceships: {
     getKryptonians,
@@ -2521,7 +2521,7 @@ import * as Path from "path";
  */
 export type CreateHttpServerOptions = {
   /**
-   * The router created using the Kryptonian.Jorel.createRouter function
+   * The router created using the Kryptonian.Jorel.createServerRouter function
    */
   router: Kryptonian.Jorel.Router,
   /**
@@ -2663,7 +2663,7 @@ import * as Http from "http";
 import { routes } from "./routes";
 import { getUsers } from "./routes/getUsers";
 
-const router = Kryptonian.Jorel.createRouter({
+const router = Kryptonian.Jorel.createServerRouter({
   routes,
   clients: [
     "http://localhost:5173"
@@ -2952,7 +2952,7 @@ Kryptonian.Kalel.ArrayRule; // For arrays
 Kryptonian.Kalel.DateRule; // For dates
 ```
 
-Every rule is a pure function, meaning it should take an argument (you can also choose not to accept any argument such as the `Kryptonian.Kalel.String.email` rule) and must return a rule. There is no mutation nor effect that is going on in a rule, bringing guarantees and robustness to the library itself. In fact, every function exposed (except for `Jorel.createClientRoutes` and `Jorel.createRouter`) is a pure function and will not imply side-effects of any kind.
+Every rule is a pure function, meaning it should take an argument (you can also choose not to accept any argument such as the `Kryptonian.Kalel.String.email` rule) and must return a rule. There is no mutation nor effect that is going on in a rule, bringing guarantees and robustness to the library itself. In fact, every function exposed (except for `Jorel.createClientRoutes` and `Jorel.createServerRouter`) is a pure function and will not imply side-effects of any kind.
 
 Here is an example of a rule that you might want to create to valide that a user's age is in legal compliance with your business domain.
 
