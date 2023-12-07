@@ -15,7 +15,7 @@ export interface CreateServerRouteOptions<GenericRoutes extends Jorel.Routes, Ge
   /**
    * The implementation of the route's response that should match the defined route response schema, you'll also get access to the route parameters if defined
    */
-  response: Jorel.Spaceship<GenericRoutes[GenericRouteName]>
+  response: Jorel.Implementation<GenericRoutes[GenericRouteName]>
 }
 
 /**

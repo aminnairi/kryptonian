@@ -181,7 +181,7 @@ import { routes } from "@template/shared";
 const router = Kryptonian.Jorel.createServerRouter({
   clients: ["http://localhost:5173"],
   routes,
-  spaceships: {
+  implementations: {
     getKryptonians: async () => {
       return [
         {
@@ -204,7 +204,7 @@ const router = Kryptonian.Jorel.createServerRouter({
 const server = Http.createServer(router);
 
 server.listen(8000, "0.0.0.0", () => {
-  console.log("Spaceship launched and ready for communications");
+  console.log("Server launched and ready for communications");
 });
 ```
 
@@ -2491,7 +2491,7 @@ import { createHttpServer } from "./adapters/createHttpServer";
 
 const router = Kryptonian.Jorel.createServerRouter({
   routes,
-  spaceships: {
+  implementations: {
     getKryptonians,
     createKryptonian
   }
@@ -2503,7 +2503,7 @@ const server = createHttpServer({
 });
 
 server.listen(8000, "0.0.0.0", () => {
-  console.log("Spaceship launched and ready for communications");
+  console.log("Server launched and ready for communications");
 });
 ```
 
@@ -2668,7 +2668,7 @@ const router = Kryptonian.Jorel.createServerRouter({
   clients: [
     "http://localhost:5173"
   ],
-  spaceships: {
+  implementations: {
     getUsers
   }
 });
@@ -2676,7 +2676,7 @@ const router = Kryptonian.Jorel.createServerRouter({
 const server = Http.createServer(router);
 
 server.listen(8000, "0.0.0.0", () => {
-  console.log("Spaceships launched and ready for communications!");
+  console.log("Server launched and ready for communications!");
 });
 ```
 

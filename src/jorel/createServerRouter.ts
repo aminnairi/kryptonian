@@ -4,13 +4,13 @@ import { Route, Routes } from "./createRoutes";
 /**
  * Implementation of a route, essentially just an asynchronous function that must respect the schema when returning a value
  */
-export type Spaceship<R extends Route> = (parameters: Kalel.InferType<R["request"]>) => Promise<Kalel.InferType<R["response"]>>
+export type Implementation<R extends Route> = (parameters: Kalel.InferType<R["request"]>) => Promise<Kalel.InferType<R["response"]>>
 
 /**
  * The list of all implementations for a route
  */
-export type Spaceships<R extends Routes> = {
-  [Key in keyof R]: Spaceship<R[Key]>
+export type Implementations<R extends Routes> = {
+  [Key in keyof R]: Implementation<R[Key]>
 }
 
 /**
@@ -24,7 +24,7 @@ export interface CreateServerRouterOptions<R extends Routes> {
   /**
    * The concrete implementations of the routes's schema
    */
-  spaceships: Spaceships<R>
+  implementations: Implementations<R>
 }
 
 /**
@@ -75,7 +75,7 @@ export type Router = (request: AdapterRequest) => Promise<RouterResponse>;
 /**
  * Create a router that can later be used with the http built-in module or express for instance
  */
-export const createServerRouter = <R extends Routes>({ routes, spaceships }: CreateServerRouterOptions<R>) => {
+export const createServerRouter = <R extends Routes>({ routes, implementations }: CreateServerRouterOptions<R>) => {
   return async (request: AdapterRequest) => {
     try {
       if (request.method === "OPTIONS") {
@@ -125,9 +125,9 @@ export const createServerRouter = <R extends Routes>({ routes, spaceships }: Cre
       }
 
       const [routeName, route] = foundRoute;
-      const spaceship = spaceships[routeName];
+      const implementation = implementations[routeName];
 
-      if (!spaceship) {
+      if (!implementation) {
         return {
           status: 412,
           headers: {},
@@ -154,23 +154,23 @@ export const createServerRouter = <R extends Routes>({ routes, spaceships }: Cre
         };
       }
 
-      const spaceshipResponse = await spaceship(bodyProtection.data);
+      const response = await implementation(bodyProtection.data);
 
-      const protectSpaceshipResponse = Kalel.createProtector(route.response);
-      const spaceshipResponseProtection = protectSpaceshipResponse(spaceshipResponse);
+      const protectResponse = Kalel.createProtector(route.response);
+      const responseProtection = protectResponse(response);
 
-      if (!spaceshipResponseProtection.success) {
+      if (!responseProtection.success) {
         return {
           status: 400,
           headers: {},
-          body: spaceshipResponseProtection.errors
+          body: responseProtection.errors
         };
       }
 
       return {
         status: 200,
         headers: {},
-        body: spaceshipResponseProtection.data
+        body: responseProtection.data
       };
     } catch (error) {
       return {
