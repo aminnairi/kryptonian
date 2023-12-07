@@ -1,7 +1,7 @@
 /**
  * Whenever a validation is a success
  */
-export interface ValidationSuccess<S extends Schema> {
+export interface ValidationSuccess<GenericSchema extends Schema> {
   /**
    * The state of this validation used for type discriminiation, in case of a success, this is always true
    */
@@ -9,7 +9,7 @@ export interface ValidationSuccess<S extends Schema> {
   /**
    * The data associated with the validation
    */
-  data: InferType<S>
+  data: InferType<GenericSchema>
 }
 
 /**
@@ -43,7 +43,7 @@ export interface ValidationErrors {
 /**
  * Whether the validation is a success or a failure, you have to use type discrimination in order to get the correct type
  */
-export type Validation<S extends Schema> = ValidationSuccess<S> | ValidationErrors
+export type Validation<GenericSchema extends Schema> = ValidationSuccess<GenericSchema> | ValidationErrors
 
 /**
  * The type of the rule that is applied for a given type
@@ -138,7 +138,7 @@ export interface NumberSchema {
 /**
  * The schema definition used for validating arrays
  */
-export interface ArraySchema<S extends Schema> {
+export interface ArraySchema<GenericSchema extends Schema> {
   /**
    * The type of the schema that is used for validating arrays
    */
@@ -150,7 +150,7 @@ export interface ArraySchema<S extends Schema> {
   /**
    * The schema used for the type of the elements inside the array being validated
    */
-  schema: S,
+  schema: GenericSchema,
   /**
    * A list of rules to apply to the array being validated
    */
@@ -160,7 +160,7 @@ export interface ArraySchema<S extends Schema> {
 /**
  * The fields inside the object being validated, each with a property name and a schema
  */
-export type ObjectSchemaFields<S extends Schema> = Record<string, S>
+export type ObjectSchemaFields<GenericSchema extends Schema> = Record<string, GenericSchema>
 
 /**
  * The schema definition used for validating objects
@@ -295,7 +295,7 @@ export interface LiteralSchema<Value> {
 /**
  * The type of the schema that is used for validating union values
  */
-export interface OneOfSchema<S extends Schema> {
+export interface OneOfSchema<GenericSchema extends Schema> {
   /**
    * The type of the schema that is used for validating union values
    */
@@ -303,7 +303,7 @@ export interface OneOfSchema<S extends Schema> {
   /**
    * The schema used for the type of the elements in the union being validated
    */
-  schema: Array<S>
+  schema: Array<GenericSchema>
 }
 
 /**
@@ -339,56 +339,56 @@ export type Schema =
 /**
  * A utility type that can infer the type of a value based on its schema for basic schemas
  */
-export type InferBasicType<S extends BasicSchema> =
-  S extends AnySchema
+export type InferBasicType<GenericBasicSchema extends BasicSchema> =
+  GenericBasicSchema extends AnySchema
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ? any
-  : S extends UnknownSchema
+  : GenericBasicSchema extends UnknownSchema
   ? unknown
-  : S extends NumberSchema
+  : GenericBasicSchema extends NumberSchema
   ? number
-  : S extends StringSchema
+  : GenericBasicSchema extends StringSchema
   ? string
-  : S extends BooleanSchema
+  : GenericBasicSchema extends BooleanSchema
   ? boolean
-  : S extends DateSchema
+  : GenericBasicSchema extends DateSchema
   ? Date
-  : S extends NoneSchema
+  : GenericBasicSchema extends NoneSchema
   ? null
-  : S extends NotDefinedSchema
+  : GenericBasicSchema extends NotDefinedSchema
   ? undefined
-  : S extends EmptySchema
+  : GenericBasicSchema extends EmptySchema
   ? void
-  : S extends LiteralSchema<infer InferedType>
+  : GenericBasicSchema extends LiteralSchema<infer InferedType>
   ? InferedType
-  : S extends ArraySchema<infer InferedSchema extends Schema>
+  : GenericBasicSchema extends ArraySchema<infer InferedSchema extends Schema>
   ? Array<InferType<InferedSchema>>
-  : S extends ObjectSchema<infer Fields>
+  : GenericBasicSchema extends ObjectSchema<infer Fields>
   ? { [FieldKey in keyof Fields]: InferType<Fields[FieldKey]> }
   : never;
 
 /**
  * A utility type that can infer the type of a value based on its schema for constraints schemas
  */
-export type InferConstraintType<S extends ConstraintSchema> =
-  S extends OneOfSchema<infer InferedSchema extends BasicSchema>
+export type InferConstraintType<GenericConstraintSchema extends ConstraintSchema> =
+  GenericConstraintSchema extends OneOfSchema<infer InferedSchema extends BasicSchema>
   ? InferBasicType<InferedSchema>
   : never
 
 /**
  * A utility type that can infer the type of a value based on its schema
  */
-export type InferType<S extends Schema> =
-  S extends BasicSchema
-  ? InferBasicType<S>
-  : S extends ConstraintSchema
-  ? InferConstraintType<S>
+export type InferType<GenericSchema extends Schema> =
+  GenericSchema extends BasicSchema
+  ? InferBasicType<GenericSchema>
+  : GenericSchema extends ConstraintSchema
+  ? InferConstraintType<GenericSchema>
   : never
 
 /**
  * A function that can accept any values, and that returns a valiation, either a success or a failure and you have to use type discrimination in order to get the correct infered type out of this validation result
  */
-export type Validator<S extends Schema> = (data: unknown) => Validation<S>
+export type Validator<GenericSchema extends Schema> = (data: unknown) => Validation<GenericSchema>
 
 /**
  * Options for the string schema function
@@ -443,11 +443,11 @@ export const number = ({ message, rules }: NumberOptions): NumberSchema => {
 /**
  * Options for the array schema function
  */
-export interface ArrayOptions<S extends Schema> {
+export interface ArrayOptions<GenericSchema extends Schema> {
   /**
    * The schema to use for each item in the array
    */
-  schema: S,
+  schema: GenericSchema,
   /**
    * The message to attach to the error
    */
@@ -461,7 +461,7 @@ export interface ArrayOptions<S extends Schema> {
 /**
  * Create a schema to validate arrays
  */
-export const array = <S extends Schema>({ schema, message, rules }: ArrayOptions<S>): ArraySchema<S> => {
+export const array = <GenericSchema extends Schema>({ schema, message, rules }: ArrayOptions<GenericSchema>): ArraySchema<GenericSchema> => {
   return {
     type: "array",
     schema,
@@ -473,11 +473,11 @@ export const array = <S extends Schema>({ schema, message, rules }: ArrayOptions
 /**
  * Options for the object schema function
  */
-export interface ObjectOptions<S extends Schema, F extends ObjectSchemaFields<S>> {
+export interface ObjectOptions<GenericSchema extends Schema, GenericObjectSchemaFields extends ObjectSchemaFields<GenericSchema>> {
   /**
    * The fields along with their schema
    */
-  fields: F,
+  fields: GenericObjectSchemaFields,
   /**
    * The message to attach to the error
    */
@@ -487,7 +487,7 @@ export interface ObjectOptions<S extends Schema, F extends ObjectSchemaFields<S>
 /**
  * Create a schema to validate object
  */
-export const object = <S extends Schema, F extends ObjectSchemaFields<S>>({ fields, message }: ObjectOptions<S, F>): ObjectSchema<F> => {
+export const object = <GenericSchema extends Schema, GenericObjectSchemaFields extends ObjectSchemaFields<GenericSchema>>({ fields, message }: ObjectOptions<GenericSchema, GenericObjectSchemaFields>): ObjectSchema<GenericObjectSchemaFields> => {
   return {
     type: "object",
     fields,
@@ -646,7 +646,7 @@ export const literal = <Value>({ message, value }: LiteralOptions<Value>): Liter
 /**
  * Create a schema to validate a union of values
  */
-export const oneOf = <S extends Schema>(schema: Array<S>): OneOfSchema<S> => {
+export const oneOf = <GenericSchema extends Schema>(schema: Array<GenericSchema>): OneOfSchema<GenericSchema> => {
   return {
     type: "oneOf",
     schema: schema
@@ -658,7 +658,7 @@ export const oneOf = <S extends Schema>(schema: Array<S>): OneOfSchema<S> => {
  * @param schema The schema to apply for validation
  * @param initialPath The initial path (used internally for recursivity)
  */
-export const createProtector = <S extends Schema>(schema: S, initialPath: string = ""): Validator<S> => {
+export const createProtector = <GenericSchema extends Schema>(schema: GenericSchema, initialPath: string = ""): Validator<GenericSchema> => {
   return data => {
     if (schema.type === "oneOf") {
       const validations = schema.schema.map(validation => {
@@ -668,14 +668,14 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
         return protection;
       });
 
-      const isValidationSuccess = (validation: Validation<S>): validation is ValidationSuccess<S> => {
+      const isValidationSuccess = (validation: Validation<GenericSchema>): validation is ValidationSuccess<GenericSchema> => {
         return validation.success;
       };
 
       const validationSuccesses = validations.filter(isValidationSuccess);
 
       if (validationSuccesses.length !== 0) {
-        const validationSuccess = validationSuccesses[0] as ValidationSuccess<S>;
+        const validationSuccess = validationSuccesses[0] as ValidationSuccess<GenericSchema>;
 
         return {
           success: true,
@@ -683,7 +683,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
         };
       }
 
-      const isValidationFailure = (validation: Validation<S>): validation is ValidationErrors => {
+      const isValidationFailure = (validation: Validation<GenericSchema>): validation is ValidationErrors => {
         return !validation.success;
       };
 
@@ -712,7 +712,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 
       return {
         success: true,
-        data: data as InferType<S>
+        data: data as InferType<GenericSchema>
       };
     }
 
@@ -731,7 +731,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 
       return {
         success: true,
-        data: data as InferType<S>
+        data: data as InferType<GenericSchema>
       };
     }
 
@@ -750,14 +750,14 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 
       return {
         success: true,
-        data: data as InferType<S>
+        data: data as InferType<GenericSchema>
       };
     }
 
     if (schema.type === "unknown") {
       return {
         success: true,
-        data: data as InferType<S>
+        data: data as InferType<GenericSchema>
       };
     }
 
@@ -776,7 +776,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 
       return {
         success: true,
-        data: data as InferType<S>
+        data: data as InferType<GenericSchema>
       };
     }
 
@@ -795,14 +795,14 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 
       return {
         success: true,
-        data: data as InferType<S>
+        data: data as InferType<GenericSchema>
       };
     }
 
     if (schema.type === "any") {
       return {
         success: true,
-        data: data as InferType<S>
+        data: data as InferType<GenericSchema>
       };
     }
 
@@ -846,7 +846,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 
       return {
         success: true,
-        data: date as InferType<S>
+        data: date as InferType<GenericSchema>
       };
     }
 
@@ -888,7 +888,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 
       return {
         success: true,
-        data: data as InferType<S>
+        data: data as InferType<GenericSchema>
       };
     }
 
@@ -919,7 +919,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
 
         return {
           success: true,
-          data: data as InferType<S>
+          data: data as InferType<GenericSchema>
         };
       }
 
@@ -995,7 +995,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
         return itemValidation.data;
       }).filter(itemValidation => {
         return itemValidation !== null;
-      }) as InferType<S>;
+      }) as InferType<GenericSchema>;
 
       if (itemValidationErrors.length !== 0) {
         return {
@@ -1032,7 +1032,7 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
           fieldName,
           fieldValidation
         ];
-      }) as Array<[string, Validation<S>]>;
+      }) as Array<[string, Validation<GenericSchema>]>;
 
       const validationErrors = validations.flatMap(([, validation]) => {
         if (validation.success) {
@@ -1055,9 +1055,9 @@ export const createProtector = <S extends Schema>(schema: S, initialPath: string
         ];
       }).filter(validationEntry => {
         return validationEntry !== null;
-      }) as Array<[string, InferType<S>]>;
+      }) as Array<[string, InferType<GenericSchema>]>;
 
-      const validationData = Object.fromEntries(validationEntries) as InferType<S>;
+      const validationData = Object.fromEntries(validationEntries) as InferType<GenericSchema>;
 
       if (validationErrors.length !== 0) {
         return {

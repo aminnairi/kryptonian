@@ -36,7 +36,7 @@ export interface ClientImplementationOptions<GenericRoute extends Route> {
   /**
    * The parameters defined in the routes for this particular route
    */
-  parameters: Kalel.InferType<R["request"]>,
+  parameters: Kalel.InferType<GenericRoute["request"]>,
   /**
    * The options used by the Web API Fetch that you can augment here, note that the headers will always contain the "Content-Type" and the "Accept" headers and cannot be overriden for practicality purposes
    */
@@ -58,7 +58,7 @@ export type ClientImplementations<GenericRoute extends Routes> = {
 /**
  * Options used for create a new client to send requests to the server
  */
-export interface CreateClientRoutesOptions<R extends Routes> {
+export interface CreateClientRoutesOptions<GenericRoutes extends Routes> {
   /**
    * The url to the server exposing the endpoints
    */
@@ -67,7 +67,7 @@ export interface CreateClientRoutesOptions<R extends Routes> {
    * The implementation of all available routes that have been defined in the
    * createRoutes function call
    */
-  routes: R 
+  routes: GenericRoutes 
 }
 
 /**

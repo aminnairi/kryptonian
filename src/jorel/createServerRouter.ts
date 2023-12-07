@@ -16,11 +16,11 @@ export type ServerImplementations<GenericRoutes extends Routes> = {
 /**
  * Options for creating a router
  */
-export interface CreateServerRouterOptions<R extends Routes> {
+export interface CreateServerRouterOptions<GenericRoutes extends Routes> {
   /**
    * Route that have been created using the createRoute function
    */
-  routes: R,
+  routes: GenericRoutes,
   /**
    * The concrete implementations of the routes's schema
    */
@@ -75,7 +75,7 @@ export type Router = (request: AdapterRequest) => Promise<RouterResponse>;
 /**
  * Create a router that can later be used with the http built-in module or express for instance
  */
-export const createServerRouter = <R extends Routes>({ routes, implementations }: CreateServerRouterOptions<R>) => {
+export const createServerRouter = <GenericRoutes extends Routes>({ routes, implementations }: CreateServerRouterOptions<GenericRoutes>) => {
   return async (request: AdapterRequest) => {
     try {
       if (request.method === "OPTIONS") {
