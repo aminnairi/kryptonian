@@ -5,7 +5,7 @@ import { createExpressServer } from "./adapters/createExpressServer";
 
 const router = Kryptonian.Jorel.createServerRouter({
   routes,
-  spaceships: {
+  implementations: {
     getKryptonians
   }
 });
@@ -16,5 +16,5 @@ const server = createExpressServer({
 });
 
 server.listen(8000, "0.0.0.0", () => {
-  console.log("Spaceship launched and ready for communications");
+  console.log("Server launched and ready for communications");
 });

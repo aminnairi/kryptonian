@@ -18,7 +18,7 @@ Vitest.describe("createRouter", () => {
 
     const router = createServerRouter({
       routes,
-      spaceships: {
+      implementations: {
         getUsers: async () => {
           return null;
         }
@@ -42,7 +42,7 @@ Vitest.describe("createRouter", () => {
 
     const router = Jorel.createServerRouter({
       routes,
-      spaceships: {
+      implementations: {
         getUsers: async () => {
           return null;
         }
@@ -75,7 +75,7 @@ Vitest.describe("createRouter", () => {
 
     const router = Jorel.createServerRouter({
       routes,
-      spaceships: {
+      implementations: {
         getUsers: async () => {
           return null;
         }
@@ -116,7 +116,7 @@ Vitest.describe("createRouter", () => {
 
     const router = Jorel.createServerRouter({
       routes,
-      spaceships: {
+      implementations: {
         getUsers: async () => {
           return null;
         }
@@ -158,7 +158,7 @@ Vitest.describe("createRouter", () => {
     const router = Jorel.createServerRouter({
       routes,
       // @ts-expect-error This should never happen when using TypeScript
-      spaceships: {}
+      implementations: {}
     });
 
     const response = await router({
@@ -196,7 +196,7 @@ Vitest.describe("createRouter", () => {
 
     const router = Jorel.createServerRouter({
       routes,
-      spaceships: {
+      implementations: {
         getUsers: async () => {
           return null;
         }
@@ -235,7 +235,7 @@ Vitest.describe("createRouter", () => {
 
     const router = Jorel.createServerRouter({
       routes,
-      spaceships: {
+      implementations: {
         // @ts-expect-error This should never happen when using TypeScript
         getUsers: async () => {
           return 123;
@@ -280,7 +280,7 @@ Vitest.describe("createRouter", () => {
 
     const router = Jorel.createServerRouter({
       routes,
-      spaceships: {
+      implementations: {
         getUsers: async () => {
           return [
             "first",
@@ -323,7 +323,7 @@ Vitest.describe("createRouter", () => {
 
     const router = Jorel.createServerRouter({
       routes,
-      spaceships: {
+      implementations: {
         getUsers: async () => {
           throw new Error("Oops!");
         }
@@ -370,7 +370,7 @@ Vitest.describe("createRouter", () => {
 
     const router = Jorel.createServerRouter({
       routes,
-      spaceships: {
+      implementations: {
         getUsers: async () => {
           throw "Uncommon";
         }
