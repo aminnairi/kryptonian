@@ -4,13 +4,13 @@ import { Route, Routes } from "./createRoutes";
 /**
  * Implementation of a route, essentially just an asynchronous function that must respect the schema when returning a value
  */
-export type Implementation<R extends Route> = (parameters: Kalel.InferType<R["request"]>) => Promise<Kalel.InferType<R["response"]>>
+export type ServerImplementation<GenericRoute extends Route> = (parameters: Kalel.InferType<GenericRoute["request"]>) => Promise<Kalel.InferType<GenericRoute["response"]>>
 
 /**
  * The list of all implementations for a route
  */
-export type Implementations<R extends Routes> = {
-  [Key in keyof R]: Implementation<R[Key]>
+export type ServerImplementations<GenericRoutes extends Routes> = {
+  [GenericRouteKey in keyof GenericRoutes]: ServerImplementation<GenericRoutes[GenericRouteKey]>
 }
 
 /**
@@ -24,7 +24,7 @@ export interface CreateServerRouterOptions<R extends Routes> {
   /**
    * The concrete implementations of the routes's schema
    */
-  implementations: Implementations<R>
+  implementations: ServerImplementations<GenericRoutes>
 }
 
 /**
