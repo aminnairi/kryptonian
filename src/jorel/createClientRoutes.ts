@@ -32,7 +32,7 @@ export class BadResponseError extends Error {
 /**
  * Define what arguments are necessary to send a client request to get a server response
  */
-export interface PathwayOptions<R extends Route> {
+export interface ClientImplementationOptions<GenericRoute extends Route> {
   /**
    * The parameters defined in the routes for this particular route
    */
@@ -46,13 +46,13 @@ export interface PathwayOptions<R extends Route> {
 /**
  * Implementation of the callback that will be used to respond to clients requesting for this particular route
  */
-export type Pathway<R extends Route> = (options: PathwayOptions<R>) => Promise<Kalel.InferType<R["response"]>>;
+export type ClientImplementation<GenericRoute extends Route> = (options: ClientImplementationOptions<GenericRoute>) => Promise<Kalel.InferType<GenericRoute["response"]>>;
 
 /**
  * The whole implementations of the callbacks that will be used to respond to clients requesting for this particular route
  */
-export type Pathways<R extends Routes> = {
-  [Key in keyof R]: Pathway<R[Key]>
+export type ClientImplementations<GenericRoute extends Routes> = {
+  [GenericRouteKey in keyof GenericRoute]: ClientImplementation<GenericRoute[GenericRouteKey]>
 }
 
 /**
@@ -74,7 +74,7 @@ export interface CreateClientRoutesOptions<R extends Routes> {
  * Create a client that will send request to the server and use the routes as
  * the source of truth for all things related to request input
  */
-export const createClientRoutes = <R extends Routes>({ server, routes }: CreateClientRoutesOptions<R>): Pathways<R> => {
+export const createClientRoutes = <GenericRoutes extends Routes>({ server, routes }: CreateClientRoutesOptions<GenericRoutes>): ClientImplementations<GenericRoutes> => {
   const routeWithCallbacks = Object.fromEntries(Object.entries(routes).map(([routeName, route]) => {
     const callback = async ({parameters, options}: { parameters: unknown, options: RequestInit}) => {
       const protectBody = Kalel.createProtector(route.request);
@@ -122,5 +122,5 @@ export const createClientRoutes = <R extends Routes>({ server, routes }: CreateC
     return [routeName, callback];
   }));
 
-  return routeWithCallbacks as Pathways<R>;
+  return routeWithCallbacks as ClientImplementations<GenericRoutes>;
 };
