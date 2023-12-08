@@ -2,3 +2,8 @@
 **/dist
 **/.npmrc
 **/coverage
+**/.npm
+**/.ash_history
+**/.env
+**/.node_repl_history
+**/.config
