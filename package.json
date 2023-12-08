@@ -55,7 +55,9 @@
     "build": "rollup --config rollup.config.ts --configPlugin typescript --environment NODE_ENV:production"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "25.0.7",
     "@rollup/plugin-json": "6.0.1",
+    "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-terser": "0.4.4",
     "@rollup/plugin-typescript": "11.1.5",
     "@types/node": "20.10.4",
@@ -70,9 +72,5 @@
     "tslib": "2.6.2",
     "typescript": "5.3.3",
     "vitest": "1.0.2"
-  },
-  "dependencies": {
-    "@rollup/plugin-commonjs": "25.0.7",
-    "@rollup/plugin-node-resolve": "15.2.3"
   }
 }
