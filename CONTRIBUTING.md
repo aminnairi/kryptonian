@@ -3,8 +3,8 @@
 ## Requirements
 
 - [Git](https://git-scm.com/)
-- [Node](https://nodejs.org/)
-- [NPM](https://www.npmjs.com/)
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
 
 ## Clone
 
@@ -13,58 +13,72 @@ git clone https://github.com/aminnairi/kryptonian
 cd kryptonian
 ```
 
-### Library
-
-#### Install
+## Setup
 
 ```bash
-npm install
+cp .env.example .env
 ```
 
-#### Test
+## Startup
 
 ```bash
-npm test
+docker compose up --detach
 ```
 
-#### Build
+## Library
+
+### Install
 
 ```bash
-npm run build
+docker compose exec node npm install
 ```
 
-### Template
+### Test
 
 ```bash
-cd template
+docker compose exec node npm test
 ```
 
-#### Install
+### Coverage report
 
 ```bash
-npm --workspaces install
+docker compose exec node npm run coverage
 ```
 
-#### Build
+### Build
 
 ```bash
-npm --workspaces run build
+docker compose exec node npm run build
+```
+
+## Template
+
+### Install
+
+```bash
+docker compose exec node npm --workspaces install
+```
+
+### Build
+
+```bash
+docker compose exec node npm --workspaces run build
 ```
 
 Or
 
 ```bash
-npm --workspace shared run build
-npm --workspace shared run server
-npm --workspace shared run client
+docker compose node npm --workspace shared run build
+docker compose node npm --workspace shared run server
+docker compose node npm --workspace shared run client
 ```
 
-#### Development
+### Development
 
 ```bash
-npm --workspace shared run dev
-npm --workspace shared run dev
-npm --workspace shared run dev
+docker compose exec node npm --workspace shared run dev
+docker compose exec node npm --workspace shared run dev
+docker compose exec node npm --workspace shared run dev
 ```
 
 ## Publish
@@ -84,7 +98,7 @@ touch .npmrc
 #### Build
 
 ```bash
-npm run build
+docker compose exec node npm run build
 ```
 
 #### Changelog
@@ -98,5 +112,11 @@ Update the package version in the `package.json` file to reflect the new release
 #### Publish
 
 ```bash
-npm publish
+docker compose exec node npm publish
+```
+
+## Shutdown
+
+```bash
+docker compose down --remove-orphans --volumes --timeout 0
 ```
