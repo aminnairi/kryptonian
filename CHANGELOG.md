@@ -2,6 +2,7 @@
 
 ## Versions
 
+- [`4.0.0`](#400)
 - [`3.0.3`](#303)
 - [`3.0.2`](#302)
 - [`3.0.1`](#301)
@@ -14,6 +15,19 @@
 - [`0.3.0`](#030)
 - [`0.2.0`](#020)
 - [`0.1.0`](#010)
+
+## 4.0.0
+
+- Now using workspaces to ease the testing of the library locally ([#123](https://github.com/aminnairi/kryptonian/pull/123))
+- Added way more comments for types & functions ([#124](https://github.com/aminnairi/kryptonian/pull/124))
+- Added the ability to create its own router adapter for any HTTP library ([#130](https://github.com/aminnairi/kryptonian/pull/130))
+- Added running the npm audit command in the continuous integration workflow ([#131](https://github.com/aminnairi/kryptonian/pull/131))
+- Renamed the createClient function into createClientRoutes ([#132](https://github.com/aminnairi/kryptonian/pull/132))
+- Renamed create router to create server router ([#133](https://github.com/aminnairi/kryptonian/pull/133))
+- Renamed spaceships to implementation in the source-code, template & documentation ([#134](https://github.com/aminnairi/kryptonian/pull/134))
+- Renamed pathway occurrences to implementation ([#135](https://github.com/aminnairi/kryptonian/pull/135))
+- Updated contribution guildelines to include instructions on how to test the package ([#136](https://github.com/aminnairi/kryptonian/pull/136))
+- Added a coverage report badge ([#137](https://github.com/aminnairi/kryptonian/pull/137))
 
 ## 3.0.3
 
