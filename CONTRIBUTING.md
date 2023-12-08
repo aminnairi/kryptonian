@@ -21,6 +21,12 @@ cd kryptonian
 npm install
 ```
 
+#### Test
+
+```bash
+npm test
+```
+
 #### Build
 
 ```bash
@@ -65,13 +71,13 @@ npm --workspace shared run dev
 
 ### Setup
 
-Go on https://www.npmjs.com and login as a maintainer of the package. Create a publish key and add it to the `.npmrc` file.
+Go on [npmjs.com](https://www.npmjs.com/) and login as a maintainer of the package. Create a publish key and add it to the `.npmrc` file.
 
 ```bash
 touch .npmrc
 ```
 
-```
+```bash
 //registry.npmjs.org/:_authToken=INSERTAUTHTOKENHERE
 ```
 
