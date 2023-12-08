@@ -4,7 +4,10 @@ export default defineConfig({
   test: {
     coverage: {
       reporter: ["text", "lcov"],
-      all: false
+      all: false,
+      thresholds: {
+        100: true 
+      }
     }
   }
 });
