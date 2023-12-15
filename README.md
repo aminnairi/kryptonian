@@ -2936,8 +2936,10 @@ export const sendKryptonianFile = Kryptonian.Jorel.createServerRoute({
   route: "sendKryptonianFile",
   response: async ({ file, message }) => {
     const extension = Path.extname(file.name);
-    const fileName = `${Crypto.randomUUID()}${extension}`;
+    const uploadFolderPath = "uploads/files";
+    const fileName = `${uploadFolderPath}/${Crypto.randomUUID()}${extension}`;
 
+    await FileSystem.mkdir(uploadFolderPath, { recursive: true });
     await FileSystem.writeFile(fileName, file.toBuffer());
 
     console.log({ message: `Message from the client: ${message}` });
