@@ -5,7 +5,6 @@ Purity, hope, and the strength of Krypton in one package
 [![npm](https://img.shields.io/npm/v/kryptonian)](https://www.npmjs.com/package/kryptonian) [![Coveralls branch](https://img.shields.io/coverallsCoverage/github/aminnairi/kryptonian)](https://coveralls.io/github/aminnairi/kryptonian) [![npm type definitions](https://img.shields.io/npm/types/kryptonian)](https://github.com/aminnairi/kryptonian) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/kryptonian)](https://bundlephobia.com/package/kryptonian) [![NPM](https://img.shields.io/npm/l/kryptonian)](https://github.com/aminnairi/kryptonian/blob/development/LICENSE)
 
 ## Summary
-
 - [Features](#features)
 - [TypeScript](#typescript)
 - [Functional Programming](#functional-programming)
@@ -59,6 +58,7 @@ Purity, hope, and the strength of Krypton in one package
     - [minimumLength](#minimumlength-1)
     - [maximumLength](#maximumlength)
     - [nonEmpty](#nonempty)
+- [document](#document)
 - [unknown](#unknown)
 - [any](#any)
 - [empty](#empty)
@@ -69,6 +69,7 @@ Purity, hope, and the strength of Krypton in one package
     - [createServerRouter](#createserverrouter)
     - [createServerRoute](#createserverroute)
     - [createClientRoutes](#createclientroutes)
+    - [Document](#document-1)
     - [getting started](#getting-started)
 - [InferType](#infertype)
 - [Custom rules](#custom-rules)
@@ -78,7 +79,6 @@ Purity, hope, and the strength of Krypton in one package
 - [Contributing](#contributing)
 - [License](#license)
 - [Security](#security)
-
 ## Features
 
 ### TypeScript
