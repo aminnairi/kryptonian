@@ -5,3 +5,4 @@ export * from "./jorel/createRoutes";
 export * from "./jorel/createClientRoutes";
 export * from "./jorel/createServerRouter";
 export * from "./jorel/createServerRoute";
+export * from "./jorel/Document";
