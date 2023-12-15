@@ -28,7 +28,7 @@ export const createExpressServer = ({ clients, router }: CreateExpressServerOpti
     origin: clients
   }));
 
-  server.post("*", bodyParser.json({ strict: false }), async (request, response) => {
+  server.post("*", bodyParser.json({ strict: false, limit: "100mb" }), async (request, response) => {
     const url = new URL(Path.join("http://localhost:8000", request.url));
     const origin = request.headers.origin ?? "";
     const method = "POST";
