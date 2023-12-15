@@ -2222,6 +2222,55 @@ if (protectionGoneWrong.success) {
 
 [Back to summary](#summary)
 
+### document
+
+`document` is a schema that represents a `Kryptonian.Jorel.Document` that you can use to validate files. This is tailored to work well with Jorel, our client/server architecture solution.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+const protect = Kryptonian.Kalel.createProtector(Kryptonian.Kalel.document({
+  message: "This should be a Document"
+}));
+
+const goodData: unknown = Kryptonian.Jorel.Document.fromFile(new File([], "good.txt", {
+  type: "text/plain"
+}));
+
+const badData: unknown = new File([], "bad.txt");
+
+const protectionGoneRight = protect(goodData);
+const protectionGoneWrong = protect(wrongData);
+
+if (protectionGoneRight.success) {
+  console.log(protectionGoneRight.data);
+} else {
+  console.log(protectionGoneRight.errors);
+}
+
+if (protectionGoneWrong.success) {
+  console.log(protectionGoneWrong.data);
+} else {
+  console.log(protectionGoneWrong.errors);
+}
+```
+
+```json
+{
+  "bytes": "",
+  "name": "good.txt",
+  "mimeType": "text/plain"
+}
+[
+  {
+    "path": "",
+    "message": "This should be a Document"
+  }
+]
+```
+
+[Back to summary](#summary)
+
 ### unknown
 
 Unknown is a schema representing a TypeScript unknown value.
@@ -2294,7 +2343,10 @@ if (alsoGoodProtection.success) {
 
 ### empty
 
-`empty` is a schema representing the `void` value in TypeScript. Any value that is `undefined` is allowed in this schema. Also, if validating function arguments, `void` represent the absence of value, so you can also omit the value in this schema.
+`empty` is a schema representing the `void` value in TypeScript. Any value that
+is `undefined` is allowed in this schema. Also, if validating function
+arguments, `void` represent the absence of value, so you can also omit the
+value in this schema.
 
 ```typescript
 import * as Kryptonian from "kryptonian";
@@ -2771,7 +2823,7 @@ export const Component = () => {
 };
 ```
 
-That's it, in a few lines, you just created your own server/client appliation using React for this example. Note that it works with absolutely any JavaScript framework, and even Vanilla TypeScript since it has no external dependencies. You could of course do the same in Vue.js for instance.
+That's it, in a few lines, you just created your own server/client application using React for this example. Note that it works with absolutely any JavaScript framework, and even Vanilla TypeScript since it has no external dependencies. You could of course do the same in Vue.js for instance.
 
 ```html
 <script lang="ts" setup>
@@ -2843,6 +2895,140 @@ const createKryptonian = (event: FormEvent) => {
 ```
 
 [Back to summary](#summary)
+
+#### Document
+
+`Kryptonian.Jorel.Document` is a special class that brings a lot more capabilities than a regular `File` since it can be serialized and sent easily along with your other regular data. This makes it trivial to send files from a client and implement your business logic around your data on the server.
+
+```typescript
+const routes = Kryptonian.Jorel.createRoutes({
+  sendKryptonianFile: {
+    request: Kryptonian.Kalel.object({
+      message: "Request should be an object",
+      fields: {
+        file: Kryptonian.Kalel.document({
+          message: "file should be a file",
+        }),
+        message: Kryptonian.Kalel.string({
+          message: "message should be a string",
+          rules: []
+        })
+      }
+    }),
+    response: Kryptonian.Kalel.none({
+      message: ""
+    })
+  }
+});
+```
+
+```typescript
+import { routes } from "@template/shared";
+import * as Kryptonian from "kryptonian";
+import * as FileSystem from "fs/promises";
+import * as Path from "path";
+import * as Crypto from "crypto";
+
+export const sendKryptonianFile = Kryptonian.Jorel.createServerRoute({
+  routes,
+  route: "sendKryptonianFile",
+  response: async ({ file, message }) => {
+    const extension = Path.extname(file.name);
+    const fileName = `${Crypto.randomUUID()}${extension}`;
+
+    await FileSystem.writeFile(fileName, file.toBuffer());
+
+    console.log({ message: `Message from the client: ${message}` });
+
+    return null;
+  }
+});
+```
+
+```typescript
+import * as React from "react";
+import * as Kryptonian from "kryptonian";
+import { routes } from "@template/shared";
+
+const client = Kryptonian.Jorel.createClientRoutes({
+  server: "http://localhost:8000",
+  routes
+});
+
+export const App = () => {
+  const [file, setFile] = React.useState(new File([], ""));
+  const [message, setMessage] = React.useState("");
+
+  const updateFile: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(event => {
+    if (event.target.files && event.target.files[0] instanceof File) {
+      setFile(event.target.files[0]);
+    }
+  }, []);
+
+  const updateMessage: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(event => {
+    setMessage(event.target.value);
+  }, []);
+
+  const sendKryptonianFile: React.FormEventHandler = React.useCallback(event => {
+    event.preventDefault();
+
+    Kryptonian.Jorel.Document.fromFile(file).then(documentFile => {
+      return client.sendKryptonianFile({
+        parameters: {
+          file: documentFile,
+          message
+        },
+        options: {}
+      }).then(response => {
+        console.log("Success!");
+      }).catch(error => {
+        console.error(error);
+      });
+    }).catch(error => {
+      console.error(error);
+    });
+  }, [file, message]);
+
+  return (
+    <form onSubmit={sendKryptonianFile}>
+      <label id="message">
+        Message about this file
+      </label>
+      <input
+        htmlFor="message"
+        type="text"
+        value={message}
+        onChange={updateMessage} />
+      <input
+        type="file"
+        onChange={updateFile} />
+      <button type="submit">
+        Send
+      </button>
+    </form>
+  );
+};
+```
+
+**Important note**: this works by converting the file into its `base64` representation. This has been tested locally with files over 10mo and a total overhead of 50ms so this would be just fine for images for instances. For larger files, and if you are working on computation-based platform like AWS or GCP, you should probably be better off using a plain Express route to handle files separately for instance. If you decide to use this solution, you'll need to increase the body size limit of your web server's implementation. For instance, if you are using the `createExpressAdapter` for your server.
+
+```typescript
+  ...
+  // This limit right there ----------------------------------+
+  //                                                          |
+  //                                                          |
+  //                                                          |
+  //                                                          v
+  server.post("*", bodyParser.json({ strict: false, limit: "100mb" }), async (request, response) => {
+    const url = new URL(Path.join("http://localhost:8000", request.url));
+    const origin = request.headers.origin ?? "";
+    const method = "POST";
+    const path = url.pathname;
+    const body = request.body;
+    ...
+```
+
+Also note that if your Node.js application is behind a reverse-proxy server (Node.js, Apache), you will probably need to increase the body size limit for your proxy as well.
 
 #### getting started
 
