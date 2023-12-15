@@ -681,6 +681,34 @@ export const document = ({ message }: DocumentOptions): DocumentSchema => {
  */
 export const createProtector = <GenericSchema extends Schema>(schema: GenericSchema, initialPath: string = ""): Validator<GenericSchema> => {
   return data => {
+    if (schema.type === "document") {
+      if (data instanceof Document) {
+        return {
+          success: true,
+          data: data as InferType<GenericSchema>
+        };
+      }
+
+      if (typeof data === "object" && data !== null && "bytes" in data && "name" in data && "mimeType" in data && typeof data.bytes === "string" && typeof data.name === "string" && typeof data.mimeType === "string") {
+        const document = new Document(data.bytes, data.name, data.mimeType) as InferType<GenericSchema>;
+
+        return {
+          success: true,
+          data: document
+        };
+      }
+
+      return {
+        success: false,
+        errors: [
+          {
+            path: initialPath,
+            message: schema.message
+          }
+        ]
+      };
+    }
+
     if (schema.type === "oneOf") {
       const validations = schema.schema.map(validation => {
         const protect = createProtector(validation);
