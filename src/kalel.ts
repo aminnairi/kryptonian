@@ -1,3 +1,5 @@
+import { Document } from "./jorel/Document";
+
 /**
  * Whenever a validation is a success
  */
@@ -306,6 +308,11 @@ export interface OneOfSchema<GenericSchema extends Schema> {
   schema: Array<GenericSchema>
 }
 
+export interface DocumentSchema {
+  type: "document",
+  message: string
+}
+
 /**
  * A union of types that can be primitives schemas, meanining concrete types like strings or booleans
  */
@@ -319,6 +326,7 @@ export type BasicSchema =
   | NotDefinedSchema
   | EmptySchema
   | DateSchema
+  | DocumentSchema
   | ArraySchema<Schema>
   | ObjectSchema<ObjectSchemaFields<Schema>>
   | LiteralSchema<unknown>
@@ -361,6 +369,8 @@ export type InferBasicType<GenericBasicSchema extends BasicSchema> =
   ? void
   : GenericBasicSchema extends LiteralSchema<infer InferedType>
   ? InferedType
+  : GenericBasicSchema extends DocumentSchema
+  ? Document
   : GenericBasicSchema extends ArraySchema<infer InferedSchema extends Schema>
   ? Array<InferType<InferedSchema>>
   : GenericBasicSchema extends ObjectSchema<infer Fields>
