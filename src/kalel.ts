@@ -663,6 +663,17 @@ export const oneOf = <GenericSchema extends Schema>(schema: Array<GenericSchema>
   };
 };
 
+export interface DocumentOptions {
+  message: string
+}
+
+export const document = ({ message }: DocumentOptions): DocumentSchema => {
+  return {
+    type: "document",
+    message
+  };
+};
+
 /**
  * Create a validator function to validate data
  * @param schema The schema to apply for validation
