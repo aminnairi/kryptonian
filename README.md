@@ -2901,6 +2901,8 @@ const createKryptonian = (event: FormEvent) => {
 `Kryptonian.Jorel.Document` is a special class that brings a lot more capabilities than a regular `File` since it can be serialized and sent easily along with your other regular data. This makes it trivial to send files from a client and implement your business logic around your data on the server.
 
 ```typescript
+import * as Kryptonian from "kryptonian";
+
 const routes = Kryptonian.Jorel.createRoutes({
   sendKryptonianFile: {
     request: Kryptonian.Kalel.object({
