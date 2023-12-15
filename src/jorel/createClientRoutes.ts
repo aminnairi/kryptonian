@@ -68,8 +68,9 @@ export interface CreateClientRoutesOptions<GenericRoutes extends Routes> {
    * The implementation of all available routes that have been defined in the
    * createRoutes function call
    */
-  routes: GenericRoutes 
+  routes: GenericRoutes
 }
+
 
 /**
  * Create a client that will send request to the server and use the routes as
@@ -77,7 +78,7 @@ export interface CreateClientRoutesOptions<GenericRoutes extends Routes> {
  */
 export const createClientRoutes = <GenericRoutes extends Routes>({ server, routes }: CreateClientRoutesOptions<GenericRoutes>): ClientImplementations<GenericRoutes> => {
   const routeWithCallbacks = Object.fromEntries(Object.entries(routes).map(([routeName, route]) => {
-    const callback = async ({parameters, options}: { parameters: unknown, options: RequestInit}) => {
+    const callback = async ({ parameters, options }: { parameters: unknown, options: RequestInit }) => {
       const protectBody = Kalel.createProtector(route.request);
       const bodyProtection = protectBody(parameters);
 
