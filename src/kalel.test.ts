@@ -1,9 +1,11 @@
 import { describe, test, expect } from "vitest";
 import { any, array, boolean, createProtector, date, empty, literal, none, notDefined, number, object, oneOf, string, unknown } from "./kalel";
+import * as Kalel from "./kalel";
 import { between } from "./kalel/date";
 import * as KalelNumber from "./kalel/number";
 import * as KalelString from "./kalel/string";
 import * as KalelArray from "./kalel/array";
+import * as Jorel from "./jorel";
 
 describe("kalel", () => {
   describe("string", () => {
@@ -1017,6 +1019,71 @@ describe("kalel", () => {
           },
         ]);
       });
+    });
+
+    describe("document", () => {
+      test("It should return a successful validation for a document", () => {
+        const protect = createProtector(Kalel.document({
+          message: "It should be a document"
+        }));
+
+        const protection = protect(new Jorel.Document("", "test.txt", "text/plain"));
+
+        if (!protection.success) {
+          throw new Error("Unexpected failed protection");
+        }
+
+        expect(protection.success).toEqual(true);
+        expect(protection.data).toEqual({
+          bytes: "",
+          name: "test.txt",
+          mimeType: "text/plain"
+        });
+      });
+
+      test("It should return a successful validation for a document-like", () => {
+        const protect = createProtector(Kalel.document({
+          message: "It should be a document"
+        }));
+
+        const protection = protect({
+          bytes: "",
+          name: "test.txt",
+          mimeType: "text/plain"
+        });
+
+        if (!protection.success) {
+          throw new Error("Unexpected failed protection");
+        }
+
+        expect(protection.success).toEqual(true);
+        expect(protection.data).toEqual({
+          bytes: "",
+          name: "test.txt",
+          mimeType: "text/plain"
+        });
+      });
+
+      test("It should return a failed validation", () => {
+        const protect = createProtector(Kalel.document({
+          message: "It should be a document"
+        }));
+
+        const protection = protect(null);
+
+        if (protection.success) {
+          throw new Error("Unexpected successful protection");
+        }
+
+        expect(protection.success).toEqual(false);
+        expect(protection.errors).toEqual([
+          {
+            path: "",
+            message: "It should be a document"
+          }
+        ]);
+      });
+
     });
 
     describe("unhandled", () => {
