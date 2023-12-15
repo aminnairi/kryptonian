@@ -50,5 +50,22 @@ export const routes = Kryptonian.Jorel.createRoutes({
         }
       })
     ])
+  },
+  sendKryptonianFile: {
+    request: Kryptonian.Kalel.object({
+      message: "Request should be an object",
+      fields: {
+        file: Kryptonian.Kalel.document({
+          message: "file should be a file",
+        }),
+        message: Kryptonian.Kalel.string({
+          message: "message should be a string",
+          rules: []
+        })
+      }
+    }),
+    response: Kryptonian.Kalel.none({
+      message: ""
+    })
   }
 });
