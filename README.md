@@ -3032,6 +3032,8 @@ export const App = () => {
 
 Also note that if your Node.js application is behind a reverse-proxy server (Node.js, Apache), you will probably need to increase the body size limit for your proxy as well.
 
+[Back to summary](#summary)
+
 #### getting started
 
 You can start writing client & server applications right away by using the template folder.
