@@ -28,6 +28,11 @@ export const createExpressServer = ({ clients, router }: CreateExpressServerOpti
     origin: clients
   }));
 
+  // This limit right there ----------------------------------+
+  //                                                          |
+  //                                                          |
+  //                                                          |
+  //                                                          v
   server.post("*", bodyParser.json({ strict: false, limit: "100mb" }), async (request, response) => {
     const url = new URL(Path.join("http://localhost:8000", request.url));
     const origin = request.headers.origin ?? "";
