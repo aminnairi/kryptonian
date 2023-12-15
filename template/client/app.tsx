@@ -7,65 +7,47 @@ const client = Kryptonian.Jorel.createClientRoutes({
   routes
 });
 
-export interface Inhabitant {
-  name: string,
-  createdAt: Date
-}
-
-type GetKryptonianResponse = Kryptonian.Kalel.InferType<typeof routes.getKryptonians.response>;
-
 export const App = () => {
-  const [getKryptoniansResponse, setGetKryptoniansResponse] = React.useState<GetKryptonianResponse | null>(null);
-  const [error, setError] = React.useState("");
+  const [file, setFile] = React.useState(new File([], ""));
+  const [message, setMessage] = React.useState("");
 
-  React.useEffect(() => {
-    client.getKryptonians({
-      parameters: null,
-      options: {}
-    }).then(response => {
-      if (response.success) {
-        setGetKryptoniansResponse(response);
-      } else {
-        setError(response.error);
-      }
-    }).catch(error => {
-      if (error instanceof Kryptonian.Jorel.BadRequestError) {
-        return setError("Bad request, please check your form");
-      } 
-
-      if (error instanceof Kryptonian.Jorel.BadResponseError) {
-        return setError("Bad response from the server, please try again later.");
-      }
-
-      setError("Unknown error, sorry for the inconvenience!");
-    });
+  const updateFile: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(event => {
+    if (event.target.files && event.target.files[0] instanceof File) {
+      setFile(event.target.files[0]);
+    }
   }, []);
 
-  if (error) {
-    return (
-      <p>There has been an error: ${error}</p>
-    );
-  }
+  const updateMessage: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(event => {
+    setMessage(event.target.value);
+  }, []);
 
-  if (getKryptoniansResponse === null) {
-    return (
-      <p>Loading, please wait...</p>
-    );
-  }
+  const sendKryptonianFile: React.FormEventHandler = React.useCallback(event => {
+    event.preventDefault();
 
-  if (!getKryptoniansResponse.success) {
-    return (
-      <p>Error, please try again later</p>
-    );
-  }
+    Kryptonian.Jorel.Document.fromFile(file).then(document => {
+      return client.sendKryptonianFile({
+        parameters: {
+          file: document,
+          message
+        },
+        options: {}
+      }).then(response => {
+        console.log(response);
+      }).catch(error => {
+        console.error(error);
+      });
+    }).catch(error => {
+      console.error(error);
+    });
+  }, [file, message]);
 
   return (
-    <ul>
-      {getKryptoniansResponse.kryptonians.map(kryptonian => (
-        <li key={kryptonian.name}>
-          {kryptonian.name} - {kryptonian.rank} - {kryptonian.createdAt.toLocaleDateString()}
-        </li>
-      ))}
-    </ul>
+    <form onSubmit={sendKryptonianFile}>
+      <input type="text" value={message} onChange={updateMessage} />
+      <input type="file" onChange={updateFile} />
+      <button type="submit">
+        Send
+      </button>
+    </form>
   );
 };
