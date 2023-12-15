@@ -3012,7 +3012,9 @@ export const App = () => {
 };
 ```
 
-**Important note**: this works by converting the file into its `base64` representation. This has been tested locally with files over 10mo and a total overhead of 50ms so this would be just fine for images for instances. For larger files, and if you are working on computation-based platform like AWS or GCP, you should probably be better off using a plain Express route to handle files separately for instance. If you decide to use this solution, you'll need to increase the body size limit of your web server's implementation. For instance, if you are using the `createExpressAdapter` for your server.
+**Important note**: this works by converting the file into its `base64` representation. This has been tested locally with files over 10mo and a total overhead of 50ms so this would be just fine for images for instances. For larger files, and if you are working on computation-based platform like AWS or GCP, you should probably be better off using a plain Express route to handle files separately for instance.
+
+If you decide to use this solution, you'll need to increase the body size limit of your web server's implementation. For instance, if you are using the `createExpressAdapter` for your server.
 
 ```typescript
   ...
