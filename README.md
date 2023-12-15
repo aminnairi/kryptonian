@@ -3032,7 +3032,7 @@ If you decide to use this solution, you'll need to increase the body size limit 
     ...
 ```
 
-Also note that if your Node.js application is behind a reverse-proxy server (Node.js, Apache), you will probably need to increase the body size limit for your proxy as well.
+Also note that if your Node.js application is behind a reverse-proxy server (NGINX, Apache, etc...), you will probably need to increase the body size limit for your proxy as well.
 
 [Back to summary](#summary)
 
