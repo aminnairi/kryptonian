@@ -2991,11 +2991,11 @@ export const App = () => {
 
   return (
     <form onSubmit={sendKryptonianFile}>
-      <label id="message">
+      <label htmlFor="message">
         Message about this file
       </label>
       <input
-        htmlFor="message"
+        id="message"
         type="text"
         value={message}
         onChange={updateMessage} />
