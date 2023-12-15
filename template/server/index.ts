@@ -1,12 +1,14 @@
 import * as Kryptonian from "kryptonian";
 import { routes } from "@template/shared";
 import { getKryptonians } from "./routes/getKryptonians";
+import { sendKryptonianFile } from "./routes/sendKryptonianFile";
 import { createExpressServer } from "./adapters/createExpressServer";
 
 const router = Kryptonian.Jorel.createServerRouter({
   routes,
   implementations: {
-    getKryptonians
+    getKryptonians,
+    sendKryptonianFile
   }
 });
 
