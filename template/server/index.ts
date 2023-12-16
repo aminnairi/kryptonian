@@ -15,6 +15,6 @@ const server = createExpressServer({
   clients: ["http://localhost:5173"]
 });
 
-server.listen(8000, "0.0.0.0", () => {
+server.listen(8001, "0.0.0.0", () => {
   console.log("Server launched and ready for communications");
 });
