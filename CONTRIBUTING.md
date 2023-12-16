@@ -59,6 +59,14 @@ docker compose exec node npm run build
 docker compose exec node npm --workspaces install
 ```
 
+### Development
+
+```bash
+docker compose exec node npm --workspace template/shared run dev
+docker compose exec node npm --workspace template/server run dev
+docker compose exec node npm --workspace template/client run dev
+```
+
 ### Build
 
 ```bash
@@ -71,14 +79,6 @@ Or
 docker compose node npm --workspace template/shared run build
 docker compose node npm --workspace template/server run build
 docker compose node npm --workspace template/client run build
-```
-
-### Development
-
-```bash
-docker compose exec node npm --workspace template/shared run dev
-docker compose exec node npm --workspace template/server run dev
-docker compose exec node npm --workspace template/client run dev
 ```
 
 ## Publish
