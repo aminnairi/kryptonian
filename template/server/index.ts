@@ -12,7 +12,7 @@ const router = Kryptonian.Jorel.createServerRouter({
 
 const server = createExpressServer({
   router,
-  clients: ["http://localhost:5173"]
+  clients: ["http://localhost:8000"]
 });
 
 server.listen(8001, "0.0.0.0", () => {
