@@ -68,9 +68,9 @@ docker compose exec node npm --workspaces run build
 Or
 
 ```bash
-docker compose node npm --workspace shared run build
-docker compose node npm --workspace shared run server
-docker compose node npm --workspace shared run client
+docker compose node npm --workspace template/shared run build
+docker compose node npm --workspace template/server run build
+docker compose node npm --workspace template/client run build
 ```
 
 ### Development
