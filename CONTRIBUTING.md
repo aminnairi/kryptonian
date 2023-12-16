@@ -76,9 +76,9 @@ docker compose node npm --workspace template/client run build
 ### Development
 
 ```bash
-docker compose exec node npm --workspace shared run dev
-docker compose exec node npm --workspace shared run dev
-docker compose exec node npm --workspace shared run dev
+docker compose exec node npm --workspace template/shared run dev
+docker compose exec node npm --workspace template/server run dev
+docker compose exec node npm --workspace template/client run dev
 ```
 
 ## Publish
