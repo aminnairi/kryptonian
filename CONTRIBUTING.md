@@ -33,6 +33,12 @@ docker compose up --detach
 docker compose exec node npm install
 ```
 
+### Development
+
+```bash
+docker compose exec node npm run dev
+```
+
 ### Test
 
 ```bash
