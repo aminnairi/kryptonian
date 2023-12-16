@@ -20,6 +20,7 @@
     "url": "https://github.com/aminnairi/kryptonian.git"
   },
   "workspaces": [
+    ".",
     "template/shared",
     "template/client",
     "template/server"
