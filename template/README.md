@@ -17,7 +17,7 @@ npm --workspaces install kryptonian
 ### Shared
 
 ```bash
-npm --workspace shared run build
+npm --workspace shared run dev
 ```
 
 ### Server
