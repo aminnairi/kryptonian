@@ -3,7 +3,7 @@ import * as Kryptonian from "kryptonian";
 import { routes } from "@template/shared";
 
 const client = Kryptonian.Jorel.createClientRoutes({
-  server: "http://localhost:8000",
+  server: "http://localhost:8001",
   routes
 });
 
