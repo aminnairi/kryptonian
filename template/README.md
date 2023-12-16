@@ -5,13 +5,6 @@
 - Node
 - NPM
 
-## Create project
-
-```bash
-npx degit aminnairi/kryptonian/template my-project
-cd my-project
-```
-
 ## Installation
 
 ```bash
