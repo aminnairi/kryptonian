@@ -8,7 +8,7 @@
 ## Installation
 
 ```bash
-npm --workspaces install
+npm install
 npm --workspaces install kryptonian
 ```
 
