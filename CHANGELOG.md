@@ -2,6 +2,7 @@
 
 ## Versions
 
+- [`4.0.1`](#401)
 - [`4.0.0`](#400)
 - [`3.0.3`](#303)
 - [`3.0.2`](#302)
@@ -15,6 +16,13 @@
 - [`0.3.0`](#030)
 - [`0.2.0`](#020)
 - [`0.1.0`](#010)
+
+## 4.0.1
+
+- Fixed the installation the Kryptonian package inside the template workspaces ([#151](https://github.com/aminnairi/kryptonian/pull/151))
+- Fixed the impossibility to access to the client app due to a misconfiguration of Docker Compose ([#154](https://github.com/aminnairi/kryptonian/pull/154))
+- Fixed the usage to reflect the recent API changes ([#155](https://github.com/aminnairi/kryptonian/pull/155))
+- Fixes instructions outdated & mistakes in the contribution guildelines ([#156](https://github.com/aminnairi/kryptonian/pull/156))
 
 ## 4.0.0
 
