@@ -177,9 +177,9 @@ export const routes = Kryptonian.Jorel.createRoutes({
 import * as Kryptonian from "kryptonian"
 import * as Http from "http";
 import { routes } from "@template/shared";
+import { createExpressServer } from "./adapters/createExpressServer";
 
 const router = Kryptonian.Jorel.createServerRouter({
-  clients: ["http://localhost:5173"],
   routes,
   implementations: {
     getKryptonians: async () => {
@@ -201,7 +201,10 @@ const router = Kryptonian.Jorel.createServerRouter({
   }
 });
 
-const server = Http.createServer(router);
+const server = createExpressServer({
+  router,
+  clients: ["http://localhost:8000"]
+});
 
 server.listen(8000, "0.0.0.0", () => {
   console.log("Server launched and ready for communications");
@@ -209,7 +212,6 @@ server.listen(8000, "0.0.0.0", () => {
 ```
 
 ```typescript
-import * as React from "react";
 import * as Kryptonian from "kryptonian";
 import { routes } from "@template/shared";
 
@@ -218,35 +220,14 @@ const client = Kryptonian.Jorel.createClientRoutes({
   routes
 });
 
-export interface Inhabitant {
-  name: string,
-  createdAt: Date
-}
-
-export const App = () => {
-  const [kryptonians, setKryptonians] = React.useState<Array<Inhabitant>>([]);
-
-  React.useEffect(() => {
-    client.getKryptonians({
-      parameters: null,
-      options: {}
-    }).then(kryptonians => {
-      setKryptonians(kryptonians);
-    }).catch(error => {
-      console.error(error);
-    })
-  }, []);
-
-  return (
-    <ul>
-      {kryptonians.map(kryptonian => (
-        <li key={kryptonian.name}>
-          {kryptonian.name} - {kryptonian.createdAt.toLocaleDateString()}
-        </li>
-      ))}
-    </ul>
-  );
-}
+client.getKryptonians({
+  parameters: null,
+  options: {}
+}).then(kryptonians => {
+  console.log(kryptonians);
+}).catch(error => {
+  console.error(error);
+})
 ```
 
 [Back to summary](#summary)
