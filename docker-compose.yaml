@@ -9,5 +9,8 @@ services:
     stdin_open: true
     working_dir: /home/node
     env_file: .env
+    ports:
+      - 8000:8000
+      - 8001:8001
     volumes:
       - .:/home/node
