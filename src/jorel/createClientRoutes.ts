@@ -1,5 +1,6 @@
 import * as Kalel from "../kalel";
-import { Route, Routes } from "./createRoutes";
+import { Route } from "./Route";
+import { Routes } from "./Routes";
 
 /**
  * Error return whenever the request does not respect the schema imposed for the parameters, this can happen even when using TypeScript, especially when using rules

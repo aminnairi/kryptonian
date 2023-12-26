@@ -1,5 +1,6 @@
 import * as Kalel from "../kalel";
-import { Route, Routes } from "./createRoutes";
+import { Route } from "./Route";
+import { Routes } from "./Routes";
 
 /**
  * Implementation of a route, essentially just an asynchronous function that must respect the schema when returning a value
