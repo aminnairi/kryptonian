@@ -7,24 +7,24 @@ Purity, hope, and the strength of Krypton in one package
 ## Summary
 
 - [Features](#features)
-  - [TypeScript](#typescript)
-  - [Functional Programming](#functional-programming)
-  - [Treeshakeable](#treeshakeable)
-  - [Extensible](#extensible)
-  - [Custom Error Messages](#custom-error-messages)
-  - [Client & Server-Side Support](#client--server-side-support)
-  - [Zero Dependencies](#zero-dependencies)
-  - [Inspired by Zod](#inspired-by-zod)
-  - [Open-Source](#open-source)
+- [TypeScript](#typescript)
+- [Functional Programming](#functional-programming)
+- [Treeshakeable](#treeshakeable)
+- [Extensible](#extensible)
+- [Custom Error Messages](#custom-error-messages)
+- [Client & Server-Side Support](#client--server-side-support)
+- [Zero Dependencies](#zero-dependencies)
+- [Inspired by Zod](#inspired-by-zod)
+- [Open-Source](#open-source)
 - [Installation](#installation)
 - [Usage](#usage)
 - [API](#api)
-  - [createProtector](#createprotector)
-  - [literal](#literal)
-  - [boolean](#boolean)
-  - [none](#none)
-  - [notDefined](#notdefined)
-  - [string](#string)
+- [createProtector](#createprotector)
+- [literal](#literal)
+- [boolean](#boolean)
+- [none](#none)
+- [notDefined](#notdefined)
+- [string](#string)
     - [length](#length)
     - [minimumLength](#minimumlength)
     - [includes](#includes)
@@ -34,7 +34,7 @@ Purity, hope, and the strength of Krypton in one package
     - [uniformResourceLocator](#uniformresourcelocator)
     - [internetProtocolVersion4](#internetprotocolversion4)
     - [internetProtocolVersion4WithClasslessInterDomainRouting](#internetprotocolversion4withclasslessinterdomainrouting)
-  - [number](#number)
+- [number](#number)
     - [between](#between)
     - [divisibleBy](#divisibleby)
     - [notDivisibleBy](#notdivisibleby)
@@ -48,29 +48,30 @@ Purity, hope, and the strength of Krypton in one package
     - [greaterOrEqual](#greaterorequal)
     - [lowerOrEqual](#lowerorequal)
     - [finite](#finite)
-  - [date](#date)
+- [date](#date)
     - [between](#between-1)
     - [before](#before)
     - [after](#after)
-  - [object](#object)
-  - [array](#array)
+- [object](#object)
+- [array](#array)
     - [length](#length-1)
     - [lengthBetween](#lengthbetween)
     - [minimumLength](#minimumlength-1)
     - [maximumLength](#maximumlength)
     - [nonEmpty](#nonempty)
-  - [unknown](#unknown)
-  - [any](#any)
-  - [empty](#empty)
-  - [oneOf](#oneof)
-  - [Jorel](#jorel)
+- [unknown](#unknown)
+- [any](#any)
+- [empty](#empty)
+- [oneOf](#oneof)
+- [Jorel](#jorel)
     - [createRoutes](#createroutes)
+    - [createRoute](#createroute)
     - [createServerRouter](#createserverrouter)
     - [createServerRoute](#createserverroute)
     - [createClientRoutes](#createclientroutes)
     - [getting started](#getting-started)
-  - [InferType](#infertype)
-  - [Custom rules](#custom-rules)
+- [InferType](#infertype)
+- [Custom rules](#custom-rules)
 - [Issues](#issues)
 - [Changelog](#changelog)
 - [Code of conduct](#code-of-conduct)
@@ -2454,6 +2455,32 @@ const routes = Kryptonian.Kalel.Jorel.createRoutes({
       })
     })
   }
+});
+```
+
+[Back to summary](#summary)
+
+#### createRoute
+
+When your application grows in complexity and number of routes, you can use the `createRoute` function to create routes in their own files, allowing you to scale your application easily. It also helps reducing the amount of lines of file could have if you declared all of your routes inside the `createRoutes` function.
+
+```typescript
+import * as Kryptonian from "kryptonian";
+
+export const createKryptonian = Kryptonian.Jorel.createRoute({
+  request: Kryptonian.Kalel.object({
+    message: "This should be a object",
+    fields: {
+      name: Kryptonian.Kalel.string({
+        message: "Name is not a string",
+        rules: []
+      })
+    }
+  }),
+  response: Kryptonian.Kalel.string({
+    rules: [],
+    message: "Expected a string as the response"
+  })
 });
 ```
 
